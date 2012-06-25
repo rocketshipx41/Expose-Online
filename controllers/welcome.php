@@ -53,8 +53,15 @@ class Welcome extends MY_Controller
     */
     public function index()
     {
+        // init
+        
+        // process
+        $this->page_data['carousel_list'] = $this->Article_model->get_front_page();
+
+        // display
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
+                ->set_partial('left_column', 'left_column')
                 ->build('home/home_center', $this->page_data);
     }
     

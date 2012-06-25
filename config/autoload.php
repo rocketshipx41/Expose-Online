@@ -79,7 +79,7 @@ $autoload['packages'] = array();
 */
 
 $autoload['libraries'] = array('asset', 'template', 'tank_auth', 'session', 
-    'database', 'tweet', 'facebook', 'lightopenid');
+    'database', 'tweet', 'facebook', 'lightopenid', 'image_lib');
 
 
 /*
@@ -136,7 +136,7 @@ $autoload['language'] = array('expose', 'tank_auth');
 |
 */
 
-$autoload['model'] = array('User_model');
+$autoload['model'] = array('User_model', 'Article_model');
 
 
 /* End of file autoload.php */

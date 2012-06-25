@@ -17,6 +17,7 @@
 	<script src="http://localhost/assets/js/bootstrap-alert.js"></script>
 	<script src="http://localhost/assets/js/bootstrap-tab.js"></script>
 	<script src="http://localhost/assets/js/bootstrap-dropdown.js"></script>
+	<script src="http://localhost/assets/js/bootstrap-carousel.js"></script>
 	<script src="http://localhost/assets/js/chosen/chosen.jquery.js"></script>
 	<script src="http://localhost/assets/js/expose.js"></script>
 	<?php echo $template['metadata']; ?>
@@ -41,19 +42,22 @@
 	    <?php endif; ?>
 	    <div class="row" id="main-content">
 		<div class="span3">
-		    <h2>left column</h2>
+		    <?php echo $template['partials']['left_column']; ?>
 		</div>
 		<div class="span6">
 		    <h1><?php echo $page_name; ?></h1>
 		    <?php echo $template['body']; ?>
 		</div>
 		<div class="span3">
-		    <h2>right column</h2>
+		    <?php echo $template['partials']['right_column']; ?>
 		</div>
 	    </div>
 	</div>
 	<footer>
+            <hr>
 	    <div class="container">
+                <img src="<?php echo image_url('site/agent.gif');?>" class="footer-man"
+                 alt="<?php echo lang('article_cover_art_alt'); ?>">
 	    <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">
 		    <img alt="Creative Commons License" style="border-width:0" 
 			 src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a>

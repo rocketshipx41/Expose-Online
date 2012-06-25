@@ -31,6 +31,10 @@ $lang['auth_welcome'] = 'Welcome, ';
 $lang['comments'] = 'Comments';
 $lang['comment'] = 'Comment';
 $lang['edit'] = 'Edit';
+$lang['site_footer_image_alt'] = 'Traditional art work';
+$lang['latest_news'] = 'Latest news';
+$lang['most_commented'] = 'Commented';
+$lang['most_shared'] = 'Shared';
 
 // articles general
 $lang['article_written_by'] = 'by';
@@ -41,6 +45,11 @@ $lang['article_edit_intro'] = 'Intro';
 $lang['article_category'] = 'Category';
 $lang['article_edit_body'] = 'Article body';
 $lang['article_new'] = 'New article';
+$lang['article_cover_art_alt'] = 'Cover art';
+$lang['article_artist'] = 'Related artist(s)';
+$lang['article_topic'] = 'Filed under';
+$lang['article_index_older'] = 'Older';
+$lang['article_index_newer'] = 'Newer';
 
 // search form
 $lang['search_go'] = 'Go';

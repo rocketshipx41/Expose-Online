@@ -50,6 +50,10 @@ class MY_Controller extends CI_Controller
 	    $this->page_data['can_contribute'] = FALSE;
 	    $this->page_data['can_edit'] = FALSE;
 	}
+        $this->page_data['news_list'] = $this->Article_model->most_recent('news', 
+                    5, 0);
+        $this->template->set_partial('left_column', 'left_column');
+        $this->template->set_partial('right_column', 'right_column');
     }
     
 }

@@ -8,15 +8,18 @@
 
 class Artist_model extends CI_Model
 {
+    public $trace = '';
 
     function __construct()
     {
         // Call the Model constructor
         parent::__construct();
+	$this->trace = '>> construct artist model<br/>';
     }
    
     function get_list($max_count = 0, $offset = 0)
     {
+	$this->trace = 'get_list<br/>';
         $this->db->select('id, display, country_id, slug')
                 ->from('artists')
                 ->order_by('name');
@@ -27,11 +30,21 @@ class Artist_model extends CI_Model
             $this->db->limit($max_count);
         }
         $query = $this->db->get();
-        return $query->result_array();
+	foreach ($query->result() as $row) {
+	    if ($row->display) {
+		$result[$row->id] = array(
+                    'display' => $row->display,
+                    'country_id' => $row->country_id,
+                    'slug' => $row->slug
+                );
+	    }
+	}
+        return $result;
     }
     
     function get_info($slug = '')
     {
+	$this->trace = 'get_info<br/>';
         $result = array();
         if ($slug != '') {
             $this->db->select('display, country_id, years_active, url, info, '
@@ -46,6 +59,7 @@ class Artist_model extends CI_Model
     
     function get_article_list($id = 0)
     {
+	$this->trace = 'get_article_list<br/>';
         $result = array();
         if ($id > 0) {
             $this->db->select('a.title, a.slug')
@@ -60,6 +74,7 @@ class Artist_model extends CI_Model
     
     function fix_slugs()
     {
+	$this->trace = 'fix_slugs<br/>';
 	$result = '';
 	$artist_list = array();
         $this->db->select('id, name, country_id, slug')
