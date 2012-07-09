@@ -1,5 +1,18 @@
 <?php
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/*
+ * various miscelaneous functions
+ */
 
+/**
+ *
+ * @param type $string
+ * @param type $table
+ * @param type $field
+ * @param type $key
+ * @param type $value
+ * @return type 
+ */
 function create_unique_slug($string, $table, $field = 'slug', $key = NULL, $value = NULL)
 {
     $t =& get_instance(); 
@@ -51,8 +64,7 @@ function topic_display($topic_list)
 	    if ($result != '') {
 		$result .= ', ';
 	    }
-            // TODO: make it a link
-	    $result .= $item['title'];
+	    $result .= anchor('articles/topic/' . $item['topic_slug'], $item['title']);
 	}
 	
     }
@@ -68,7 +80,7 @@ function artist_display($artist_list)
 		$result .= ', ';
 	    }
             // TODO: make it a link
-	    $result .= $item['display'];
+            $result .= anchor('artists/display/' . $item['slug'], $item['display']);
 	}
 	
     }

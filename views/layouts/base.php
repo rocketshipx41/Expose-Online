@@ -9,6 +9,7 @@
     <head>
 	<meta charset="utf-8">
 	<title><?php echo $template['title']; ?></title>
+        <link rel="shortcut icon" href="http://localhost/assets/img/site/favicon.ico" />
 	<link href="http://localhost/assets/css/bootstrap.css" type="text/css" rel="stylesheet" />
 	<link href="http://localhost/assets/css/expose.css" type="text/css" rel="stylesheet" />
 	<link href="http://localhost/assets/js/chosen/chosen.css" type="text/css" rel="stylesheet" />

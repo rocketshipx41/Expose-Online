@@ -18,11 +18,12 @@ class Article_model extends CI_Model
 	$this->trace = '>> construct article model<br/>';
     }
    
-    function most_recent($category = '', $max = 5, $offset = 0)
+    function most_recent($category = '', $max = 5, $offset = 0, $include_carousel = TRUE)
     {
-	$this->trace = 'most_recent<br/>';
+	$this->trace .= 'most_recent<br/>';
         $result = array();
-        $this->db->select('a.id, a.slug, a.title, intro, a.category_id, a.image_file')
+        $this->db->select('a.id, a.slug, a.title, intro, a.category_id, '
+                    . 'a.image_file, a.body, a.updated_on')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left')
                 ->order_by('updated_on', 'desc')
@@ -33,20 +34,54 @@ class Article_model extends CI_Model
         if (($max != 0) || ($offset != 0)) {
             $this->db->limit($max, $offset);
         }
+        if ( ! $include_carousel ) {
+            $this->db->where('front_page', '0');
+        }
         $query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
         $result = $query->result_array();
         foreach ($result as &$item) {
-            if ($item['category_id'] == 1) {
+            if ( ($item['category_id'] == 1) && ( ! $item['image_file']) ) {
+                $this->trace .= 'no image assigned to review<br/>';
                 $item['image_file'] = $this->get_main_image($item['id'], $item['category_id']);
+                if ( ! $item['intro'] ) {
+                    $item['intro'] = smart_trim($item['body'], 200);
+                }
             }
+            unset($item['body']);
+        }
+        return $result;
+    }
+    
+    function draft_list()
+    {
+	$this->trace .= 'draft_list<br/>';
+        $result = array();
+        $this->db->select('a.id, a.slug, a.title, intro, a.category_id, '
+                    . 'a.image_file, a.body, a.updated_on')
+                ->from('articles a')
+		->join('categories c', 'c.id = a.category_id', 'left')
+                ->order_by('updated_on', 'asc')
+                ->where('status', 'draft');
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        $result = $query->result_array();
+        foreach ($result as &$item) {
+            if ( ($item['category_id'] == 1) && ( ! $item['image_file']) ) {
+                $this->trace .= 'no image assigned to review<br/>';
+                $item['image_file'] = $this->get_main_image($item['id'], $item['category_id']);
+                if ( ! $item['intro'] ) {
+                    $item['intro'] = smart_trim($item['body'], 200);
+                }
+            }
+            unset($item['body']);
         }
         return $result;
     }
     
     function get_front_page()
     {
-	$this->trace = 'get_front_page<br/>';
+	$this->trace .= 'get_front_page<br/>';
         $this->db->select('a.id, a.title, a.intro, a.slug, a.image_file')
                 ->from('articles a')
                 ->where('a.front_page', '1')
@@ -60,13 +95,12 @@ class Article_model extends CI_Model
     
     function get_full($slug)
     {
-	$this->trace = 'get_full<br/>';
+	$this->trace .= 'get_full<br/>';
         $this->db->select('a.id, a.title article_title, a.intro, a.body, a.category_id, '
 		    . ' a.slug, c.item_name, c.title category_name')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left')
-                ->where('a.slug', $slug)
-                ->where('status', 'live');
+                ->where('a.slug', $slug);
         $query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
 	//echo $this->query_trace; exit;
@@ -75,7 +109,7 @@ class Article_model extends CI_Model
     
     function get_dummy()
     {
-	$this->trace = 'get_dummy<br/>';
+	$this->trace .= 'get_dummy<br/>';
 	return array('id'=> 0, 'article_title' => '', 'intro'=> '', 'body' => '',
 		'category_id' => 0, 'item_name' => '', 'category_name' => '',
 		'slug' => ''
@@ -84,7 +118,7 @@ class Article_model extends CI_Model
     
     function get_credits($id)
     {
-	$this->trace = 'get_credits<br/>';
+	$this->trace .= 'get_credits<br/>';
 	$result = array();
 	$this->db->select('aur.user_id, aur.role_id, u.username, up.display_name')
 		->from('article_user_role aur')
@@ -101,7 +135,7 @@ class Article_model extends CI_Model
     
     function get_meta($id)
     {
-	$this->trace = 'get_meta<br/>';
+	$this->trace .= 'get_meta<br/>';
 	$result = array(
 	    'has_author' => FALSE,
 	    'has_photographer' => FALSE,
@@ -128,7 +162,7 @@ class Article_model extends CI_Model
     
     function get_artists($id)
     {
-	$this->trace = 'get_artists<br/>';
+	$this->trace .= 'get_artists<br/>';
         $result = array();
 	$this->db->select('aa.artist_id, a.display, a.slug')
 		->from('article_artist aa')
@@ -149,8 +183,8 @@ class Article_model extends CI_Model
     
     function get_topics($id)
     {
-	$this->trace = 'get_topics<br/>';
-	$this->db->select('at.topic_id, t.title')
+	$this->trace .= 'get_topics<br/>';
+	$this->db->select('at.topic_id, t.title, t.slug topic_slug')
 		->from('article_topic at')
 		->join('topics t', 't.id = at.topic_id', 'left')
 		->where('at.article_id', $id);
@@ -161,7 +195,7 @@ class Article_model extends CI_Model
     
     function get_topic_list()
     {
-	$this->trace = 'get_topic_list<br/>';
+	$this->trace .= 'get_topic_list<br/>';
 	$result = array();
 	$this->db->select('id, slug, title')
 		->from('topics')
@@ -181,7 +215,7 @@ class Article_model extends CI_Model
     
     function get_category_list()
     {
-	$this->trace = 'get_category_list<br/>';
+	$this->trace .= 'get_category_list<br/>';
 	$result = array();
 	$this->db->select('id, title')
 		->from('categories')
@@ -196,9 +230,26 @@ class Article_model extends CI_Model
 	return $result;
     }
     
+    function get_link_list($article_id)
+    {
+	$this->trace .= 'get_link_list<br/>';
+	$result = array();
+	$this->db->select('article_link_id, link')
+		->from('article_links')
+		->where('article_id', $article_id);
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+	foreach ($query->result() as $row) {
+	    if ($row->link) {
+		$result[$row->article_link_id] = $row->link;
+	    }
+	}
+	return $result;
+    }
+    
     function get_main_image($article_id, $category_id)
     {
-	$this->trace = 'get_main_image<br/>';
+	$this->trace .= 'get_main_image<br/>';
         $result = '';
         if ($category_id == 1) { // review
             $this->db->select('r.image_file')
@@ -210,7 +261,7 @@ class Article_model extends CI_Model
             $this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
             $query_result = $query->result_array();
             if (count($query_result)) {
-                $result = $query_result[0]['image_file'];
+                $result = 'releases/' . $query_result[0]['image_file'];
             }
         }
         return $result;
@@ -218,7 +269,8 @@ class Article_model extends CI_Model
     
     function get_releases($article_id)
     {
-	$this->trace = 'get_releases<br/>';
+	$this->trace .= 'get_releases<br/>';
+        $result = array();
 	$this->db->select('ar.release_id, r.display_title, r.display_artist, '
                     .'r.media, r.media_count, r.year_released, r.image_file, '
                     . 'r.catalog_no, r.year_recorded, r.label_id, l.display label_name')
@@ -228,26 +280,33 @@ class Article_model extends CI_Model
 		->where('ar.article_id', $article_id);
         $query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
-        return $query->result_array();
+        $query_result = $query->result_array();
+        if ( count($query_result)) {
+            $result = $query_result;
+        }
+        return $result;
     }
     
     function update($user_input)
     {
-	$this->trace = 'update<br/>';
+	$this->trace .= 'update<br/>';
+        $result = array('status' => 'ok');
 	$this->db->trans_start();
         $article_id = 0;
 	// basic info
 	$data = array(
 	    'title' => $user_input['title'],
-	    'category_id' => $user_input['category'],
+	    'category_id' => $user_input['category_id'],
 	    'intro' => $user_input['intro'],
 	    'body' => $user_input['body'],
+            'status' => $user_input['status'],
 	    'user_id' => $user_input['user_id'],
             'updated_on' => date('Y-m-d H:i:s')
 	);
 	if ($user_input['article_id'] == 0) {
             $this->trace .= 'new article, insert' . "<br/>\n";
             $data['slug'] = create_unique_slug($user_input['title'], 'articles');
+            $result['slug'] = $data['slug'];
 	    $this->db->insert('articles', $data);
             $this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
             $article_id = $this->db->insert_id();
@@ -256,6 +315,7 @@ class Article_model extends CI_Model
 	}
 	else {
 	    $this->db->where('id', $user_input['article_id']);
+            $result['slug'] = $user_input['slug'];
             $article_id = $user_input['article_id'];
             $this->db->update('articles', $data);
             $this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
@@ -335,7 +395,44 @@ class Article_model extends CI_Model
             $this->trace .= 'no changes in topics list ' . "<br/>\n";
         }
 	$this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE) {
+            // generate an error... or use the log_message() function to log your error
+            $result['status'] = 'error';
+        } 
+        return $result;
     }
+    
+    public function get_topic_articles($topic_slug, $max = 5, $offset = 0)
+    {
+	$this->trace .= 'get_topic_articles<br/>';
+        $result = array();
+        $this->db->select('a.id, a.slug, a.title, a.intro, a.category_id, '
+                    . 'a.image_file, a.body, a.updated_on')
+                ->from('article_topic at')
+                ->join('articles a', 'a.id = at.article_id', 'left')
+                ->join('topics t', 't.id = at.topic_id', 'left')
+                ->where('a.status', 'live')
+                ->where('t.slug', $topic_slug)
+                ->order_by('updated_on', 'desc');
+        if (($max != 0) || ($offset != 0)) {
+            $this->db->limit($max, $offset);
+        }
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        $result = $query->result_array();
+        foreach ($result as &$item) {
+            if ( ($item['category_id'] == 1) && ( ! $item['image_file']) ) {
+                $this->trace .= 'no image assigned to review<br/>';
+                $item['image_file'] = $this->get_main_image($item['id'], $item['category_id']);
+                if ( ! $item['intro'] ) {
+                    $item['intro'] = smart_trim($item['body'], 200);
+                }
+            }
+            unset($item['body']);
+        }
+        return $result;
+    }
+    
 }
 
 /* End of file article_model.php */

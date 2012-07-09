@@ -16,8 +16,8 @@
 			    <li><a href="<?php echo site_url('articles/index/news'); ?>"><?php echo lang('menu_news'); ?></a></li>
 			    <li class="divider-vertical"></li>
 			    <li><a href="<?php echo site_url('artists/index'); ?>"><?php echo lang('menu_artists'); ?></a></li>
-			    <li class="divider-vertical"></li>
-			    <li><a href="<?php echo site_url('labels/index'); ?>"><?php echo lang('menu_labels'); ?></a></li>
+<!--			    <li class="divider-vertical"></li>
+			    <li><a href="<?php echo site_url('labels/index'); ?>"><?php echo lang('menu_labels'); ?></a></li>-->
 			    <li class="divider-vertical"></li>
 			    <li><a href="<?php echo site_url('welcome/about'); ?>"><?php echo lang('menu_about'); ?></a></li>
 			    <li class="divider-vertical"></li>
@@ -35,6 +35,9 @@
 				    <li><a href="user/<?php echo $user_name; ?>"><?php echo lang('menu_user_page'); ?></a></li>
 				    <?php if ($can_contribute) : ?>
 				    <li><a href="<?php echo site_url('articles/add'); ?>"><?php echo lang('menu_contribute'); ?></a></li>
+				    <?php endif;?>
+				    <?php if ($can_edit) : ?>
+				    <li><a href="<?php echo site_url('articles/drafts'); ?>"><?php echo lang('menu_edit'); ?></a></li>
 				    <?php endif;?>
 				</ul>
 			    </li>

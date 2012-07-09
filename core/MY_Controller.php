@@ -36,8 +36,10 @@ class MY_Controller extends CI_Controller
 	    $temp = $this->User_model->get_user_group($this->page_data['user_id']);
 	    $this->page_data['user_group_id'] = $temp[0]['group_id'];
 	    $this->page_data['user_group_name'] = $temp[0]['name'];
+            // contributors: admin, editors, staff
 	    $this->page_data['can_contribute'] = ($temp[0]['group_id'] == 1)
 		    || ($temp[0]['group_id'] == 3) || ($temp[0]['group_id'] == 4);
+            // editors: admin, editors
 	    $this->page_data['can_edit'] = ($temp[0]['group_id'] == 1)
 		    || ($temp[0]['group_id'] == 3);
 	}

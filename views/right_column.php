@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 ?>
+<!--
 <ul class="nav nav-tabs" id="left_column_tabs">
     <li class="active" data-toggle="tab">
         <a href="#rt-commented"><?php echo lang('most_commented'); ?></a>
@@ -22,3 +23,4 @@
     </div>
 
 </div>
+-->
