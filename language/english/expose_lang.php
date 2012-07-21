@@ -74,6 +74,21 @@ $lang['artist_display_release_list'] = 'Releases on file';
 $lang['artist_field_display_name'] = 'Display name';
 $lang['artist_field_sort_name'] = 'Name for sorting';
 
+// releases page
+$lang['release_edit_title'] = 'Title for sorting';
+$lang['release_edit_display_title'] = 'Title for display';
+$lang['release_edit_artist'] = 'Artist for sorting';
+$lang['release_edit_display_artist'] = 'Artist for display';
+$lang['release_edit_type'] = 'Type of release';
+$lang['release_edit_various_artists'] = 'Various artists';
+$lang['release_edit_label'] = 'Label';
+$lang['release_edit_media'] = 'Media';
+$lang['release_edit_catalog_no'] = 'Catalog number';
+$lang['release_edit_year_recorded'] = 'Year recorded';
+$lang['release_edit_year_released'] = 'Year released';
+$lang['release_edit_image_file'] = 'Image file';
+
+
 // search form
 $lang['search_go'] = 'Go';
 

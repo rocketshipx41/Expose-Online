@@ -35,6 +35,20 @@ class Masterdata_model extends CI_Model
 	}
         return $result;
     }
+    
+    public function get_release_type_list($add_select = FALSE)
+    {
+	$this->trace .= 'get_country_list<br/>';
+        $result = array();
+        if ( $add_select ) {
+            $result['0'] = lang('dropdown_select');
+        }
+        $result[1] = 'New release';
+        $result[2] = 'Archive';
+        $result[3] = 'Reissue';
+        $result[10] = 'Not new but worthy';
+        return $result;
+    }
    
 }
 
