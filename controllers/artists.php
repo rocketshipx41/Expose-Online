@@ -77,6 +77,7 @@ class Artists extends MY_Controller {
         
         // init
 	$this->load->model('Masterdata_model');
+        $action = 'update';
         
         // handle incoming post
         if ( $this->input->post('artist-submit') ) {
@@ -127,12 +128,6 @@ class Artists extends MY_Controller {
             else {
                 $ok = FALSE;
             }
-            if ($this->input->post('make-live') ) {
-              $update_params['status'] = 'live';
-            }
-            else {
-              $update_params['status'] = 'draft';
-            }
             if ($this->input->post('artist-id') ) {
               $artist_id = $this->input->post('artist-id');
             }
@@ -148,6 +143,7 @@ class Artists extends MY_Controller {
         $artist_info = $this->Artist_model->get_info($artist_slug);
         $this->page_data['country_list'] = $this->Masterdata_model->get_country_list(TRUE);
         $this->page_data['artist_info'] = $artist_info;
+        $this->page_data['action'] = $action;
         
         // display
         $this->page_data['trace'] .= $this->Artist_model->trace;
@@ -156,6 +152,37 @@ class Artists extends MY_Controller {
                 ->title($this->page_data['site_name'], $this->page_data['page_name'],
                         $artist_info['display'])
                 ->build('artists/edit_form', $this->page_data);
+    }
+    
+    public function search()
+    {
+        // authorize
+        if ( $this->input->post('search-value') ) {
+            $search_value = $this->input->post('search-value');
+        }
+        else {
+            redirect('artists/index');
+        }
+        
+        // init
+        $starter = '';
+        $this->page_data['nav_chars'] = '#abcdefghijklmnopqrstuvwxyz';
+        
+        // process
+        $this->page_data['artist_list'] = 
+                $this->Artist_model->search($search_value, 
+                        $this->config->item('artist_index_items_per_page'),
+                        $starter);
+        $this->page_data['backlink'] = $this->Artist_model->get_backlink($starter,
+                $this->config->item('artist_index_items_per_page'));
+        $this->page_data['starter'] = $starter;
+        
+        // display
+        $this->page_data['trace'] .= $this->Artist_model->trace;
+        $this->page_data['trace'] .= print_r($this->page_data['artist_list'], TRUE) . '<br/>';
+        $this->template
+                ->title($this->page_data['site_name'], $this->page_data['page_name'], 'Index')
+                ->build('artists/index_center', $this->page_data);
     }
     
 }

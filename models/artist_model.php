@@ -69,6 +69,34 @@ class Artist_model extends CI_Model
         return $result;
     }
     
+    function search($search_value, $max_count = 0, $starter = '')
+    {
+	$this->trace .= 'search<br/>';
+        $this->db->select('id, display, country_id, slug, image_file')
+                ->from('artists')
+                ->like('name', $search_value)
+                ->order_by('name');
+        if ($max_count > 0) {
+            $this->db->limit($max_count);
+        }
+        if ($starter) {
+            $this->db->where('name >=', $starter);
+        }
+        $query = $this->db->get();
+        $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+	foreach ($query->result() as $row) {
+	    if ($row->display) {
+		$result[$row->id] = array(
+                    'display' => $row->display,
+                    'country_id' => $row->country_id,
+                    'image_file' => 'artists/' . $row->image_file,
+                    'slug' => $row->slug
+                );
+	    }
+	}
+        return $result;
+    }
+    
     function get_info($slug = '')
     {
 	$this->trace .= 'get_info<br/>';
@@ -80,6 +108,26 @@ class Artist_model extends CI_Model
                     ->from('artists a')
                     ->join('countries c', 'c.id = a.country_id', 'left')
                     ->where('slug', $slug);
+            $query = $this->db->get();
+            $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+            $result = $query->row_array();
+        }
+        return $result;
+    }
+    
+    function get_base_info($id = 0)
+    {
+	$this->trace .= 'get_info<br/>';
+        $result = array(
+            'id' => $id,
+            'name' => '',
+            'display' => '',
+            'slug' => ''
+        );
+        if ( $id != 0 ) {
+            $this->db->select('id, name, display, slug')
+                    ->from('artists')
+                    ->where('id', $id);
             $query = $this->db->get();
             $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
             $result = $query->row_array();
@@ -115,7 +163,8 @@ class Artist_model extends CI_Model
                     ->from('release_artist ra')
                     ->join('releases r', 'r.id = ra.release_id')
                     ->join('labels l', 'l.id = r.label_id', 'left')
-                    ->where('ra.artist_id', $id);
+                    ->where('ra.artist_id', $id)
+                    ->order_by('year_released');
             $query = $this->db->get();
             $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
             $result = $query->result_array();
@@ -149,7 +198,7 @@ class Artist_model extends CI_Model
     
     public function update_info($artist_id, $params)
     {
-	$this->trace .= 'fix_slugs<br/>';
+	$this->trace .= 'update_info<br/>';
 	$result = array('status' => 'ok');
         $this->db->where('id', $artist_id);
         $this->db->update('artists', $params);

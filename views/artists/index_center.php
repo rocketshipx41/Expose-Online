@@ -3,6 +3,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /*
  * template for artist index page center section
  */
+$this->load->helper('form');
 ?>
 
 <div class="row">
@@ -10,7 +11,11 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     <?php for ($i = 0; $i < strlen($nav_chars); $i++) : ?>
     <?php echo anchor('artists/index/' . substr($nav_chars, $i, 1), substr($nav_chars, $i, 1)); ?>&nbsp;|&nbsp;
     <?php endfor; ?>
-</div>
+    <?php echo form_open('artists/search', array('id' => 'artist-search')); ?>
+	<label><?php echo lang('artist_search'); ?></label>
+	<?php echo form_input(array('name' => 'search-value', 'id' => 'search-value')); ?>
+        <?php echo form_submit('artist-submit', 'Submit', 'class="btn"'); ?>
+    <?php echo form_close(); ?></div>
 
 <?php foreach ($artist_list as $item) : ?>
 <div class="row">

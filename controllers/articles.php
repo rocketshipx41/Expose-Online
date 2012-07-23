@@ -240,6 +240,9 @@ class Articles extends MY_Controller {
                 }
                 $update_params['topic'] = $topics;
             }
+            else {
+                $update_params['topic'] = array();
+            }
             if ($this->input->post('artist')) {
                 $this->page_data['trace'] .= 'process artist list<br/>';
                 $artists = array();
@@ -260,6 +263,9 @@ class Articles extends MY_Controller {
                     }
                 }
                 $update_params['artist'] = $artists;
+            }
+            else {
+                $update_params['artist'] = array();
             }
             if ( $ok ) {
                 $update_result = $this->Article_model->update($update_params);
@@ -302,7 +308,8 @@ class Articles extends MY_Controller {
 	$artist_list = $this->Artist_model->get_list(0, 0);
         $artist_select_list = array();
         foreach ($artist_list as $key => $item) {
-            $artist_select_list[$key] = $item['display'];
+            $artist_select_list[$key] = $item['display'] . ' (' 
+                    . $item['country_id'] . ')';
         }
 	$this->page_data['artist_select_list'] = $artist_select_list;
 	$topic_list = $this->Article_model->get_topic_list();

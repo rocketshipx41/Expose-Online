@@ -68,5 +68,11 @@ $this->load->helper('form');
 		'value' => $release_info['image_file'], 'class' => 'span5', 
 		'placeholder' => 'File name of cover scan')); ?>
 
+	<label><?php echo lang('release_related_artists'); ?></label>
+	<?php echo form_multiselect('related-artists[]', $artist_select_list, array_keys($release_artist_list),
+		'class="chzn-select span5" id="related-artists"'); ?>
+	<?php echo form_multiselect('original-artists[]', $artist_select_list, array_keys($release_artist_list),
+		'id="original-artists" style="display:none;"'); ?>
+
         <br/><?php echo form_submit('release-submit', 'Submit', 'class="btn"'); ?>
         <?php echo form_close(); ?>

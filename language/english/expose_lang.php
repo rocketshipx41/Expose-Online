@@ -69,6 +69,7 @@ $lang['artist_field_url'] = 'Website';
 $lang['artist_field_none'] = 'Not on file';
 $lang['artist_display_article_list'] = 'Related articles';
 $lang['artist_display_release_list'] = 'Releases on file';
+$lang['artist_search'] = 'Search';
 
 // edit page
 $lang['artist_field_display_name'] = 'Display name';
@@ -87,7 +88,8 @@ $lang['release_edit_catalog_no'] = 'Catalog number';
 $lang['release_edit_year_recorded'] = 'Year recorded';
 $lang['release_edit_year_released'] = 'Year released';
 $lang['release_edit_image_file'] = 'Image file';
-
+$lang['release_related_artists'] = 'Related artist(s)';
+$lang['add_release'] = 'Add release';
 
 // search form
 $lang['search_go'] = 'Go';

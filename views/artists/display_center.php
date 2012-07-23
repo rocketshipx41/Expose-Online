@@ -67,4 +67,5 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 </div> <!-- row -->
     <?php if ($can_edit) : ?>
     <?php echo anchor('artists/edit/'. $artist_info['slug'], lang('edit'), 'class="btn"'); ?>
+    <?php echo anchor('releases/add/'. $artist_info['id'], lang('add_release'), 'class="btn"'); ?>
     <?php endif; ?>

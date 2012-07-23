@@ -71,6 +71,12 @@ class Welcome extends MY_Controller
     
     public function login()
     {
+/*        $this->load->model('tank_auth/Users');
+        $hasher = new PasswordHash(
+                        $this->config->item('phpass_hash_strength', 'tank_auth'),
+                        $this->config->item('phpass_hash_portable', 'tank_auth'));
+        $hashed_password = $hasher->HashPassword('jonldavis');
+        $this->Users->change_password(2, $hashed_password);*/
 	if ($this->tank_auth->is_logged_in()) { // logged in
 	    redirect('');
 	}
