@@ -154,6 +154,7 @@ class Articles extends MY_Controller {
         
         // init
         $this->load->model('Artist_model');
+        $this->load->model('Release_model');
         
         // deal with incoming post
         if ( $this->input->post('article-submit') ) {
@@ -299,7 +300,7 @@ class Articles extends MY_Controller {
         }
 	//$artist_list = $this->Article_model->get_artists($article_info['id']);
 	$this->page_data['artist_list'] = $this->Article_model->get_artists($article_info['id']);
-	$this->page_data['release_list'] = $this->Article_model->get_releases($article_info['id']);
+	$this->page_data['article_release_list'] = $this->Article_model->get_releases($article_info['id']);
         $this->page_data['meta'] = $this->Article_model->get_meta($article_info['id']);
         
         // get lists for dropdowns
@@ -333,6 +334,25 @@ class Articles extends MY_Controller {
 		->append_metadata('<script>$(document).ready(function(){changeCategory();});</script>')
                 ->build('articles/edit_form', $this->page_data);
         
+    }
+    
+    public function getreleases($artists = '')
+    {
+        $result = '';
+        if ( $artists != '' ) {
+            $this->load->model('Artist_model');
+            $artist_list = explode('|', $artists);
+            $release_list = array();
+            foreach ($artist_list as $item) {
+                $temp = $this->Artist_model->get_release_list($item);
+                foreach ($temp as $row) {
+                    $result[$row['release_id']] = $row['display_artist']
+                            . ' - ' . $row['display_title'] . ' ('
+                            . $row['year_released'] . ')';
+                }
+            }
+        }
+        echo $result;
     }
 
     public function old_edit()

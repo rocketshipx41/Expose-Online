@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 ?>
-	<div id="body">
-	    <p>Welcome to <?php echo $site_name; ?>.</p>
-            <div id="myCarousel" class="carousel slide span6">
+            <div class="row">
+                <p><?php echo lang('home_welcome_message') . $site_name; ?>.</p>
+            </div>
+            <div id="myCarousel" class="carousel slide row">
                 <!-- Carousel items -->
                 <div class="carousel-inner">
                     <?php foreach ($carousel_list as $item) : ?>
@@ -51,4 +52,3 @@
         &nbsp;&raquo; <?php echo anchor('articles/display/' . $item['slug'], 'Read more'); ?>
             </div>
         <?php endforeach; ?>
-	</div> <!-- body -->

@@ -72,6 +72,7 @@ class Artist_model extends CI_Model
     function search($search_value, $max_count = 0, $starter = '')
     {
 	$this->trace .= 'search<br/>';
+        $result = array();
         $this->db->select('id, display, country_id, slug, image_file')
                 ->from('artists')
                 ->like('name', $search_value)
@@ -84,16 +85,18 @@ class Artist_model extends CI_Model
         }
         $query = $this->db->get();
         $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
-	foreach ($query->result() as $row) {
-	    if ($row->display) {
-		$result[$row->id] = array(
-                    'display' => $row->display,
-                    'country_id' => $row->country_id,
-                    'image_file' => 'artists/' . $row->image_file,
-                    'slug' => $row->slug
-                );
-	    }
-	}
+        if ( $query->num_rows() ) {
+            foreach ($query->result() as $row) {
+                if ($row->display) {
+                    $result[$row->id] = array(
+                        'display' => $row->display,
+                        'country_id' => $row->country_id,
+                        'image_file' => 'artists/' . $row->image_file,
+                        'slug' => $row->slug
+                    );
+                }
+            }
+        }
         return $result;
     }
     

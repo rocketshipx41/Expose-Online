@@ -42,14 +42,14 @@
 	    </div>
 	    <?php endif; ?>
 	    <div class="row" id="main-content">
-		<div class="span3">
+		<div class="span3" id="left-column">
 		    <?php echo $template['partials']['left_column']; ?>
 		</div>
-		<div class="span6">
+		<div class="span6" id="center-column">
 		    <h1><?php echo $page_name; ?></h1>
 		    <?php echo $template['body']; ?>
 		</div>
-		<div class="span3">
+		<div class="span3"id="right-column">
 		    <?php echo $template['partials']['right_column']; ?>
 		</div>
 	    </div>

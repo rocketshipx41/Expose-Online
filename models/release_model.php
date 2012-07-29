@@ -126,6 +126,25 @@ class Release_model extends CI_Model
         return $result;
     }
     
+    public function get_list()
+    {
+	$this->trace .= 'get_list()<br/>';
+        $this->db->select('r.id, r.artist, r.title, r.display_artist, '
+                . 'r.display_title')
+                ->from('releases r')
+                ->order_by('artist, title');
+        $result = array();
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        if ( $query->num_rows() ) {
+            foreach ($query->result() as $row) {
+                $result[$row->id] = $row->display_artist . ' - '
+                    . $row->display_title;
+            }
+        }
+        return $result;
+    }
+    
 }
 
 /* End of file release_model.php */

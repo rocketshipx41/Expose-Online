@@ -167,6 +167,7 @@ class Artists extends MY_Controller {
         // init
         $starter = '';
         $this->page_data['nav_chars'] = '#abcdefghijklmnopqrstuvwxyz';
+        $this->page_data['last_slug'] = '';
         
         // process
         $this->page_data['artist_list'] = 
@@ -183,6 +184,11 @@ class Artists extends MY_Controller {
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'], 'Index')
                 ->build('artists/index_center', $this->page_data);
+    }
+    
+    public function add()
+    {
+        
     }
     
 }

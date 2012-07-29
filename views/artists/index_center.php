@@ -16,7 +16,7 @@ $this->load->helper('form');
 	<?php echo form_input(array('name' => 'search-value', 'id' => 'search-value')); ?>
         <?php echo form_submit('artist-submit', 'Submit', 'class="btn"'); ?>
     <?php echo form_close(); ?></div>
-
+<?php if (count($artist_list)) : ?>
 <?php foreach ($artist_list as $item) : ?>
 <div class="row">
     <img src="<?php echo image_url($item['image_file']);?>" class="index-art"
@@ -26,7 +26,6 @@ $this->load->helper('form');
     <?php $last_slug = $item['slug']; ?>
 </div>
 <?php endforeach; ?>
-
 <?php if ($starter != '') : ?>
 &laquo; 
 <?php echo anchor('artists/index/' . $backlink,
@@ -36,3 +35,6 @@ $this->load->helper('form');
 <?php echo anchor('artists/index/' . $last_slug . '1',
         lang('artist_index_next')); ?> 
 &raquo;
+<?php else : ?>
+<p><?php echo lang('artist_search_none'); ?></p>
+<?php endif; ?>
