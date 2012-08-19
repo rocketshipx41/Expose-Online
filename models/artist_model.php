@@ -167,7 +167,7 @@ class Artist_model extends CI_Model
                     ->join('releases r', 'r.id = ra.release_id')
                     ->join('labels l', 'l.id = r.label_id', 'left')
                     ->where('ra.artist_id', $id)
-                    ->order_by('year_released');
+                    ->order_by('year_released desc, title');
             $query = $this->db->get();
             $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
             $result = $query->result_array();

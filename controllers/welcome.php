@@ -63,6 +63,7 @@ class Welcome extends MY_Controller
                     5, 0, FALSE);
 
         // display
+        $this->page_data['show_columns'] = 3;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->set_partial('left_column', 'left_column')
@@ -146,6 +147,7 @@ class Welcome extends MY_Controller
 		    $data['captcha_html'] = $this->_create_captcha();
 		}
 	    }
+            $this->page_data['show_columns'] = 3;
 	    $this->template
 		    ->title($this->page_data['site_name'], $this->page_data['page_name'])
 		    ->build('home/login_form', $this->page_data);
@@ -167,6 +169,7 @@ class Welcome extends MY_Controller
     public function about()
     {
 	$this->page_data['page_name'] = lang('menu_about');
+        $this->page_data['show_columns'] = 3;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->build('home/about', $this->page_data);

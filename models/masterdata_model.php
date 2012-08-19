@@ -49,6 +49,24 @@ class Masterdata_model extends CI_Model
         $result[10] = 'Not new but worthy';
         return $result;
     }
+    
+    public function get_issue_list($add_select = FALSE)
+    {
+	$this->trace .= 'get_issue_list<br/>';
+        $result = array();
+        if ( $add_select ) {
+            $result['0'] = lang('dropdown_select');
+        }
+        $this->db->select('id, description')
+                ->from('issues')
+                ->order_by('id');
+        $query = $this->db->get();
+        $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+	foreach ($query->result() as $row) {
+            $result[$row->id] = $row->id. ' ('. $row->description . ')';
+	}
+        return $result;
+    }
    
 }
 

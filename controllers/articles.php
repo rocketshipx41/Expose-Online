@@ -37,6 +37,7 @@ class Articles extends MY_Controller {
         $this->page_data['offset'] = $offset;
         $this->page_data['trace'] .= $this->Article_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
+        $this->page_data['show_columns'] = 3;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->build('articles/index_center', $this->page_data);
@@ -82,6 +83,7 @@ class Articles extends MY_Controller {
 		. print_r($this->page_data['credit_list'], TRUE) . '<br/>';
 	$this->page_data['trace'] .= 'topic list: ' 
 		. print_r($this->page_data['topic_list'], TRUE) . '<br/>';
+        $this->page_data['show_columns'] = 3;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'],
 			$article_info['article_title'])
@@ -97,6 +99,7 @@ class Articles extends MY_Controller {
         
         // init
         $this->load->model('Artist_model');
+        $this->load->model('Masterdata_model');
 	
         // process
 	$article_info = $this->Article_model->get_dummy();
@@ -132,6 +135,7 @@ class Articles extends MY_Controller {
 	$this->page_data['trace'] .= $this->Artist_model->trace;
 	$this->page_data['trace'] .= 'credit list: ' 
 		. print_r($this->page_data['credit_list'], TRUE);
+        $this->page_data['show_columns'] = 2;
 	$this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->set_partial('edit_form', 'articles/edit_form')
@@ -139,27 +143,28 @@ class Articles extends MY_Controller {
                 ->build('articles/add_center', $this->page_data);
     }
     
-    public function edit($article_slug = '')
+    public function edit($article_id = 0)
     {
         // authorize
-        if ( $this->input->post('slug') ) {
-            $article_slug = $this->input->post('slug');
+        if ( $this->input->post('article-id') ) {
+            $article_id = $this->input->post('article-id');
         }
         if ( $this->input->post('action') ) {
             // it's an insert
         }
-        elseif ( $article_slug == '' ) {
+        elseif ( $article_id == 0 ) {
             redirect('welcome');
         }
         
         // init
         $this->load->model('Artist_model');
         $this->load->model('Release_model');
+        $this->load->model('Masterdata_model');
         
         // deal with incoming post
         if ( $this->input->post('article-submit') ) {
             $this->page_data['trace'] .= 'process incoming post<br/>';
-            $article_id = $this->input->post('article-id');
+            $missing = array();
             $update_params = array(
                 'article_id' => $article_id,
                 'user_id' => $this->input->post('user-id'),
@@ -171,18 +176,21 @@ class Articles extends MY_Controller {
             }
             else {
                 $ok = FALSE;
+                $missing[]= 'title';
             }
             if ( $this->input->post('category') ) {
                 $update_params['category_id'] = $this->input->post('category');
             }
             else {
                 $ok = FALSE;
+                $missing[]= 'category';
             }
-            if ( $this->input->post('body') ) {
-                $update_params['body'] = $this->input->post('body');
+            if ( $this->input->post('article-body') ) {
+                $update_params['body'] = $this->input->post('article-body');
             }
             else {
                 $ok = FALSE;
+                $missing[]= 'body';
             }
             if ( $this->input->post('intro') ) {
                 $update_params['intro'] = $this->input->post('intro');
@@ -219,6 +227,7 @@ class Articles extends MY_Controller {
             }
             else {
                 $ok = FALSE;
+                $missing[]= 'author';
             }
             if ($this->input->post('topic')) {
                 $this->page_data['trace'] .= 'process topic list<br/>';
@@ -243,6 +252,7 @@ class Articles extends MY_Controller {
             }
             else {
                 $update_params['topic'] = array();
+                $missing[]= 'topic';
             }
             if ($this->input->post('artist')) {
                 $this->page_data['trace'] .= 'process artist list<br/>';
@@ -269,16 +279,21 @@ class Articles extends MY_Controller {
                 $update_params['artist'] = array();
             }
             if ( $ok ) {
+                $this->page_data['trace'] .= 'ready to update<br/>';
                 $update_result = $this->Article_model->update($update_params);
                 if ( $update_result['status'] == 'ok' ) {
                     $article_slug = $update_result['slug'];
                 }
             }
+            else {
+                $this->page_data['trace'] .= 'something missing: ' 
+                        . print_r($missing, TRUE) . '<br/>';
+            }
         }
         
         // process
         // get article info
-	$article_info = $this->Article_model->get_full($article_slug);
+	$article_info = $this->Article_model->get_full('', $article_id);
 	$this->page_data['credit_list'] = $this->Article_model->get_credits($article_info['id']);
 	$topic_list = $this->Article_model->get_topics($article_info['id']);
         if (( count($topic_list)) && ($article_info['category_id'] == 1)) {
@@ -306,6 +321,7 @@ class Articles extends MY_Controller {
         // get lists for dropdowns
 	$this->page_data['staff_list'] = $this->User_model->get_user_list(array(1, 3, 4));
 	$this->page_data['category_list'] = $this->Article_model->get_category_list();
+        $this->page_data['issue_list'] = $this->Masterdata_model->get_issue_list(TRUE);
 	$artist_list = $this->Artist_model->get_list(0, 0);
         $artist_select_list = array();
         foreach ($artist_list as $key => $item) {
@@ -328,10 +344,10 @@ class Articles extends MY_Controller {
         $this->page_data['trace'] .= 'artist list: ' . print_r($this->page_data['artist_list'],
                 TRUE) . '<br/>';
         $this->page_data['trace'] .= $this->Article_model->trace;
+        $this->page_data['show_columns'] = 2;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'],
 			$article_info['article_title'])
-		->append_metadata('<script>$(document).ready(function(){changeCategory();});</script>')
                 ->build('articles/edit_form', $this->page_data);
         
     }
@@ -467,6 +483,26 @@ class Articles extends MY_Controller {
         $this->page_data['offset'] = $offset;
         $this->page_data['trace'] .= $this->Article_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
+        $this->page_data['show_columns'] = 3;
+        $this->template
+                ->title($this->page_data['site_name'], $this->page_data['page_name'])
+                ->build('articles/index_center', $this->page_data);
+    }
+    
+    public function issue($issue_no = 0)
+    {
+        if ( $issue_no == 0 ) {
+            redirect('');
+        }
+        $this->page_data['page_name'] = lang('issue_no'). ' ' . $issue_no;
+        $this->page_data['main_list'] = $this->Article_model->get_issue_articles($issue_no);
+        
+        $this->page_data['topic_slug'] = '';
+        $this->page_data['category_slug'] = '';
+        $this->page_data['offset'] = 0;
+        $this->page_data['trace'] .= $this->Article_model->trace;
+        $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
+        $this->page_data['show_columns'] = 3;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->build('articles/index_center', $this->page_data);
@@ -487,6 +523,7 @@ class Articles extends MY_Controller {
         // display
         $this->page_data['trace'] .= $this->Article_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
+        $this->page_data['show_columns'] = 3;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'], 'Index')
                 ->build('articles/index_center', $this->page_data);

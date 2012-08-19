@@ -22,9 +22,36 @@ class Releases extends MY_Controller {
         
     }
     
+    function display($release_id = 0)
+    {
+        // init
+        $this->load->model('Label_model');
+        $this->load->model('Masterdata_model');
+        
+        // get info
+        $release_info = $this->Release_model->get_release_info($release_id);
+        $this->page_data['trace'].= 'release info: ' . print_r($release_info, TRUE)
+                . '<br/>';
+        $release_artist_list = $this->Release_model->get_release_artists($release_id);
+        
+        // display
+        $this->page_data['release_info'] = $release_info;
+        $this->page_data['trace'] .= $this->Release_model->trace;
+        $this->page_data['trace'] .= $this->Label_model->trace;
+        $this->page_data['trace'] .= $this->Masterdata_model->trace;
+        // echo $this->page_data['trace']; exit;
+        $this->page_data['show_columns'] = 3;
+        $this->template
+                ->title($this->page_data['site_name'], $this->page_data['page_name'])
+                ->build('releases/display_center', $this->page_data);
+    }
+    
     function edit($release_id = 0)
     {
         // init
+        if ( $this->input->post('release-id') ) {
+            $release_id = $this->input->post('release-id');
+        }
         $action = 'update';
         $this->load->model('Label_model');
         $this->load->model('Masterdata_model');
@@ -56,11 +83,16 @@ class Releases extends MY_Controller {
             if ($this->input->post('related-artists')) {
                 $this->page_data['trace'] .= 'process artist list<br/>';
                 $artists = array();
-                $temp = $this->input->post('original-artists');
-                if ( ( $temp ) && (count($temp))) {
-                    foreach ($temp as $item) {
-                        $artists[$item] = 'delete';
+                if ( $release_id != 0 ) {
+                    $temp = $this->input->post('original-artists');
+                    if ( ( $temp ) && (count($temp))) {
+                        foreach ($temp as $item) {
+                            $artists[$item] = 'delete';
+                        }
                     }
+                }
+                else {
+                    $this->page_data['trace'] .= 'no original artists for insert<br/>';
                 }
                 foreach ($this->input->post('related-artists') as $item){
                     if (array_key_exists($item, $artists)){
@@ -104,6 +136,7 @@ class Releases extends MY_Controller {
         $this->page_data['trace'] .= $this->Label_model->trace;
         $this->page_data['trace'] .= $this->Masterdata_model->trace;
         // echo $this->page_data['trace']; exit;
+        $this->page_data['show_columns'] = 2;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->build('releases/edit_form', $this->page_data);
@@ -149,6 +182,7 @@ class Releases extends MY_Controller {
         $this->page_data['trace'] .= $this->Label_model->trace;
         $this->page_data['trace'] .= $this->Masterdata_model->trace;
         // echo $this->page_data['trace']; exit;
+        $this->page_data['show_columns'] = 2;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->build('releases/edit_form', $this->page_data);
@@ -156,8 +190,8 @@ class Releases extends MY_Controller {
     
     function util()
     {
-        $this->load->model('Label_model');
-        // $result = $this->Label_model->update_slugs();
+        $result = $this->Release_model->fix_slugs();
+        echo $result;
     }
     
 }

@@ -145,6 +145,26 @@ class Release_model extends CI_Model
         return $result;
     }
     
+    function fix_slugs()
+    {
+	$this->trace .= 'fix_slugs<br/>';
+	$result = '';
+	$artist_list = array();
+        $this->db->select('id, title, artist, year_released')
+                ->from('releases');
+        $query = $this->db->get();
+        $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+        $artist_list = $query->result_array();
+	foreach ($artist_list as $item) {
+            $slug = create_unique_slug($item['artist'] . '-' . $item['title']
+                    . '-' . $item['year_released'],
+			'artists');
+	    $result .= 'update releases set slug = ' . $this->db->escape($slug)
+		    . ' where id = ' . $this->db->escape($item['id']) . ";\n";
+	}
+	return $result;
+    }
+    
 }
 
 /* End of file release_model.php */

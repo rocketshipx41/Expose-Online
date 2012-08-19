@@ -50,7 +50,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                 <td><img src="<?php echo image_url('releases/'. $item['image_file']);?>" class="artist-release-art"
                  height="90" width="90" alt="<?php echo lang('article_cover_art_alt'); ?>"></td>
                 <td>
-                <?php echo $item['display_artist'] . ' &mdash; ' . $item['display_title']
+                <?php echo anchor('releases/display/'. $item['release_id'], $item['display_artist'] . ' &mdash; ' . $item['display_title'])
                         . '&nbsp;' . release_line($item); ?>
                 </td>
             <?php if ($can_edit) : ?>

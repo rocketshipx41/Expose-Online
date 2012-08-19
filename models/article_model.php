@@ -15,7 +15,7 @@ class Article_model extends CI_Model
     {
         // Call the Model constructor
         parent::__construct();
-	$this->trace = '>> construct article model<br/>';
+	$this->trace .= '>> construct article model<br/>';
     }
    
     function most_recent($category = '', $max = 5, $offset = 0, $include_carousel = TRUE)
@@ -26,7 +26,7 @@ class Article_model extends CI_Model
                     . 'a.image_file, a.body, a.updated_on')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left')
-                ->order_by('updated_on', 'desc')
+                ->order_by('created_on', 'desc')
                 ->where('status', 'live');
         if ($category != '') {
             $this->db->where('c.slug', $category);
@@ -37,6 +37,33 @@ class Article_model extends CI_Model
         if ( ! $include_carousel ) {
             $this->db->where('front_page', '0');
         }
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        $result = $query->result_array();
+        foreach ($result as &$item) {
+            if ( ($item['category_id'] == 1) && ( ! $item['image_file']) ) {
+                $this->trace .= 'no image assigned to review<br/>';
+                $item['image_file'] = $this->get_main_image($item['id'], $item['category_id']);
+                if ( ! $item['intro'] ) {
+                    $item['intro'] = smart_trim($item['body'], 200);
+                }
+            }
+            unset($item['body']);
+        }
+        return $result;
+    }
+    
+    function get_issue_articles($issue_no)
+    {
+	$this->trace .= 'get_issue_articles<br/>';
+        $result = array();
+        $this->db->select('a.id, a.slug, a.title, intro, a.category_id, '
+                    . 'a.image_file, a.body, a.updated_on')
+                ->from('articles a')
+		->join('categories c', 'c.id = a.category_id', 'left')
+                ->order_by('created_on', 'desc')
+                ->where('status', 'live')
+                ->where('issue_no', $issue_no);
         $query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
         $result = $query->result_array();
@@ -93,14 +120,19 @@ class Article_model extends CI_Model
         return $result;
     }
     
-    function get_full($slug)
+    function get_full($slug = '', $id = 0)
     {
 	$this->trace .= 'get_full<br/>';
         $this->db->select('a.id, a.title article_title, a.intro, a.body, a.category_id, '
-		    . ' a.slug, c.item_name, c.title category_name')
+		    . ' a.slug, c.item_name, c.title category_name, a.issue_no')
                 ->from('articles a')
-		->join('categories c', 'c.id = a.category_id', 'left')
-                ->where('a.slug', $slug);
+		->join('categories c', 'c.id = a.category_id', 'left');
+        if ( $slug != '' ) {
+            $this->db->where('a.slug', $slug);
+        }
+        else {
+            $this->db->where('a.id', $id);
+        }
         $query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
 	//echo $this->query_trace; exit;

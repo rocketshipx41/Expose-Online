@@ -61,6 +61,7 @@ $lang['article_index_older'] = 'Older';
 $lang['article_index_newer'] = 'Newer';
 $lang['article_posted'] = 'Posted';
 $lang['article_publish_now'] = 'Publish now';
+$lang['issue_no']= 'Issue';
 
 // artists general
 $lang['artist_index_prev'] = 'Previous';

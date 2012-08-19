@@ -40,7 +40,13 @@
         <?php endif; ?>
 	<?php echo $article_info['body']; ?>
 
-	<p><?php echo lang('article_topic') . ': ' . topic_display($topic_list, TRUE); ?></p>
+	<p>
+            <?php echo lang('article_topic') . ': ' . topic_display($topic_list, TRUE); ?>
+            <?php if ( $article_info['issue_no'] ) : ?>
+                <?php echo ', ' . anchor('articles/issue/' . $article_info['issue_no'],
+                        lang('issue_no') . ' ' . $article_info['issue_no']); ?>
+            <?php endif; ?>
+        </p>
 	<p><?php echo lang('article_artist') . ': ' . artist_display($artist_list); ?></p>
         <p><?php echo lang('article_links'); ?><br>
         <?php foreach ($link_list as $row): ?>
@@ -48,7 +54,7 @@
         <?php endforeach; ?>
         </p>
         <?php if ($can_edit) : ?>
-        <?php echo anchor('articles/edit/'. $article_info['slug'], lang('edit'), 'class="btn"'); ?>
+        <?php echo anchor('articles/edit/'. $article_info['id'], lang('edit'), 'class="btn"'); ?>
         <?php endif; ?>
     </div>
     <div class="tab-pane" id="comments">

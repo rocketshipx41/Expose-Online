@@ -39,6 +39,7 @@ class Artists extends MY_Controller {
         // display
         $this->page_data['trace'] .= $this->Artist_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['artist_list'], TRUE) . '<br/>';
+        $this->page_data['show_columns'] = 3;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'], 'Index')
                 ->build('artists/index_center', $this->page_data);
@@ -62,6 +63,7 @@ class Artists extends MY_Controller {
         // display
         $this->page_data['trace'] .= $this->Artist_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['artist_info'], TRUE) . '<br/>';
+        $this->page_data['show_columns'] = 3;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'],
                         $artist_info['display'])
@@ -148,6 +150,7 @@ class Artists extends MY_Controller {
         // display
         $this->page_data['trace'] .= $this->Artist_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['artist_info'], TRUE) . '<br/>';
+        $this->page_data['show_columns'] = 2;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'],
                         $artist_info['display'])
@@ -181,6 +184,7 @@ class Artists extends MY_Controller {
         // display
         $this->page_data['trace'] .= $this->Artist_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['artist_list'], TRUE) . '<br/>';
+        $this->page_data['show_columns'] = 3;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'], 'Index')
                 ->build('artists/index_center', $this->page_data);

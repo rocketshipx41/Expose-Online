@@ -13,12 +13,16 @@
 	<link href="http://localhost/assets/css/bootstrap.css" type="text/css" rel="stylesheet" />
 	<link href="http://localhost/assets/css/expose.css" type="text/css" rel="stylesheet" />
 	<link href="http://localhost/assets/js/chosen/chosen.css" type="text/css" rel="stylesheet" />
+	<link href="http://localhost/assets/css/bootstrap-wysihtml5-0.0.2.css" type="text/css" rel="stylesheet" />
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="http://localhost/assets/js/bootstrap-alert.js"></script>
 	<script src="http://localhost/assets/js/bootstrap-tab.js"></script>
 	<script src="http://localhost/assets/js/bootstrap-dropdown.js"></script>
 	<script src="http://localhost/assets/js/bootstrap-carousel.js"></script>
+        <script src="http://localhost/assets/js/wysihtml5/advanced.js"></script>
+        <script src="http://localhost/assets/js/wysihtml5/wysihtml5-0.3.0.min.js"></script>
+	<script src="http://localhost/assets/js/bootstrap-wysihtml5-0.0.2.js"></script>
 	<script src="http://localhost/assets/js/chosen/chosen.jquery.js"></script>
 	<script src="http://localhost/assets/js/expose.js"></script>
 	<?php echo $template['metadata']; ?>
@@ -45,6 +49,7 @@
 		<div class="span3" id="left-column">
 		    <?php echo $template['partials']['left_column']; ?>
 		</div>
+            <?php if ( $show_columns == 3 ) : ?>
 		<div class="span6" id="center-column">
 		    <h1><?php echo $page_name; ?></h1>
 		    <?php echo $template['body']; ?>
@@ -52,6 +57,12 @@
 		<div class="span3"id="right-column">
 		    <?php echo $template['partials']['right_column']; ?>
 		</div>
+            <?php else : ?>
+		<div class="span9" id="center-column">
+		    <h1><?php echo $page_name; ?></h1>
+		    <?php echo $template['body']; ?>
+		</div>
+            <?php endif; ?>
 	    </div>
 	</div>
 	<footer>
