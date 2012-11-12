@@ -174,6 +174,42 @@ class Welcome extends MY_Controller
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->build('home/about', $this->page_data);
     }
+    
+    public function changepwd()
+    {
+        if ( ! $this->tank_auth->is_logged_in() ) {								// not logged in or not activated
+            redirect('/auth/login/');
+        }
+        else {
+            $this->page_data['page_name'] = lang('menu-change-password');
+	    $this->load->library('form_validation');
+            $this->form_validation->set_rules('old_password', 'Old Password', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('new_password', 'New Password', 'trim|required|xss_clean|min_length['.$this->config->item('password_min_length', 'tank_auth').']|max_length['.$this->config->item('password_max_length', 'tank_auth').']|alpha_dash');
+            $this->form_validation->set_rules('confirm_new_password', 'Confirm new Password', 'trim|required|xss_clean|matches[new_password]');
+
+            $data['errors'] = array();
+
+            if ( $this->form_validation->run() ) {								// validation ok
+                if ( $this->tank_auth->change_password(
+                        $this->form_validation->set_value('old_password'),
+                        $this->form_validation->set_value('new_password'))) {	// success
+                    $this->_show_message($this->lang->line('auth_message_password_changed'));
+
+                }
+                else {														// fail
+                    $errors = $this->tank_auth->get_error_message();
+                    foreach ($errors as $k => $v) {
+                        $data['errors'][$k] = $this->lang->line($v);
+                    }
+                }
+            }
+            $this->page_data['show_columns'] = 3;
+	    $this->template
+		    ->title($this->page_data['site_name'], $this->page_data['page_name'])
+		    ->build('auth/change_password_form', $this->page_data);
+        }
+    }
+    
 }
 
 /* End of file welcome.php */

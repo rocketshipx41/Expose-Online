@@ -122,7 +122,10 @@ class Release_model extends CI_Model
         if ($this->db->trans_status() === FALSE) {
             // generate an error... or use the log_message() function to log your error
             $result['status'] = 'error';
-        } 
+        }
+        else {
+            $result['release_id'] = $release_id;
+        }
         return $result;
     }
     
@@ -163,6 +166,40 @@ class Release_model extends CI_Model
 		    . ' where id = ' . $this->db->escape($item['id']) . ";\n";
 	}
 	return $result;
+    }
+    
+    public function get_unassigned($start = '', $max_count = 40)
+    {
+	$this->trace .= 'get_unassigned<br/>';
+        $this->db->select('r.id, r.display_artist, r.display_title')
+                ->from('releases r')
+                ->join('release_artist ra', 'ra.release_id = r.id', 'left')
+                ->where('ra.artist_id is null')
+                ->order_by('r.artist, r.title')
+                ->limit($max_count);
+        if ( $start ) {
+            $this->db->where('r.artist >', $start);
+        }
+        $result = array();
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        if ( $query->num_rows() ) {
+            foreach ($query->result() as $row) {
+                $result[$row->id] = $row->display_artist . ' - '
+                    . $row->display_title;
+            }
+        }
+	return $result;
+    }
+    
+    public function bulk_assign_artists($change_list)
+    {
+	$this->trace .= 'bulk_assign_artists<br/>';
+        $result = 0;
+        foreach ($change_list as $item) {
+            $this->db->insert('release_artist', $item);
+        }
+        return $result;
     }
     
 }

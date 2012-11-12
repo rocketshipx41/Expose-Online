@@ -10,6 +10,7 @@ $this->load->helper('form');
 	<?php echo form_hidden('release-id', $release_info['id']); ?>
 	<?php echo form_hidden('user-id', $user_id); ?>
 	<?php echo form_hidden('action', $action); ?>
+	<?php echo form_hidden('artist-slug', $artist_slug); ?>
 
         <label><?php echo lang('release_edit_display_title'); ?></label>
 	<?php echo form_input(array('name' => 'display-title', 'id' => 'display-title',
@@ -72,6 +73,10 @@ $this->load->helper('form');
 		'class="chzn-select span5" id="related-artists"'); ?>
 	<?php echo form_multiselect('original-artists[]', $artist_select_list, array_keys($release_artist_list),
 		'id="original-artists" style="display:none;"'); ?>
+        
+        <label><?php echo lang('release_go_to'); ?></label>
+	<?php echo form_dropdown('go-to', array('artist' => 'Artist page', 
+                'release' => 'Release page'), 'artist', 'id="go-to"'); ?>
 
         <br/><?php echo form_submit('release-submit', 'Submit', 'class="btn"'); ?>
         <?php echo form_close(); ?>

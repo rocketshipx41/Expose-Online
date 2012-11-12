@@ -18,10 +18,18 @@ class Artist_model extends CI_Model
 	$this->trace = '>> construct artist model<br/>';
     }
    
-    function get_list($max_count = 0, $starter = '')
+    function get_list($max_count = 0, $starter = '', $add_select = FALSE,
+            $reverse_name = FALSE)
     {
 	$this->trace .= 'get_list<br/>';
-        $this->db->select('id, display, country_id, slug, image_file')
+        $result = array();
+        if ( $add_select ) {
+            $result['0'] = array(
+                'display' => 'Select...',
+                'country_id' => ''
+            );
+        }
+        $this->db->select('id, name, display, country_id, slug, image_file')
                 ->from('artists')
                 ->order_by('name');
         if ($max_count > 0) {
@@ -34,12 +42,22 @@ class Artist_model extends CI_Model
         $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
 	foreach ($query->result() as $row) {
 	    if ($row->display) {
-		$result[$row->id] = array(
-                    'display' => $row->display,
-                    'country_id' => $row->country_id,
-                    'image_file' => 'artists/' . $row->image_file,
-                    'slug' => $row->slug
-                );
+                if ( $reverse_name ) {
+                    $result[$row->id] = array(
+                        'display' => $row->name,
+                        'country_id' => $row->country_id,
+                        'image_file' => 'artists/' . $row->image_file,
+                        'slug' => $row->slug
+                    );
+                }
+                else {
+                    $result[$row->id] = array(
+                        'display' => $row->display,
+                        'country_id' => $row->country_id,
+                        'image_file' => 'artists/' . $row->image_file,
+                        'slug' => $row->slug
+                    );
+                }
 	    }
 	}
         return $result;

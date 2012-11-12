@@ -68,6 +68,19 @@ class Masterdata_model extends CI_Model
         return $result;
     }
    
+    public function get_issue_info($id)
+    {
+	$this->trace .= 'get_issue_list<br/>';
+        $result = array();
+        $this->db->select('id, description, blurb, pages')
+                ->from('issues')
+                ->where('id', $id);
+        $query = $this->db->get();
+        $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+        $result = $query->row_array();
+        return $result;
+    }
+   
 }
 
 /* End of file masterdata_model.php */

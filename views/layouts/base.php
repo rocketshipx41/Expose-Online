@@ -51,7 +51,9 @@
 		</div>
             <?php if ( $show_columns == 3 ) : ?>
 		<div class="span6" id="center-column">
-		    <h1><?php echo $page_name; ?></h1>
+                    <div class="row">
+                        <h1><?php echo $page_name; ?></h1>
+                    </div>
 		    <?php echo $template['body']; ?>
 		</div>
 		<div class="span3"id="right-column">

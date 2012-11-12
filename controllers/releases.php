@@ -46,11 +46,19 @@ class Releases extends MY_Controller {
                 ->build('releases/display_center', $this->page_data);
     }
     
-    function edit($release_id = 0)
+    function edit($release_id = 0, $artist_slug = '')
     {
+        // authorize
+	if ( ! $this->page_data['can_contribute']) {
+	    redirect('articles/index');
+	}
+        
         // init
         if ( $this->input->post('release-id') ) {
             $release_id = $this->input->post('release-id');
+        }
+        if ( $this->input->post('artist-slug') ) {
+            $artist_slug = $this->input->post('artist-slug');
         }
         $action = 'update';
         $this->load->model('Label_model');
@@ -95,6 +103,7 @@ class Releases extends MY_Controller {
                     $this->page_data['trace'] .= 'no original artists for insert<br/>';
                 }
                 foreach ($this->input->post('related-artists') as $item){
+                    $artist_id = $item;
                     if (array_key_exists($item, $artists)){
                         $this->page_data['trace'] .= $item . ': item already in list<br/>';
                         unset($artists[$item]);
@@ -107,6 +116,17 @@ class Releases extends MY_Controller {
                 $update_params['related_artists'] = $artists;
             }
             $update_result = $this->Release_model->update($update_params);
+            if ( $this->input->post('go-to') == 'artist' ) {
+                $next_page = 'artists/display/' . $artist_slug;
+                redirect($next_page);
+            }
+            elseif ( $this->input->post('go-to') == 'release' ) {
+                $next_page = 'releases/display/' . $update_result['release_id'];
+                redirect($next_page);
+            }
+            else {
+                $next_page = 'releases/add';
+            }
         }
         
         // get info
@@ -127,6 +147,7 @@ class Releases extends MY_Controller {
         
         // display
         $this->page_data['release_info'] = $release_info;
+        $this->page_data['artist_slug'] = $artist_slug;
         $this->page_data['label_list'] = $label_list;
         $this->page_data['release_type_list'] = $release_type_list;
         $this->page_data['release_artist_list'] = $release_artist_list;
@@ -142,8 +163,13 @@ class Releases extends MY_Controller {
                 ->build('releases/edit_form', $this->page_data);
     }
     
-    function add($artist_id = 0)
+    function add($artist_id = 0, $artist_slug = '')
     {
+        // authorize
+	if ( ! $this->page_data['can_contribute']) {
+	    redirect('articles/index');
+	}
+        
         // init
         $action = 'update';
         $this->load->model('Label_model');
@@ -166,10 +192,16 @@ class Releases extends MY_Controller {
 	$artist_list = $this->Artist_model->get_list(0, 0);
         $artist_select_list = array();
         foreach ($artist_list as $key => $item) {
-            $artist_select_list[$key] = $item['display'] . ' (' 
-                    . $item['country_id'] . ')';
+            if ( $key == '0' ) {
+                $artist_select_list[$key] = $item['display'];
+            }
+            else {
+                $artist_select_list[$key] = $item['display'] . ' (' 
+                        . $item['country_id'] . ')';
+            }
         }
 	$this->page_data['artist_select_list'] = $artist_select_list;
+        $this->page_data['artist_slug'] = $artist_slug;
         
         // display
         $this->page_data['release_info'] = $release_info;
@@ -186,6 +218,58 @@ class Releases extends MY_Controller {
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->build('releases/edit_form', $this->page_data);
+    }
+    
+    function assign($start = '')
+    {
+        // init
+        $max_count = 40;
+        $artist_select_list = array();
+        $this->page_data['page_name'] = 'Assign artists to releases';
+        $this->load->model('Masterdata_model');
+        $change_count = 0;
+        
+        // post
+        if ( $this->input->post('release-id') ) {
+            $submission_list = array();
+            foreach ($this->input->post('release-id') as $release_id) {
+                $artist_id = $this->input->post('artist-id' . $release_id);
+                if ( $artist_id != '0' ) {
+                    $submission_list[] = array(
+                        'release_id' => $release_id,
+                        'artist_id' => $artist_id
+                    );
+                }
+            }
+            if ( count($submission_list) ) {
+                $change_count = $this->Release_model->bulk_assign_artists($submission_list);
+            }
+        }
+        
+        // process
+        $this->page_data['release_list'] = $this->Release_model->get_unassigned($start, $max_count);
+	$artist_list = $this->Artist_model->get_list(0, 0, TRUE, TRUE);
+        $artist_select_list = array();
+        foreach ($artist_list as $key => $item) {
+            if ( $key == '0' ) {
+                $artist_select_list[$key] = $item['display'];
+            }
+            else {
+                $artist_select_list[$key] = $item['display'] . ' (' 
+                        . $item['country_id'] . ')';
+            }
+        }
+        
+        // display
+        $this->page_data['artist_select_list'] = $artist_select_list;
+        $this->page_data['change_count'] = $change_count;
+        $this->page_data['trace'] .= $this->Release_model->trace;
+        $this->page_data['trace'] .= $this->Masterdata_model->trace;
+        // echo $this->page_data['trace']; exit;
+        $this->page_data['show_columns'] = 2;
+        $this->template
+                ->title($this->page_data['site_name'], $this->page_data['page_name'])
+                ->build('releases/assign_form', $this->page_data);
     }
     
     function util()

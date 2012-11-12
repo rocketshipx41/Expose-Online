@@ -128,6 +128,7 @@ class Articles extends MY_Controller {
         }
 	$this->page_data['topic_select_list'] = $topic_select_list;
         $this->page_data['artist_list'] = array();
+        $this->page_data['issue_list'] = $this->Masterdata_model->get_issue_list(TRUE);
 
         // display
 	$this->page_data['trace'] .= $this->User_model->trace;
@@ -494,8 +495,10 @@ class Articles extends MY_Controller {
         if ( $issue_no == 0 ) {
             redirect('');
         }
+        $this->load->model('Masterdata_model');
         $this->page_data['page_name'] = lang('issue_no'). ' ' . $issue_no;
         $this->page_data['main_list'] = $this->Article_model->get_issue_articles($issue_no);
+        $this->page_data['issue_info']= $this->Masterdata_model->get_issue_info($issue_no);
         
         $this->page_data['topic_slug'] = '';
         $this->page_data['category_slug'] = '';

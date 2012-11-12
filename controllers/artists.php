@@ -76,6 +76,7 @@ class Artists extends MY_Controller {
         if ( $this->input->post('slug') ) {
             $artist_slug = $this->input->post('slug');
         }
+        //check for id?
         
         // init
 	$this->load->model('Masterdata_model');
@@ -157,6 +158,21 @@ class Artists extends MY_Controller {
                 ->build('artists/edit_form', $this->page_data);
     }
     
+    public function assign($artist_id)
+    {
+        // init
+        
+        // deal with post
+        
+        // process
+        $artist_info = $this->Artist_model->get_info($artist_slug);
+        $this->page_data['artist_info'] = $artist_info;
+        
+        // get lists for dropdowns
+        
+        // display
+    }
+    
     public function search()
     {
         // authorize
@@ -192,7 +208,58 @@ class Artists extends MY_Controller {
     
     public function add()
     {
+        // authorize
+	if ( ! $this->page_data['can_contribute']) {
+	    redirect('articles/index');
+	}
         
+        
+    }
+    
+    public function util($task = 'img')
+    {
+        // authorize
+	if ( ! $this->page_data['can_contribute']) {
+	    redirect('articles/index');
+	}
+        
+        // init
+        echo 'perform task "' . $task. '"<br/>';
+        $artist_list = $this->Artist_model->get_list();
+        foreach ($artist_list as $id => $item) {
+            if ($task == 'img' ) {
+                if ( $item['image_file'] != 'artists/noimage.jpg' ) {
+                    $file_name = 'assets/img/' . $item['image_file'];
+                    if ( file_exists($file_name)) {
+                        echo $file_name . ' assigned, exists<br/>';
+                    }
+                    else {
+                        echo $file_name . ' assigned, not found<br/>';
+                    }
+                }
+                else {
+                    $file_name = 'assets/img/artists/' . $item['slug'] . '.jpg';
+                    if ( file_exists($file_name)) {
+                        echo $file_name . ' exists ***<br/>';
+                        $this->Artist_model->update_info($id, 
+                                array('image_file' => $file_name));
+                    }
+                    else {
+                        echo $file_name . ' not found<br/>';
+                    }
+                }
+            }
+            elseif ( $task == 'ctry') {
+                if ( $item['country_id'] == '???' ) {
+                    echo $item['slug']. '<br/>';
+                }
+            }
+        }
+
+        // process
+        
+        // display
+        echo $this->Artist_model->trace;
     }
     
 }

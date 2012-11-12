@@ -33,6 +33,7 @@
 				</a>
 				<ul class="dropdown-menu">
 				    <li><a href="user/<?php echo $user_name; ?>"><?php echo lang('menu_user_page'); ?></a></li>
+				    <li><a href="<?php echo site_url('welcome/changepwd'); ?>"><?php echo lang('menu_change_password'); ?></a></li>
 				    <?php if ($can_contribute) : ?>
 				    <li><a href="<?php echo site_url('articles/add'); ?>"><?php echo lang('menu_contribute'); ?></a></li>
 				    <?php endif;?>

@@ -48,6 +48,7 @@ class Article_model extends CI_Model
                     $item['intro'] = smart_trim($item['body'], 200);
                 }
             }
+            $item['credits'] = $this->get_credits($item['id']);
             unset($item['body']);
         }
         return $result;
@@ -74,6 +75,7 @@ class Article_model extends CI_Model
                 if ( ! $item['intro'] ) {
                     $item['intro'] = smart_trim($item['body'], 200);
                 }
+                $item['credits'] = $this->get_credits($item['id']);
             }
             unset($item['body']);
         }
@@ -144,7 +146,7 @@ class Article_model extends CI_Model
 	$this->trace .= 'get_dummy<br/>';
 	return array('id'=> 0, 'article_title' => '', 'intro'=> '', 'body' => '',
 		'category_id' => 0, 'item_name' => '', 'category_name' => '',
-		'slug' => ''
+		'slug' => '', 'issue_no' => 0
 	    );
     }
     

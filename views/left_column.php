@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 ?>
-<h3><?php echo lang('latest_news'); ?></h3>
+<div class="row">
+    <h3><?php echo lang('latest_news'); ?></h3>
+</div>
 <?php foreach ($news_list as $item) : ?>
 <div class="row">
     <p>
