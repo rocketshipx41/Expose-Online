@@ -33,6 +33,7 @@ class Articles extends MY_Controller {
                     5, $offset);
 	}
         $this->page_data['category_slug'] = $category_slug;
+        $this->page_data['menu_active'] = $category_slug;
         $this->page_data['topic_slug'] = '';
         $this->page_data['offset'] = $offset;
         $this->page_data['trace'] .= $this->Article_model->trace;
@@ -76,6 +77,7 @@ class Articles extends MY_Controller {
         $this->page_data['image_file'] = '';
 	$this->page_data['page_name'] = $article_info['category_name'];
 	$this->page_data['article_info'] = $article_info;
+        $this->page_data['menu_active'] = $article_info['category_slug'];
         
         // display
 	$this->page_data['trace'] .= $this->Article_model->trace;
@@ -169,7 +171,8 @@ class Articles extends MY_Controller {
             $update_params = array(
                 'article_id' => $article_id,
                 'user_id' => $this->input->post('user-id'),
-                'slug' => $this->input->post('slug')
+                'slug' => $this->input->post('slug'),
+                'issue_no' => $this->input->post('issue_no')
              );
             $ok = TRUE;
             if ( $this->input->post('title') ) {
@@ -503,6 +506,7 @@ class Articles extends MY_Controller {
         $this->page_data['topic_slug'] = '';
         $this->page_data['category_slug'] = '';
         $this->page_data['offset'] = 0;
+        $this->page_data['trace'] .= $this->Masterdata_model->trace;
         $this->page_data['trace'] .= $this->Article_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
         $this->page_data['show_columns'] = 3;

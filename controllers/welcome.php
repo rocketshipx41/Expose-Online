@@ -63,7 +63,8 @@ class Welcome extends MY_Controller
                     5, 0, FALSE);
 
         // display
-        $this->page_data['show_columns'] = 3;
+        $this->page_data['show_columns'] = 2;
+        $this->page_data['trace'] .= $this->Article_model->trace;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->set_partial('left_column', 'left_column')

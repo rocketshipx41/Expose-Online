@@ -22,7 +22,7 @@ $this->load->helper('form');
     <img src="<?php echo image_url($item['image_file']);?>" class="index-art"
                  height="150" width="150" alt="<?php echo lang('article_cover_art_alt'); ?>">
     <h3><?php echo anchor('artists/display/' . $item['slug'], $item['display']); ?></h3>
-    <p><?php echo lang('artist_field_country') . ': ' . $item['country_id']; ?></p>
+    <p><?php echo lang('artist_field_country') . ': ' . $item['country']; ?></p>
     <?php $last_slug = $item['slug']; ?>
 </div>
 <?php endforeach; ?>

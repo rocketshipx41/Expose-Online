@@ -6,18 +6,23 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 ?>
 <?php if ( isset($issue_info) ) : ?>
 <div class="row">
-    <strong><?php echo lang('issue_description'); ?> : </strong>
-        <?php echo $issue_info['description']; ?><br/>
-    <strong><?php echo lang('issue_pages'); ?> : </strong>
-        <?php echo $issue_info['pages']; ?><br/>
-    <strong><?php echo lang('issue_blurb'); ?> : </strong>
-        <?php echo $issue_info['blurb']; ?><br/>
-</div>
+    <div class="span6">
+        <strong><?php echo lang('issue_description'); ?> : </strong>
+            <?php echo $issue_info['description']; ?><br/>
+    <?php if ($issue_info['pages']) : ?>
+        <strong><?php echo lang('issue_pages'); ?> : </strong>
+            <?php echo $issue_info['pages']; ?><br/>
+    <?php endif; ?>
+        <strong><?php echo lang('issue_blurb'); ?> : </strong>
+            <?php echo $issue_info['blurb']; ?><br/>
+    </div> <!-- column span -->
+</div> <!-- row -->
 <?php endif; ?>
 <!--<p><?php echo $page_intro; ?></p>-->
 
 <?php foreach ($main_list as $item) : ?>
 <div class="row">
+    <div class="span6">
     <h3><?php echo anchor('articles/display/' . $item['slug'], $item['title']); ?></h3>
     <?php if ($item['category_id'] == 1) : ?>
     <img src="<?php echo image_url($item['image_file']);?>" class="index-art"
@@ -32,8 +37,8 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     <em>(<?php echo lang('article_posted') . ' ' 
             . credit_display($item['credits'], 1) . ' '
             . substr($item['updated_on'], 0, 10); ?>)</em>
-
-</div>
+    </div> <!-- column span -->
+</div> <!-- row -->
 <?php endforeach; ?>
 
 <?php if ($offset != 0) : ?>

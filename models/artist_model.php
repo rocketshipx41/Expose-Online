@@ -29,8 +29,10 @@ class Artist_model extends CI_Model
                 'country_id' => ''
             );
         }
-        $this->db->select('id, name, display, country_id, slug, image_file')
-                ->from('artists')
+        $this->db->select('a.id, a.name, a.display, a.country_id, a.slug, '
+                    . 'a.image_file, c.name country')
+                ->from('artists a')
+                ->join('countries c', 'c.id = a.country_id', 'left')
                 ->order_by('name');
         if ($max_count > 0) {
             $this->db->limit($max_count);
@@ -46,6 +48,7 @@ class Artist_model extends CI_Model
                     $result[$row->id] = array(
                         'display' => $row->name,
                         'country_id' => $row->country_id,
+                        'counry' => $row->country,
                         'image_file' => 'artists/' . $row->image_file,
                         'slug' => $row->slug
                     );
@@ -54,6 +57,7 @@ class Artist_model extends CI_Model
                     $result[$row->id] = array(
                         'display' => $row->display,
                         'country_id' => $row->country_id,
+                        'counry' => $row->country,
                         'image_file' => 'artists/' . $row->image_file,
                         'slug' => $row->slug
                     );
@@ -84,6 +88,39 @@ class Artist_model extends CI_Model
             $result = substr($result, 0, -1);
             $this->trace .= 'backlink is ' . $result . '<br/>';
         }
+        return $result;
+    }
+    
+    function article_artist_list($max_count = 0, $starter = '')
+    {
+	$this->trace .= 'get_list<br/>';
+        $result = array();
+        $this->db->select('aa.artist_id, a.display, a.country_id, '
+                    . 'c.name country, a.slug, a.image_file')
+                ->distinct()
+                ->from('article_artist aa')
+                ->join('artists a', 'a.id = aa.artist_id', 'left')
+                ->join('countries c', 'c.id = a.country_id', 'left')
+                ->order_by('a.name, a.country_id');
+        if ($max_count > 0) {
+            $this->db->limit($max_count);
+        }
+        if ($starter) {
+            $this->db->where('name >=', $starter);
+        }
+        $query = $this->db->get();
+        $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+	foreach ($query->result() as $row) {
+	    if ($row->display) {
+                $result[$row->artist_id] = array(
+                    'display' => $row->display,
+                    'country_id' => $row->country_id,
+                    'country' => $row->country,
+                    'image_file' => 'artists/' . $row->image_file,
+                    'slug' => $row->slug
+                );
+	    }
+	}
         return $result;
     }
     

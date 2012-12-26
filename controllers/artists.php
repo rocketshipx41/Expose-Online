@@ -29,9 +29,16 @@ class Artists extends MY_Controller {
         $this->page_data['nav_chars'] = '#abcdefghijklmnopqrstuvwxyz';
         
         // process
-        $this->page_data['artist_list'] = 
-                $this->Artist_model->get_list($this->config->item('artist_index_items_per_page'),
-                        $starter);
+        if ( FALSE ) {
+            $this->page_data['artist_list'] = 
+                    $this->Artist_model->get_list($this->config->item('artist_index_items_per_page'),
+                            $starter);
+        }
+        else {
+            $this->page_data['artist_list'] = 
+                    $this->Artist_model->article_artist_list($this->config->item('artist_index_items_per_page'),
+                            $starter);
+        }
         $this->page_data['backlink'] = $this->Artist_model->get_backlink($starter,
                 $this->config->item('artist_index_items_per_page'));
         $this->page_data['starter'] = $starter;

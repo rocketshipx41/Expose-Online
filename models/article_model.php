@@ -75,8 +75,8 @@ class Article_model extends CI_Model
                 if ( ! $item['intro'] ) {
                     $item['intro'] = smart_trim($item['body'], 200);
                 }
-                $item['credits'] = $this->get_credits($item['id']);
             }
+            $item['credits'] = $this->get_credits($item['id']);
             unset($item['body']);
         }
         return $result;
@@ -125,8 +125,9 @@ class Article_model extends CI_Model
     function get_full($slug = '', $id = 0)
     {
 	$this->trace .= 'get_full<br/>';
-        $this->db->select('a.id, a.title article_title, a.intro, a.body, a.category_id, '
-		    . ' a.slug, c.item_name, c.title category_name, a.issue_no')
+        $this->db->select('a.id, a.title article_title, a.intro, a.body, '
+		    . 'a.category_id, a.slug, c.item_name, c.title category_name, '
+                    . 'a.issue_no, c.slug category_slug')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left');
         if ( $slug != '' ) {
@@ -334,6 +335,7 @@ class Article_model extends CI_Model
 	    'intro' => $user_input['intro'],
 	    'body' => $user_input['body'],
             'status' => $user_input['status'],
+            'issue_no' => $user_input['issue_no'],
 	    'user_id' => $user_input['user_id'],
             'updated_on' => date('Y-m-d H:i:s')
 	);
@@ -462,6 +464,7 @@ class Article_model extends CI_Model
                     $item['intro'] = smart_trim($item['body'], 200);
                 }
             }
+            $item['credits'] = $this->get_credits($item['id']);
             unset($item['body']);
         }
         return $result;

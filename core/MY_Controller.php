@@ -20,6 +20,9 @@ class MY_Controller extends CI_Controller
 	$this->page_data['site_slogan'] = $this->config->item('site_slogan');
 	$this->page_data['copyright'] = $this->config->item('copyright');
 	$this->page_data['license'] = $this->config->item('license');
+	$this->page_data['system_status_message'] = '';
+	$this->page_data['page_alerts'] = array();
+        $this->page_data['menu_active'] = 'home';
 	$this->page_data['page_name'] = '';
         $this->template
                 ->set_layout('base')
@@ -57,6 +60,46 @@ class MY_Controller extends CI_Controller
         $this->template->set_partial('left_column', 'left_column');
         $this->template->set_partial('right_column', 'right_column');
     }
+    
+	/**
+	 * add an alert to be displayed at the top of the page
+	 * type can be:
+	 * - error (red)
+	 * - success (green)
+	 * - info (blue)
+	 * - danger (??)
+	 * 
+	 * @param type $alert_type
+	 * @param type $message 
+	 */
+	function add_alert($alert_type, $message)
+	{
+		$alert_text = '';
+		if ( is_array($message)) {
+            //$alert_text = print_r($message, TRUE);
+			$alert_text = implode('<br/>', $message);
+		}
+		else {
+			$alert_text = $message;
+		}
+		$this->page_data['page_alerts'][] = array(
+			'message' => $alert_text,
+			'type' => $alert_type
+		);
+	}
+	
+	function set_flashdata_alert($alert_type, $message)
+	{
+        $full_message = $message;
+        if ( $this->status_code ) {
+            $full_message .= ' (' . $this->status_code . ')';
+        }
+		$this->session->set_flashdata(array(
+			'page_alert_message' => $full_message,
+			'page_alert_type' => $alert_type			
+		));
+		
+	}
     
 }
 
