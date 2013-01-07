@@ -38,6 +38,8 @@ $lang['latest_news'] = 'Latest news';
 $lang['most_commented'] = 'Commented';
 $lang['most_shared'] = 'Shared';
 $lang['dropdown_select'] = 'Select...';
+$lang['upcoming_events'] = 'Upcoming events';
+$lang['latest_recommendations'] = 'Listen &amp; discover';
 
 // home page
 $lang['home_welcome_message'] = 'Welcome to ';
@@ -78,6 +80,7 @@ $lang['artist_display_article_list'] = 'Related articles';
 $lang['artist_display_release_list'] = 'Releases on file';
 $lang['artist_search'] = 'Search';
 $lang['artist_search_none'] = 'No artists matched your search.';
+$lang['artist_field_image'] = 'Artist image';
 
 // edit page
 $lang['artist_field_display_name'] = 'Display name';
@@ -99,6 +102,7 @@ $lang['release_edit_image_file'] = 'Image file';
 $lang['release_related_artists'] = 'Related artist(s)';
 $lang['release_go_to'] = 'Post and go to';
 $lang['add_release'] = 'Add release';
+$lang['release_review'] = 'Review this release';
 
 // search form
 $lang['search_go'] = 'Go';

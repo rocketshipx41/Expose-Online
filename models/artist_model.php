@@ -106,7 +106,7 @@ class Artist_model extends CI_Model
             $this->db->limit($max_count);
         }
         if ($starter) {
-            $this->db->where('name >=', $starter);
+            $this->db->where('a.name >=', $starter);
         }
         $query = $this->db->get();
         $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
@@ -128,10 +128,12 @@ class Artist_model extends CI_Model
     {
 	$this->trace .= 'search<br/>';
         $result = array();
-        $this->db->select('id, display, country_id, slug, image_file')
-                ->from('artists')
-                ->like('name', $search_value)
-                ->order_by('name');
+        $this->db->select('a.id, a.display, a.country_id, '
+                    . 'c.name country, a.slug, a.image_file')
+                ->from('artists a')
+                ->join('countries c', 'c.id = a.country_id', 'left')
+                ->like('a.name', $search_value)
+                ->order_by('a.name');
         if ($max_count > 0) {
             $this->db->limit($max_count);
         }
@@ -146,6 +148,7 @@ class Artist_model extends CI_Model
                     $result[$row->id] = array(
                         'display' => $row->display,
                         'country_id' => $row->country_id,
+                        'country' => $row->country,
                         'image_file' => 'artists/' . $row->image_file,
                         'slug' => $row->slug
                     );

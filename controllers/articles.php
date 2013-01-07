@@ -92,7 +92,7 @@ class Articles extends MY_Controller {
                 ->build('articles/display_center', $this->page_data);
     }
     
-    public function add()
+    public function add($release_id = 0)
     {
         // authorize
 	if ( ! $this->page_data['can_contribute']) {
@@ -102,11 +102,11 @@ class Articles extends MY_Controller {
         // init
         $this->load->model('Artist_model');
         $this->load->model('Masterdata_model');
+        $this->load->model('Release_model');
 	
         // process
 	$article_info = $this->Article_model->get_dummy();
 	$this->page_data['page_name'] = $this->lang->line('article_new');
-	$this->page_data['article_info'] = $article_info;
 	$this->page_data['action'] = 'insert';
 	$this->page_data['credit_list'] = array(
 	    '1' => array($this->page_data['user_id'] => $this->page_data['user_name'])
@@ -129,13 +129,27 @@ class Articles extends MY_Controller {
             $topic_select_list[$key] = $item['title'];
         }
 	$this->page_data['topic_select_list'] = $topic_select_list;
-        $this->page_data['artist_list'] = array();
+        $artist_list = array();
+        $topic_list = array();
         $this->page_data['issue_list'] = $this->Masterdata_model->get_issue_list(TRUE);
+        if ( $release_id ) {
+            $this->page_data['trace'] .= '-- incoming release id<br/>';
+            $release_info = $this->Release_model->get_release_info($release_id);
+            $article_info['article_title'] = $release_info['display_artist'] . ' - '
+                    . $release_info['display_title'];
+            $article_info['category_id'] = 1;
+            $artist_list = $this->Release_model->get_release_artists($release_id);
+            $topic_list[$release_info['release_type_id']] = $release_info['release_type_id'];
+        }
+	$this->page_data['article_info'] = $article_info;
+        $this->page_data['artist_list'] = $artist_list;
+        $this->page_data['topic_list'] = $topic_list;
 
         // display
 	$this->page_data['trace'] .= $this->User_model->trace;
 	$this->page_data['trace'] .= $this->Article_model->trace;
 	$this->page_data['trace'] .= $this->Artist_model->trace;
+	$this->page_data['trace'] .= $this->Release_model->trace;
 	$this->page_data['trace'] .= 'credit list: ' 
 		. print_r($this->page_data['credit_list'], TRUE);
         $this->page_data['show_columns'] = 2;

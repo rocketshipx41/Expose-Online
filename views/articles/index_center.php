@@ -6,7 +6,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 ?>
 <?php if ( isset($issue_info) ) : ?>
 <div class="row">
-    <div class="span6">
+    <div class="span_12">
         <strong><?php echo lang('issue_description'); ?> : </strong>
             <?php echo $issue_info['description']; ?><br/>
     <?php if ($issue_info['pages']) : ?>
@@ -22,13 +22,13 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 <?php foreach ($main_list as $item) : ?>
 <div class="row">
-    <div class="span6">
+    <div class="span_12">
     <h3><?php echo anchor('articles/display/' . $item['slug'], $item['title']); ?></h3>
     <?php if ($item['category_id'] == 1) : ?>
     <img src="<?php echo image_url($item['image_file']);?>" class="index-art"
                  height="190" width="190" alt="<?php echo lang('article_cover_art_alt'); ?>">
-    <?php elseif ($item['category_id'] == 5) : // faq ?>
-    <?php else : ?>
+    <?php elseif (($item['category_id'] == 5) || ($item['category_id'] == 2)) : // faq or news ?>
+    <?php elseif ($item['image_file']) : ?>
     <img src="<?php echo image_url('features/'. $item['image_file']);?>" class="index-art"
                  height="190" width="190" alt="<?php echo lang('article_cover_art_alt'); ?>">
     <?php endif; ?>

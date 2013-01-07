@@ -13,6 +13,7 @@ class Artists extends MY_Controller {
 	$this->page_data['trace'] .= '>> construct artists controller<br/>';
 	
 	$this->page_data['page_name'] = 'Artists';
+        $this->page_data['menu_active'] = 'artists';
 	
 	$this->load->model('Artist_model');
     }

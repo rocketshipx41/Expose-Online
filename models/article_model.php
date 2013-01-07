@@ -47,9 +47,15 @@ class Article_model extends CI_Model
                 if ( ! $item['intro'] ) {
                     $item['intro'] = smart_trim($item['body'], 200);
                 }
+                unset($item['body']);
+            }
+            elseif ( $item['category_id'] == 7 ) {
+                $item['intro'] = $item['body'];
+            }
+            elseif ( $item['category_id'] == 8 ) {
+                $item['intro'] = $item['body'];
             }
             $item['credits'] = $this->get_credits($item['id']);
-            unset($item['body']);
         }
         return $result;
     }

@@ -23,3 +23,9 @@
     <dd><?php echo $release_info['year_released']; ?></dd>
     
 </dl>
+    <?php if ($can_edit) : ?>
+        <?php echo anchor('releases/edit/'. $release_info['id'], 
+                lang('edit'), 'class="btn"'); ?>
+        <?php echo anchor('articles/add/'. $release_info['id'], 
+                lang('release_review'), 'class="btn"'); ?>
+    <?php endif; ?>

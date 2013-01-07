@@ -5,8 +5,7 @@
 $this->load->helper('form');
 ?>
     <div id="edit" >
-        <?php echo form_open_multipart('articles/edit', array('class' => 'well', 
-		'id' => 'article-form')); ?>
+        <?php echo form_open_multipart('articles/edit', array('id' => 'article-form')); ?>
 	<?php echo form_hidden('article-id', $article_info['id']); ?>
 	<?php echo form_hidden('slug', $article_info['slug']); ?>
 	<?php echo form_hidden('user-id', $user_id); ?>
