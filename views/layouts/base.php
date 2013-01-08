@@ -32,7 +32,7 @@
         </div>
 <?php endif; ?>
         <div id="banner-ad">
-                <img src="<?php echo image_url('ads/LuckyBanner1.gif');?>" alt="ad"
+                <img src="<?php echo image_url('ads/LuckyBanner1.png');?>" alt="ad"
                     style="display: block;margin-left: auto;margin-right: auto" />
         </div>
         <header class="app-header clearfix">

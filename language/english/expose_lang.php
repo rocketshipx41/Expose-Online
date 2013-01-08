@@ -40,6 +40,11 @@ $lang['most_shared'] = 'Shared';
 $lang['dropdown_select'] = 'Select...';
 $lang['upcoming_events'] = 'Upcoming events';
 $lang['latest_recommendations'] = 'Listen &amp; discover';
+$lang['read_more'] = 'Read more';
+$lang['more_news'] = 'More news';
+$lang['add_news'] = 'Add a news item';
+$lang['more_events'] = 'More events';
+$lang['add_event'] = 'Add an event';
 
 // home page
 $lang['home_welcome_message'] = 'Welcome to ';

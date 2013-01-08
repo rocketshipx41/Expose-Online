@@ -20,7 +20,7 @@
                                 <p class="header"><?php echo $item['title']; ?></p>
                                 <p>
                                     <?php echo smart_trim($item['intro'], 220); ?>
-                                    <?php echo anchor('articles/display/' . $item['slug'], 'Read more'); ?>
+                                    <?php echo anchor('articles/display/' . $item['slug'], lang('read_more')); ?>
 
                                 </p>
                             </div><!-- caption -->
@@ -41,7 +41,7 @@
                             <img src="<?php echo image_url($item['image_file']);?>" class="index-art"
                                         height="190" width="190" alt="<?php echo lang('article_cover_art_alt'); ?>">
                             <?php echo $item['intro']; ?>
-                        &nbsp;&raquo; <?php echo anchor('articles/display/' . $item['slug'], 'Read more'); ?>
+                        &nbsp;&raquo; <?php echo anchor('articles/display/' . $item['slug'], lang('read_more')); ?>
                         <br/><em>(<?php echo lang('article_posted') . ' ' 
                                 . credit_display($item['credits'], 1) . ' '
                                 . substr($item['updated_on'], 0, 10); ?>)</em>
@@ -58,7 +58,7 @@
                             <img src="<?php echo image_url('features/'. $item['image_file']);?>" class="index-art"
                                         height="190" width="190" alt="<?php echo lang('article_cover_art_alt'); ?>">
                             <?php echo $item['intro']; ?>
-                        &nbsp;&raquo; <?php echo anchor('articles/display/' . $item['slug'], 'Read more'); ?>
+                        &nbsp;&raquo; <?php echo anchor('articles/display/' . $item['slug'], lang('read_more')); ?>
                         <br/><em>(<?php echo lang('article_posted') . ' ' 
                                 . credit_display($item['credits'], 1) . ' '
                                 . substr($item['updated_on'], 0, 10); ?>)</em>

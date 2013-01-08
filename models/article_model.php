@@ -23,10 +23,10 @@ class Article_model extends CI_Model
 	$this->trace .= 'most_recent<br/>';
         $result = array();
         $this->db->select('a.id, a.slug, a.title, intro, a.category_id, '
-                    . 'a.image_file, a.body, a.updated_on')
+                    . 'a.image_file, a.body, a.updated_on, a.published_on')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left')
-                ->order_by('created_on', 'desc')
+                ->order_by('published_on', 'desc')
                 ->where('status', 'live');
         if ($category != '') {
             $this->db->where('c.slug', $category);
@@ -131,7 +131,7 @@ class Article_model extends CI_Model
     function get_full($slug = '', $id = 0)
     {
 	$this->trace .= 'get_full<br/>';
-        $this->db->select('a.id, a.title article_title, a.intro, a.body, '
+        $this->db->select('a.id, a.title article_title, a.intro, a.body, a.status, '
 		    . 'a.category_id, a.slug, c.item_name, c.title category_name, '
                     . 'a.issue_no, c.slug category_slug')
                 ->from('articles a')
@@ -153,7 +153,7 @@ class Article_model extends CI_Model
 	$this->trace .= 'get_dummy<br/>';
 	return array('id'=> 0, 'article_title' => '', 'intro'=> '', 'body' => '',
 		'category_id' => 0, 'item_name' => '', 'category_name' => '',
-		'slug' => '', 'issue_no' => 0
+		'slug' => '', 'issue_no' => 0, 'status' => 'draft'
 	    );
     }
     
@@ -354,11 +354,13 @@ class Article_model extends CI_Model
             $article_id = $this->db->insert_id();
             $this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
             $this->trace .= 'new id is: ' . $article_id . "<br/>\n";
+            $result['id'] = $article_id;
 	}
 	else {
 	    $this->db->where('id', $user_input['article_id']);
             $result['slug'] = $user_input['slug'];
             $article_id = $user_input['article_id'];
+            $result['id'] = $article_id;
             $this->db->update('articles', $data);
             $this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
 	}

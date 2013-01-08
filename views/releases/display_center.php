@@ -26,6 +26,6 @@
     <?php if ($can_edit) : ?>
         <?php echo anchor('releases/edit/'. $release_info['id'], 
                 lang('edit'), 'class="btn"'); ?>
-        <?php echo anchor('articles/add/'. $release_info['id'], 
+        <?php echo anchor('articles/add/1/'. $release_info['id'], 
                 lang('release_review'), 'class="btn"'); ?>
     <?php endif; ?>

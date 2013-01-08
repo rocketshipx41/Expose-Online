@@ -32,6 +32,10 @@ class Articles extends MY_Controller {
 	    $this->page_data['main_list'] = $this->Article_model->most_recent($category_slug, 
                     5, $offset);
 	}
+        if ($category_slug == 'news') {
+            // don't put news in the left column on the news page
+            $this->page_data['news_list'] = array();
+        }
         $this->page_data['category_slug'] = $category_slug;
         $this->page_data['menu_active'] = $category_slug;
         $this->page_data['topic_slug'] = '';
@@ -92,7 +96,7 @@ class Articles extends MY_Controller {
                 ->build('articles/display_center', $this->page_data);
     }
     
-    public function add($release_id = 0)
+    public function add($category_id = 0, $release_id = 0)
     {
         // authorize
 	if ( ! $this->page_data['can_contribute']) {
@@ -132,6 +136,9 @@ class Articles extends MY_Controller {
         $artist_list = array();
         $topic_list = array();
         $this->page_data['issue_list'] = $this->Masterdata_model->get_issue_list(TRUE);
+        if ( $category_id ) {
+            $article_info['category_id'] = $category_id;
+        }
         if ( $release_id ) {
             $this->page_data['trace'] .= '-- incoming release id<br/>';
             $release_info = $this->Release_model->get_release_info($release_id);
@@ -205,6 +212,8 @@ class Articles extends MY_Controller {
             }
             if ( $this->input->post('article-body') ) {
                 $update_params['body'] = $this->input->post('article-body');
+                $update_params['body'] = stripslashes(html_entity_decode($update_params['body']));
+                $update_params['body'] = str_replace('&nbsp;', ' ', $update_params['body']);
             }
             else {
                 $ok = FALSE;
@@ -301,6 +310,7 @@ class Articles extends MY_Controller {
                 $update_result = $this->Article_model->update($update_params);
                 if ( $update_result['status'] == 'ok' ) {
                     $article_slug = $update_result['slug'];
+                    $article_id = $update_result['id'];
                 }
             }
             else {

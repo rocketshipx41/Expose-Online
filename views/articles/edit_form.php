@@ -31,8 +31,10 @@ $this->load->helper('form');
                 <label class="stacked"><?php echo lang('article_written_by'); ?></label>
                 <?php echo form_multiselect('author[]', $staff_list, array_keys($credit_list[1]),
                         'class="chzn-select span_9" id="author"'); ?>
+                <?php if ($article_info['id']) : ?>
                 <?php echo form_multiselect('original-author[]', $staff_list, array_keys($credit_list[1]),
                         'id="original-author" style="display:none;"'); ?>
+                <?php endif; ?>
             </div>
         </div>
         <div class="row">
@@ -56,8 +58,10 @@ $this->load->helper('form');
                 <label class="stacked"><?php echo lang('article_artist'); ?></label>
                 <?php echo form_multiselect('artist[]', $artist_select_list, array_keys($artist_list),
                         'class="chzn-select span_9" id="artist"'); ?>
+                <?php if ($article_info['id']) : ?>
                 <?php echo form_multiselect('original-artists[]', $artist_select_list, array_keys($artist_list),
                         'id="original-artists" style="display:none;"'); ?>
+                <?php endif; ?>
             </div>
         </div>
         <div class="row">
@@ -65,8 +69,10 @@ $this->load->helper('form');
                 <label class="stacked"><?php echo lang('article_topic'); ?></label>
                 <?php echo form_multiselect('topic[]', $topic_select_list, array_keys($topic_list),
                         'class="chzn-select span_9" id="topic"'); ?>
+                <?php if ($article_info['id']) : ?>
                 <?php echo form_multiselect('original-topics[]', $topic_select_list, array_keys($topic_list),
                         'id="original-topics" style="display:none;"'); ?>
+                <?php endif; ?>
             </div>
         </div>
         <?php if ($can_edit) : ?>
@@ -79,7 +85,7 @@ $this->load->helper('form');
         </div>
         <div class="row">
             <div class="span_9">
-                <p><?php echo form_checkbox('make-live', 'publish', FALSE) . ' ' . lang('article_publish_now'); ?></p>
+                <p><?php echo form_checkbox('make-live', 'publish', ($article_info['status'] =='live')) . ' ' . lang('article_publish_now'); ?></p>
             </div>
         </div>
         <?php endif; ?>
