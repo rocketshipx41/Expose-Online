@@ -44,7 +44,7 @@
                         &nbsp;&raquo; <?php echo anchor('articles/display/' . $item['slug'], lang('read_more')); ?>
                         <br/><em>(<?php echo lang('article_posted') . ' ' 
                                 . credit_display($item['credits'], 1) . ' '
-                                . substr($item['updated_on'], 0, 10); ?>)</em>
+                                . substr($item['published_on'], 0, 10); ?>)</em>
                         </div>
                     </div> <!-- row -->
                 <?php endforeach; ?>
@@ -61,7 +61,7 @@
                         &nbsp;&raquo; <?php echo anchor('articles/display/' . $item['slug'], lang('read_more')); ?>
                         <br/><em>(<?php echo lang('article_posted') . ' ' 
                                 . credit_display($item['credits'], 1) . ' '
-                                . substr($item['updated_on'], 0, 10); ?>)</em>
+                                . substr($item['published_on'], 0, 10); ?>)</em>
                         </div>
                     </div> <!-- row -->
                 <?php endforeach; ?>

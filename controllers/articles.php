@@ -56,6 +56,7 @@ class Articles extends MY_Controller {
 	}
         
         // init
+        $this->page_data['show_columns'] = 3;
         
         // process
 	$article_info = $this->Article_model->get_full($article_slug);
@@ -74,6 +75,9 @@ class Articles extends MY_Controller {
                 $article_info['intro'] = '';
             }
         }
+        if ($article_info['category_id'] == 4) {
+            $this->page_data['show_columns'] = 2;
+        }
         $this->page_data['meta'] = $this->Article_model->get_meta($article_info['id']);
 	$this->page_data['artist_list'] = $this->Article_model->get_artists($article_info['id']);
 	$this->page_data['release_list'] = $this->Article_model->get_releases($article_info['id']);
@@ -89,7 +93,6 @@ class Articles extends MY_Controller {
 		. print_r($this->page_data['credit_list'], TRUE) . '<br/>';
 	$this->page_data['trace'] .= 'topic list: ' 
 		. print_r($this->page_data['topic_list'], TRUE) . '<br/>';
-        $this->page_data['show_columns'] = 3;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'],
 			$article_info['article_title'])
@@ -184,6 +187,7 @@ class Articles extends MY_Controller {
         $this->load->model('Artist_model');
         $this->load->model('Release_model');
         $this->load->model('Masterdata_model');
+        $issue_date_list = $this->Masterdata_model->get_issue_date_list();
         
         // deal with incoming post
         if ( $this->input->post('article-submit') ) {
@@ -195,6 +199,9 @@ class Articles extends MY_Controller {
                 'slug' => $this->input->post('slug'),
                 'issue_no' => $this->input->post('issue_no')
              );
+            if ($update_params['issue_no'])  {
+                $update_params['published_on'] = $issue_date_list[$update_params['issue_no']];
+            }
             $ok = TRUE;
             if ( $this->input->post('title') ) {
                 $update_params['title'] = $this->input->post('title');

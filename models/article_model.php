@@ -133,7 +133,7 @@ class Article_model extends CI_Model
 	$this->trace .= 'get_full<br/>';
         $this->db->select('a.id, a.title article_title, a.intro, a.body, a.status, '
 		    . 'a.category_id, a.slug, c.item_name, c.title category_name, '
-                    . 'a.issue_no, c.slug category_slug')
+                    . 'a.issue_no, c.slug category_slug, a.image_file, a.published_on')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left');
         if ( $slug != '' ) {
@@ -153,7 +153,8 @@ class Article_model extends CI_Model
 	$this->trace .= 'get_dummy<br/>';
 	return array('id'=> 0, 'article_title' => '', 'intro'=> '', 'body' => '',
 		'category_id' => 0, 'item_name' => '', 'category_name' => '',
-		'slug' => '', 'issue_no' => 0, 'status' => 'draft'
+		'slug' => '', 'issue_no' => 0, 'status' => 'draft', 
+                'published_on'  => ''
 	    );
     }
     

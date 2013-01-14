@@ -68,6 +68,21 @@ class Masterdata_model extends CI_Model
         return $result;
     }
    
+    public function get_issue_date_list()
+    {
+	$this->trace .= 'get_issue_date_list<br/>';
+        $result = array();
+        $this->db->select('id, pub_date')
+                ->from('issues')
+                ->order_by('id');
+        $query = $this->db->get();
+        $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+	foreach ($query->result() as $row) {
+            $result[$row->id] = $row->pub_date;
+	}
+        return $result;
+    }
+   
     public function get_issue_info($id)
     {
 	$this->trace .= 'get_issue_list<br/>';

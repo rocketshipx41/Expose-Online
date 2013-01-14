@@ -36,7 +36,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     &nbsp;&raquo; <?php echo anchor('articles/display/' . $item['slug'], 'Read more'); ?><br/>
     <em>(<?php echo lang('article_posted') . ' ' 
             . credit_display($item['credits'], 1) . ' '
-            . substr($item['updated_on'], 0, 10); ?>)</em>
+            . substr($item['published_on'], 0, 10); ?>)</em>
     </div> <!-- column span -->
 </div> <!-- row -->
 <?php endforeach; ?>

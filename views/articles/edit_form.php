@@ -11,6 +11,7 @@ $this->load->helper('form');
 	<?php echo form_hidden('user-id', $user_id); ?>
 	<?php echo form_hidden('action', $action); ?>
 	<?php echo form_hidden('original-issue', $article_info['issue_no']); ?>
+	<?php echo form_hidden('original-status', $article_info['status']); ?>
         <div class="row">
             <div class="span_9">
                 <label class="stacked"><?php echo lang('article_category'); ?></label>
@@ -78,9 +79,23 @@ $this->load->helper('form');
         <?php if ($can_edit) : ?>
         <div class="row">
             <div class="span_9">
+                <label class="stacked"><?php echo lang('article_image_file'); ?></label>
+                <?php echo form_input('image_file', $article_info['image_file'], 
+                        'class="span_9" id = "image_file"'); ?>        
+            </div>
+        </div>
+        <div class="row">
+            <div class="span_9">
                 <label class="stacked"><?php echo lang('issue_no'); ?></label>
                 <?php echo form_dropdown('issue_no', $issue_list, $article_info['issue_no'], 
                         'class="span_9" id = "issue_no"'); ?>        
+            </div>
+        </div>
+        <div class="row">
+            <div class="span_9">
+                <label class="stacked"><?php echo lang('article_publish_date'); ?></label>
+                <?php echo form_input('published_on', $article_info['published_on'], 
+                        'class="span_9" id = "published_on"'); ?>        
             </div>
         </div>
         <div class="row">

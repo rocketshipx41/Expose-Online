@@ -6,10 +6,9 @@
  */
 ?>
 
-<?php if ($article_info['category_id'] != 1) : ?>
+<?php if (($article_info['category_id'] != 1)&& ($article_info['category_id'] != 4)) : ?>
 <h2><?php echo $article_info['article_title']; ?></h2>
 <?php endif; ?>
-<p><?php echo $article_info['intro']; ?></p>
 <?php if ($article_info['category_id'] == 1) : ?>
     <?php if (count($release_list)) : ?>
         <?php foreach ($release_list as $release) : ?>
@@ -20,13 +19,20 @@
             <?php endif; ?>
         <?php endforeach; ?>
     <?php endif; ?>
+<?php elseif ($article_info['category_id'] == 4) : ?>
+<div class="feature-top-photo">
+    <img src="<?php echo image_url('features/' . $article_info['image_file']);?>" 
+         alt="feature photo" width="680" />
+    <h2 class="feature-title"><span><?php echo $article_info['article_title']; ?></span></h2>
+</div>
 <?php endif; ?>
-<p><?php echo lang('article_written_by') . ' ' . credit_display($credit_list, 1); ?> </p>
+<p><?php echo $article_info['intro']; ?></p>
+<p><i><?php echo lang('article_written_by') . ' ' . credit_display($credit_list, 1); ?> </i></p>
 <?php if ($meta['has_photographer']) : ?>
-<p><?php echo lang('article_photo_by') . ' ' . credit_display($credit_list, 2); ?> </p>
+<p><i><?php echo lang('article_photo_by') . ' ' . credit_display($credit_list, 2); ?></i></p>
 <?php endif; ?>
 <?php if ($meta['has_illustrator']) : ?>
-<p><?php echo lang('article_illustrated_by') . ' ' . credit_display($credit_list, 3); ?> </p>
+<p><i><?php echo lang('article_illustrated_by') . ' ' . credit_display($credit_list, 3); ?></i></p>
 <?php endif; ?>
 <?php if ($image_file): ?>
     <img src="<?php echo image_url('releases/'. $image_file);?>" class="review-art"
