@@ -53,7 +53,7 @@ class Article_model extends CI_Model
                 $item['intro'] = $item['body'];
             }
             elseif ( $item['category_id'] == 8 ) {
-                $item['intro'] = $item['body'];
+                //$item['intro'] = $item['body'];
             }
             $item['credits'] = $this->get_credits($item['id']);
         }
@@ -65,7 +65,7 @@ class Article_model extends CI_Model
 	$this->trace .= 'get_issue_articles<br/>';
         $result = array();
         $this->db->select('a.id, a.slug, a.title, intro, a.category_id, '
-                    . 'a.image_file, a.body, a.updated_on')
+                    . 'a.image_file, a.body, a.updated_on, a.published_on')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left')
                 ->order_by('created_on', 'desc')
@@ -154,7 +154,7 @@ class Article_model extends CI_Model
 	return array('id'=> 0, 'article_title' => '', 'intro'=> '', 'body' => '',
 		'category_id' => 0, 'item_name' => '', 'category_name' => '',
 		'slug' => '', 'issue_no' => 0, 'status' => 'draft', 
-                'published_on'  => ''
+                'published_on'  => '', 'image_file' => ''
 	    );
     }
     
@@ -346,6 +346,9 @@ class Article_model extends CI_Model
 	    'user_id' => $user_input['user_id'],
             'updated_on' => date('Y-m-d H:i:s')
 	);
+        if ( $user_input['published_on'] ) {
+            $data['published_on'] = $user_input['published_on'];
+        }
 	if ($user_input['article_id'] == 0) {
             $this->trace .= 'new article, insert' . "<br/>\n";
             $data['slug'] = create_unique_slug($user_input['title'], 'articles');
@@ -452,7 +455,8 @@ class Article_model extends CI_Model
 	$this->trace .= 'get_topic_articles<br/>';
         $result = array();
         $this->db->select('a.id, a.slug, a.title, a.intro, a.category_id, '
-                    . 'a.image_file, a.body, a.updated_on')
+                    . 'a.image_file, a.body, a.updated_on, a.published_on, '
+                    . 't.title topic_title')
                 ->from('article_topic at')
                 ->join('articles a', 'a.id = at.article_id', 'left')
                 ->join('topics t', 't.id = at.topic_id', 'left')
@@ -474,6 +478,39 @@ class Article_model extends CI_Model
                 }
             }
             $item['credits'] = $this->get_credits($item['id']);
+            unset($item['body']);
+        }
+        return $result;
+    }
+    
+    function get_release_year_articles($year)
+    {
+	$this->trace .= 'get_release_year_articles<br/>';
+        $result = array();
+        $this->db->select('ar.article_id, ar.release_id, a.slug, a.title, a.intro, a.category_id, '
+                    . 'a.image_file, a.body, a.updated_on, a.published_on')
+                ->from('article_release ar')
+                ->join('articles a', 'a.id = ar.article_id', 'left')
+                ->join('releases r', 'r.id = ar.release_id', 'left')
+                ->where('a.status', 'live')
+                ->where('r.year_recorded', $year)
+                ->or_where('r.year_released',  $year)
+                ->order_by('updated_on', 'desc');
+/*        if (($max != 0) || ($offset != 0)) {
+            $this->db->limit($max, $offset);
+        }*/
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        $result = $query->result_array();
+        foreach ($result as &$item) {
+            if ( ($item['category_id'] == 1) && ( ! $item['image_file']) ) {
+                $this->trace .= 'no image assigned to review<br/>';
+                $item['image_file'] = $this->get_main_image($item['article_id'], $item['category_id']);
+                if ( ! $item['intro'] ) {
+                    $item['intro'] = smart_trim($item['body'], 200);
+                }
+            }
+            $item['credits'] = $this->get_credits($item['article_id']);
             unset($item['body']);
         }
         return $result;

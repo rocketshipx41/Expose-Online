@@ -19,6 +19,9 @@
                 <li <?php if ($menu_active == 'news') echo 'class="active"';?>>
                     <a href="<?php echo site_url('articles/index/news'); ?>"><?php echo lang('menu_news'); ?></a>
                 </li>
+                <li <?php if ($menu_active == 'recommendations') echo 'class="active"';?>>
+                    <a href="<?php echo site_url('articles/index/recommendations'); ?>"><?php echo lang('menu_recommendations'); ?></a>
+                </li>
                 <li <?php if ($menu_active == 'artists') echo 'class="active"';?>>
                     <a href="<?php echo site_url('artists/index'); ?>"><?php echo lang('menu_artists'); ?></a>
                 </li>

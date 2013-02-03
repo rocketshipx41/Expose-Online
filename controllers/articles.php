@@ -36,6 +36,11 @@ class Articles extends MY_Controller {
             // don't put news in the left column on the news page
             $this->page_data['news_list'] = array();
         }
+        elseif ( $category_slug == 'recommendations' ) {
+            // don't put media on media page
+            $this->page_data['recommendation_list'] = array();
+            $this->page_data['scale_video'] = 'm';
+        }
         $this->page_data['category_slug'] = $category_slug;
         $this->page_data['menu_active'] = $category_slug;
         $this->page_data['topic_slug'] = '';
@@ -75,8 +80,14 @@ class Articles extends MY_Controller {
                 $article_info['intro'] = '';
             }
         }
-        if ($article_info['category_id'] == 4) {
+        if ( $article_info['category_id'] == 4 ) {
             $this->page_data['show_columns'] = 2;
+            $this->page_data['trace'] .= 'feature article, only 2column layout<br/>';
+        }
+        if ( $article_info['category_id'] == 8 ) {
+            $this->page_data['show_columns'] = 2;
+            $this->page_data['scale_video'] = 'l';
+            $this->page_data['trace'] .= 'recommendation, 2 columns, large video<br/>';
         }
         $this->page_data['meta'] = $this->Article_model->get_meta($article_info['id']);
 	$this->page_data['artist_list'] = $this->Article_model->get_artists($article_info['id']);
@@ -178,6 +189,7 @@ class Articles extends MY_Controller {
         }
         if ( $this->input->post('action') ) {
             // it's an insert
+            $this->page_data['trace'] .= 'incoming post, id is ' . $article_id . '<br/>';
         }
         elseif ( $article_id == 0 ) {
             redirect('welcome');
@@ -197,7 +209,8 @@ class Articles extends MY_Controller {
                 'article_id' => $article_id,
                 'user_id' => $this->input->post('user-id'),
                 'slug' => $this->input->post('slug'),
-                'issue_no' => $this->input->post('issue_no')
+                'issue_no' => $this->input->post('issue_no'),
+                'published_on' => $this->input->post('published_on')
              );
             if ($update_params['issue_no'])  {
                 $update_params['published_on'] = $issue_date_list[$update_params['issue_no']];
@@ -234,6 +247,9 @@ class Articles extends MY_Controller {
             }
             if ( $this->input->post('make-live') ) {
                 $update_params['status'] = 'live';
+                if ( ! $update_params['published_on'] ) {
+                    $update_params['published_on'] = date('Y-m-d');
+                }
             }
             else {
                 $update_params['status'] = 'draft';
@@ -318,6 +334,7 @@ class Articles extends MY_Controller {
                 if ( $update_result['status'] == 'ok' ) {
                     $article_slug = $update_result['slug'];
                     $article_id = $update_result['id'];
+                    redirect('/articles/display/' . $article_slug);
                 }
             }
             else {
@@ -509,7 +526,6 @@ class Articles extends MY_Controller {
     
     public function topic($topic_slug = '', $offset = 0)
     {
-        $this->page_data['page_name'] = lang($topic_slug . '_page_name');
         $this->page_data['main_list'] = $this->Article_model->get_topic_articles($topic_slug, 
                 5, $offset);
         
@@ -519,6 +535,8 @@ class Articles extends MY_Controller {
         $this->page_data['trace'] .= $this->Article_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
         $this->page_data['show_columns'] = 3;
+        $this->page_data['page_name'] = lang('article_topic_list') 
+                . $this->page_data['main_list'][0]['topic_title'];
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->build('articles/index_center', $this->page_data);
@@ -541,6 +559,24 @@ class Articles extends MY_Controller {
         $this->page_data['trace'] .= $this->Article_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
         $this->page_data['show_columns'] = 3;
+        $this->template
+                ->title($this->page_data['site_name'], $this->page_data['page_name'])
+                ->build('articles/index_center', $this->page_data);
+    }
+    
+    public function releases($year = 0)
+    {
+        if ( $year == 0 ) {
+            redirect('');
+        }
+        $this->page_data['main_list'] = $this->Article_model->get_release_year_articles($year);
+        $this->page_data['trace'] .= $this->Article_model->trace;
+        $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
+        $this->page_data['topic_slug'] = '';
+        $this->page_data['category_slug'] = '';
+        $this->page_data['offset'] = 0;
+        $this->page_data['show_columns'] = 3;
+        $this->page_data['page_name'] = lang('article_release_year_list'). ' ' . $year;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->build('articles/index_center', $this->page_data);

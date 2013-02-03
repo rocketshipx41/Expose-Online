@@ -77,6 +77,7 @@
                     <?php foreach ($recommendation_list as $item) : ?>
                     <div class="row">
                         <div class="span_12">
+                            <p><strong><?php echo anchor('articles/display/' . $item['slug'], $item['title']); ?></strong></p>
                             <?php echo $item['body']; ?>
                         </div>
                     </div>

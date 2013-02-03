@@ -9,6 +9,7 @@ $lang['menu_home'] = 'Home';
 $lang['menu_features'] = 'Features';
 $lang['menu_reviews'] = 'Reviews';
 $lang['menu_news'] = 'News';
+$lang['menu_recommendations'] = 'Recommendations';
 $lang['menu_artists'] = 'Artists';
 $lang['menu_labels'] = 'Labels';
 $lang['menu_about'] = 'About Exposé';
@@ -45,6 +46,8 @@ $lang['more_news'] = 'More news';
 $lang['add_news'] = 'Add a news item';
 $lang['more_events'] = 'More events';
 $lang['add_event'] = 'Add an event';
+$lang['more_recommendations'] = 'More recommendations';
+$lang['add_recommendation'] = 'Add a recommendation';
 
 // home page
 $lang['home_welcome_message'] = 'Welcome to ';
@@ -70,11 +73,16 @@ $lang['article_index_newer'] = 'Newer';
 $lang['article_posted'] = 'Posted by';
 $lang['article_publish_now'] = 'Publish now';
 $lang['article_publish_date'] = 'Publication date';
+$lang['article_published'] = 'Published';
+$lang['article_release_year_topic']= 'releases';
 $lang['article_image_file']  = 'Image file (680x450)';
+$lang['article_release_year_list'] = 'Reviews of releases for ';
+$lang['article_topic_list'] = 'Reviews of ';
 $lang['issue_no']= 'Issue';
 $lang['issue_description']= 'Date';
 $lang['issue_pages'] = 'Pages';
 $lang['issue_blurb'] = 'Summary';
+$lang['issue_available']= 'Available online from this issue...';
 
 // artists general
 $lang['artist_index_prev'] = 'Previous';

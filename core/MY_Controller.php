@@ -61,6 +61,7 @@ class MY_Controller extends CI_Controller
                     5, 0, FALSE);
         $this->page_data['recommendation_list'] = $this->Article_model->most_recent('recommendations', 
                     5, 0, FALSE);
+        $this->page_data['scale_video'] = 's';
         $this->template->set_partial('left_column', 'left_column');
         $this->template->set_partial('right_column', 'right_column');
     }

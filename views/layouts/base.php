@@ -22,6 +22,7 @@
 	<script src="/assets/js/chosen/chosen.jquery.js"></script>
         <script src="/assets/js/kendo.web.min.js"></script>
         <script src="/assets/js/jquery.barousel.js"></script>
+        <script>var scaleVideo = '<?php echo $scale_video; ?>';</script>
 	<script src="/assets/js/expose.js"></script>
 	<?php echo $template['metadata']; ?>
     </head>

@@ -13,25 +13,25 @@ $this->load->helper('form');
         <p>
             <label for="display-title"><?php echo lang('release_edit_display_title'); ?></label>
             <?php echo form_input(array('name' => 'display-title', 'id' => 'display-title',
-                    'value' => $release_info['display_title'], 'class' => 'span_5', 
+                    'value' => $release_info['display_title'], 'class' => 'span_9', 
                     'placeholder' => 'Title for this release')); ?>
 	</p>
         <p>
             <label for="title"><?php echo lang('release_edit_title'); ?></label>
             <?php echo form_input(array('name' => 'title', 'id' => 'title',
-                    'value' => $release_info['title'], 'class' => 'span_5', 
+                    'value' => $release_info['title'], 'class' => 'span_9', 
                     'placeholder' => 'Title for sorting')); ?>
         </p>
         <p>
             <label for="display-artist"><?php echo lang('release_edit_display_artist'); ?></label>
             <?php echo form_input(array('name' => 'display-artist', 'id' => 'display-artist',
-                    'value' => $release_info['display_artist'], 'class' => 'span_5', 
+                    'value' => $release_info['display_artist'], 'class' => 'span_9', 
                     'placeholder' => 'Artist for this release')); ?>
 	</p>
         <p>
             <label for="artist"><?php echo lang('release_edit_artist'); ?></label>
             <?php echo form_input(array('name' => 'artist', 'id' => 'artist',
-                    'value' => $release_info['artist'], 'class' => 'span_5', 
+                    'value' => $release_info['artist'], 'class' => 'span_9', 
                     'placeholder' => 'Artist for sorting')); ?>
         </p>
         <p>
@@ -46,13 +46,13 @@ $this->load->helper('form');
         <p>
             <label for="catalog-no"><?php echo lang('release_edit_catalog_no'); ?></label>
             <?php echo form_input(array('name' => 'catalog-no', 'id' => 'catalog-no',
-                    'value' => $release_info['catalog_no'], 'class' => 'span2', 
+                    'value' => $release_info['catalog_no'], 'class' => 'span_2', 
                     'placeholder' => 'Label serial number or other identifier')); ?>
         </p>
         <p>
             <label for="media"><?php echo lang('release_edit_media'); ?></label>
             <?php echo form_input(array('name' => 'media', 'id' => 'media',
-                    'value' => $release_info['media'], 'class' => 'span2', 
+                    'value' => $release_info['media'], 'class' => 'span_2', 
                     'placeholder' => 'Media (CD, 2LP, CD+DVD etc.')); ?>
         </p>
         <p>
@@ -75,7 +75,7 @@ $this->load->helper('form');
         <p>
             <label for="image-file"><?php echo lang('release_edit_image_file'); ?></label>
             <?php echo form_input(array('name' => 'image-file', 'id' => 'image-file',
-                    'value' => $release_info['image_file'], 'class' => 'span5', 
+                    'value' => $release_info['image_file'], 'class' => 'span_9', 
                     'placeholder' => 'File name of cover scan')); ?>
         </p>
         <p>

@@ -4,6 +4,11 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  * template for article index page center section 
  */
 ?>
+<div class="row">
+    <div class="span_12">
+        <h2><?php echo $template['title']; ?></h2>
+    </div>
+</div>
 <?php if ( isset($issue_info) ) : ?>
 <div class="row">
     <div class="span_12">
@@ -15,6 +20,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     <?php endif; ?>
         <strong><?php echo lang('issue_blurb'); ?> : </strong>
             <?php echo $issue_info['blurb']; ?><br/>
+        <em><?php echo lang('issue_available');?></em>
     </div> <!-- column span -->
 </div> <!-- row -->
 <?php endif; ?>
@@ -33,7 +39,11 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                  height="190" width="190" alt="<?php echo lang('article_cover_art_alt'); ?>">
     <?php endif; ?>
     <?php echo $item['intro']; ?>
+    <?php if ( $item['category_id'] == 8 ): // recommendation ?>
+    <?php echo $item['body']; ?>
+    <?php else : ?>
     &nbsp;&raquo; <?php echo anchor('articles/display/' . $item['slug'], 'Read more'); ?><br/>
+    <?php endif; ?>
     <em>(<?php echo lang('article_posted') . ' ' 
             . credit_display($item['credits'], 1) . ' '
             . substr($item['published_on'], 0, 10); ?>)</em>

@@ -12,6 +12,7 @@
 <div class="row">
     <div class="span_12">
         <p>
+            <em><?php echo substr($item['published_on'], 0, 10); ?></em><br/>
             <strong><?php echo $item['title']; ?></strong> &ndash; 
             <?php echo $item['intro']; ?>&nbsp;&raquo; 
                 <?php echo anchor('articles/display/' . $item['slug'], lang('read_more')); ?>
