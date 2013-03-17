@@ -30,7 +30,7 @@ class Articles extends MY_Controller {
 	else { // for others, only most recent
 	    $this->page_data['page_name'] = lang($category_slug . '_page_name');
 	    $this->page_data['main_list'] = $this->Article_model->most_recent($category_slug, 
-                    5, $offset);
+                    10, $offset);
 	}
         if ($category_slug == 'news') {
             // don't put news in the left column on the news page
@@ -165,6 +165,8 @@ class Articles extends MY_Controller {
 	$this->page_data['article_info'] = $article_info;
         $this->page_data['artist_list'] = $artist_list;
         $this->page_data['topic_list'] = $topic_list;
+        $this->page_data['link_list'] = array();
+	$this->page_data['release_id'] = $release_id;
 
         // display
 	$this->page_data['trace'] .= $this->User_model->trace;
@@ -208,6 +210,7 @@ class Articles extends MY_Controller {
             $update_params = array(
                 'article_id' => $article_id,
                 'user_id' => $this->input->post('user-id'),
+                'release_id' => $this->input->post('release-id'),
                 'slug' => $this->input->post('slug'),
                 'issue_no' => $this->input->post('issue_no'),
                 'published_on' => $this->input->post('published_on')
@@ -328,6 +331,9 @@ class Articles extends MY_Controller {
             else {
                 $update_params['artist'] = array();
             }
+            if ( $this->input->post('links') ) {
+                $update_params['links'] = explode(';', $this->input->post('links'));
+            }
             if ( $ok ) {
                 $this->page_data['trace'] .= 'ready to update<br/>';
                 $update_result = $this->Article_model->update($update_params);
@@ -369,6 +375,7 @@ class Articles extends MY_Controller {
 	$this->page_data['artist_list'] = $this->Article_model->get_artists($article_info['id']);
 	$this->page_data['article_release_list'] = $this->Article_model->get_releases($article_info['id']);
         $this->page_data['meta'] = $this->Article_model->get_meta($article_info['id']);
+        $this->page_data['link_list'] = $this->Article_model->get_link_list($article_info['id']);
         
         // get lists for dropdowns
 	$this->page_data['staff_list'] = $this->User_model->get_user_list(array(1, 3, 4));
@@ -389,6 +396,7 @@ class Articles extends MY_Controller {
 	$this->page_data['topic_select_list'] = $topic_select_list;
 	$this->page_data['article_info'] = $article_info;
 	$this->page_data['action'] = 'update';
+	$this->page_data['release_id'] = 0;
         
         // display
         $this->page_data['trace'] .= 'topic list: ' . print_r($this->page_data['topic_list'],
@@ -401,7 +409,6 @@ class Articles extends MY_Controller {
                 ->title($this->page_data['site_name'], $this->page_data['page_name'],
 			$article_info['article_title'])
                 ->build('articles/edit_form', $this->page_data);
-        
     }
     
     public function getreleases($artists = '')

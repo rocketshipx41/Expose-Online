@@ -114,6 +114,10 @@ class Artists extends MY_Controller {
             else {
                 $ok = FALSE;
             }
+            if ( $artist_slug == '' ) {
+                $artist_slug = create_unique_slug($update_params['name'] . '-'
+                        . $update_params['country_id'], 'artists');
+            }
             if ($this->input->post('artist-url') ) {
               $update_params['url'] = $this->input->post('artist-url');
             }
@@ -221,7 +225,20 @@ class Artists extends MY_Controller {
 	    redirect('articles/index');
 	}
         
+        // init
+	$this->load->model('Masterdata_model');
         
+        // process
+        $this->page_data['country_list'] = $this->Masterdata_model->get_country_list(TRUE);
+        $this->page_data['artist_info'] = $this->Artist_model->get_info('');
+        $this->page_data['action'] = 'insert';
+        
+        // display
+        $this->page_data['show_columns'] = 2;
+        $this->template
+                ->title($this->page_data['site_name'], $this->page_data['page_name'],
+                        lang('artist_new'))
+                ->build('artists/edit_form', $this->page_data);
     }
     
     public function util($task = 'img')
@@ -271,5 +288,3 @@ class Artists extends MY_Controller {
     }
     
 }
-
-

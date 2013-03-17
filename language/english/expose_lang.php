@@ -18,6 +18,7 @@ $lang['menu_languages'] = 'English';
 $lang['menu_user_page'] = 'User info';
 $lang['menu_contribute'] = 'Contribute';
 $lang['menu_edit'] = 'Edit submissions';
+$lang['menu_ads'] = 'Manage advertisements';
 $lang['menu_change_password'] = 'Change password';
 
 // login form
@@ -78,6 +79,7 @@ $lang['article_release_year_topic']= 'releases';
 $lang['article_image_file']  = 'Image file (680x450)';
 $lang['article_release_year_list'] = 'Reviews of releases for ';
 $lang['article_topic_list'] = 'Reviews of ';
+$lang['article_related_links'] = 'Related links (no "http", separate with ; )';
 $lang['issue_no']= 'Issue';
 $lang['issue_description']= 'Date';
 $lang['issue_pages'] = 'Pages';
@@ -96,6 +98,8 @@ $lang['artist_display_release_list'] = 'Releases on file';
 $lang['artist_search'] = 'Search';
 $lang['artist_search_none'] = 'No artists matched your search.';
 $lang['artist_field_image'] = 'Artist image';
+$lang['artist_add'] = 'Add new artist';
+$lang['artist_new'] = 'New artist';
 
 // edit page
 $lang['artist_field_display_name'] = 'Display name';

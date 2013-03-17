@@ -161,7 +161,19 @@ class Artist_model extends CI_Model
     function get_info($slug = '')
     {
 	$this->trace .= 'get_info<br/>';
-        $result = array();
+        $result = array(
+            'display' => '',
+            'country_id' => '',
+            'years_active'=> '',
+            'url'=> '',
+            'info'=> '',
+            'user_id'=> '',
+            'id'=> '',
+            'image_file'=> '',
+            'country_name'=> '',
+            'slug'=> '',
+            'name'=> '',
+        );
         if ($slug != '') {
             $this->db->select('a.display, a.country_id, a.years_active, a.url, a.info, '
                     . 'a.user_id, a.id, a.image_file, c.name country_name, a.slug, '
@@ -261,9 +273,15 @@ class Artist_model extends CI_Model
     {
 	$this->trace .= 'update_info<br/>';
 	$result = array('status' => 'ok');
-        $this->db->where('id', $artist_id);
-        $this->db->update('artists', $params);
-        $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+        if ( $artist_id ) {
+            $this->db->where('id', $artist_id);
+            $this->db->update('artists', $params);
+            $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+        }
+        else {
+            $this->db->insert('artists', $params);
+            $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+        }
 	return $result;
     }
     

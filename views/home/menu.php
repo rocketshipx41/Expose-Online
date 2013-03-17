@@ -51,6 +51,9 @@
                         <li>
                             <a href="<?php echo site_url('articles/drafts'); ?>"><?php echo lang('menu_edit'); ?></a>
                         </li>
+                        <li>
+                            <a href="<?php echo site_url('ads/index'); ?>"><?php echo lang('menu_ads'); ?></a>
+                        </li>
                         <?php endif;?>
                     </ul>
                 </li>

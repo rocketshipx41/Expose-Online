@@ -442,6 +442,37 @@ class Article_model extends CI_Model
         else {
             $this->trace .= 'no changes in topics list ' . "<br/>\n";
         }
+        // links
+        if (count($user_input['links'])) {
+            $this->db->where('article_id', $article_id);
+            $this->db->delete('article_links');
+            $this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+            $this->trace .= 'delete links ' . "<br/>\n";
+            foreach ($user_input['links'] as $url){
+                $data = array(
+                    'article_id' => $article_id,
+                    'link' => $url
+                );
+                $this->db->insert('article_links', $data);
+                $this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+                $this->trace .= 'add new link ' . "<br/>\n";
+            }
+        }
+        else {
+            $this->trace .= 'no changes in links list ' . "<br/>\n";
+        }
+        // releases
+        if ( $user_input['release_id'] ) {
+            // need to make array?
+            $data = array(
+                'article_id' => $article_id,
+                'release_id' => $user_input['release_id']
+            );
+            $this->db->insert('article_release', $data);
+        }
+        else {
+            $this->trace .= 'no release id ' . "<br/>\n";
+        }
 	$this->db->trans_complete();
         if ($this->db->trans_status() === FALSE) {
             // generate an error... or use the log_message() function to log your error

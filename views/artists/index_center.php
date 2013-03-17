@@ -38,3 +38,8 @@ $this->load->helper('form');
 <?php else : ?>
 <p><?php echo lang('artist_search_none'); ?></p>
 <?php endif; ?>
+<?php if ($can_edit) : ?>
+<div class="row">
+    <?php echo anchor('artists/add', lang('artist_add'), 'class="btn"'); ?>
+</div>
+<?php endif; ?>
