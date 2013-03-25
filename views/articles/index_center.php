@@ -54,20 +54,20 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 <?php if ($offset != 0) : ?>
 &laquo; 
     <?php if ($category_slug) : ?>
-<?php echo anchor('articles/index/' . $category_slug . '/' . ($offset - 5),
+<?php echo anchor('articles/index/' . $category_slug . '/' . ($offset - 10),
         lang('article_index_newer')); ?>
     <?php elseif ($topic_slug) : ?>
-<?php echo anchor('articles/topic/' . $topic_slug . '/' . ($offset - 5),
+<?php echo anchor('articles/topic/' . $topic_slug . '/' . ($offset - 10),
         lang('article_index_newer')); ?>
     <?php endif; ?>
 &nbsp;|&nbsp; 
         
 <?php endif; ?>
 <?php if ($category_slug) : ?>
-<?php echo anchor('articles/index/' . $category_slug . '/' . ($offset + 5),
+<?php echo anchor('articles/index/' . $category_slug . '/' . ($offset + 10),
         lang('article_index_older')); ?> 
 <?php elseif ($topic_slug) : ?>
-<?php echo anchor('articles/topic/' . $topic_slug . '/' . ($offset + 5),
+<?php echo anchor('articles/topic/' . $topic_slug . '/' . ($offset + 10),
         lang('article_index_newer')); ?>
 <?php endif; ?>
 &raquo;

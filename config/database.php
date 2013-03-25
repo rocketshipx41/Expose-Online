@@ -93,6 +93,7 @@ $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
 // dev
+
 $db['development']['hostname'] = 'localhost';
 $db['development']['username'] = 'expoweb';
 $db['development']['password'] = 'dUqtKZvvy6sYwBWv';
@@ -108,6 +109,40 @@ $db['development']['dbcollat'] = 'utf8_general_ci';
 $db['development']['swap_pre'] = '';
 $db['development']['autoinit'] = TRUE;
 $db['development']['stricton'] = FALSE;
+ 
+/*
+$db['development']['hostname'] = 'sql5c38a.carrierzone.com';
+$db['development']['username'] = 'exposeorg4325340';
+$db['development']['password'] = 'dUqtKZvvy6sYwBWv';
+$db['development']['database'] = 'expose_exposeorg4325340';
+$db['development']['dbdriver'] = 'mysql';
+$db['development']['dbprefix'] = '';
+$db['development']['pconnect'] = TRUE;
+$db['development']['db_debug'] = TRUE;
+$db['development']['cache_on'] = FALSE;
+$db['development']['cachedir'] = '';
+$db['development']['char_set'] = 'utf8';
+$db['development']['dbcollat'] = 'utf8_general_ci';
+$db['development']['swap_pre'] = '';
+$db['development']['autoinit'] = TRUE;
+$db['development']['stricton'] = FALSE;
+*/
+// prod
+$db['production']['hostname'] = 'sql5c38a.carrierzone.com';
+$db['production']['username'] = 'exposeorg4325340';
+$db['production']['password'] = 'dUqtKZvvy6sYwBWv';
+$db['production']['database'] = 'expose_exposeorg4325340';
+$db['production']['dbdriver'] = 'mysql';
+$db['production']['dbprefix'] = '';
+$db['production']['pconnect'] = TRUE;
+$db['production']['db_debug'] = TRUE;
+$db['production']['cache_on'] = FALSE;
+$db['production']['cachedir'] = '';
+$db['production']['char_set'] = 'utf8';
+$db['production']['dbcollat'] = 'utf8_general_ci';
+$db['production']['swap_pre'] = '';
+$db['production']['autoinit'] = TRUE;
+$db['production']['stricton'] = FALSE;
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
