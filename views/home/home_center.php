@@ -68,9 +68,12 @@
                 </div>
                 <div class="span_4">
                     <div class="row">
+                        <fb:like send="true" width="208" show_faces="true" />
+                    </div>
+<!--                    <div class="row">
                         <img src="http://localhost/assets/img/ads/fake-ad-200x300.png" 
                             alt="ad" class="column-ad" />
-                    </div>
+                    </div>  -->
                     <div class="row">
                         <h3><?php echo lang('latest_recommendations'); ?></h3>
                     </div>

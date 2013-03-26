@@ -38,6 +38,11 @@ $year_list =  '';
 </div>
 <?php endif; ?>
 <p><?php echo $article_info['intro']; ?></p>
+<?php if ( $show_columns == 2 ) : ?>
+<div class="row">
+    <fb:like send="true" width="500" show_faces="true" />
+</div>
+<?php endif; ?>
 <p><em><?php echo lang('article_written_by') . ' ' . credit_display($credit_list, 1); ?> </em></p>
 <?php if ($meta['has_photographer']) : ?>
 <p><em><?php echo lang('article_photo_by') . ' ' . credit_display($credit_list, 2); ?></em></p>
