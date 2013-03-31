@@ -3,9 +3,20 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+$this->load->helper('form');
+$search_choices = array('artist' => 'Artist', 'release' => 'Release', 'article' => 'Article');
 ?>
             <div class="row">
                 <fb:like send="true" width="208" show_faces="true" />
+            </div>
+            <div class="row">
+                <?php echo form_open('artists/search', array('id' => 'artist-search')); ?>
+                    <label><?php echo lang('artist_search'); ?></label>
+                    <?php echo form_input(array('name' => 'search-value', 'id' => 'search-value')); ?>
+                    <?php echo form_dropdown('search-type', $search_choices, 'artist',
+                            'id="search-type"'); ?>
+                    <?php echo form_submit('artist-submit', 'Submit', 'class="btn"'); ?>
+                <?php echo form_close(); ?>
             </div>
 <!--        <div class="row">
             <img src="http://localhost/assets/img/ads/fake-ad-200x300.png" 

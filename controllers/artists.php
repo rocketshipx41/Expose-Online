@@ -28,21 +28,25 @@ class Artists extends MY_Controller {
             $starter = '';
         }
         $this->page_data['nav_chars'] = '#abcdefghijklmnopqrstuvwxyz';
+        $last_artist = array('slug' => '');
         
         // process
         if ( FALSE ) {
             $this->page_data['artist_list'] = 
                     $this->Artist_model->get_list($this->config->item('artist_index_items_per_page'),
                             $starter);
+            $last_artist = end($this->page_data['artist_list']);
         }
         else {
             $this->page_data['artist_list'] = 
                     $this->Artist_model->article_artist_list($this->config->item('artist_index_items_per_page'),
                             $starter);
+            $last_artist = end($this->page_data['artist_list']);
         }
         $this->page_data['backlink'] = $this->Artist_model->get_backlink($starter,
                 $this->config->item('artist_index_items_per_page'));
         $this->page_data['starter'] = $starter;
+        $this->page_data['last_slug'] = $last_artist['slug'];
         
         // display
         $this->page_data['trace'] .= $this->Artist_model->trace;
@@ -117,6 +121,7 @@ class Artists extends MY_Controller {
             if ( $artist_slug == '' ) {
                 $artist_slug = create_unique_slug($update_params['name'] . '-'
                         . $update_params['country_id'], 'artists');
+                $update_params['slug'] = $artist_slug;
             }
             if ($this->input->post('artist-url') ) {
               $update_params['url'] = $this->input->post('artist-url');

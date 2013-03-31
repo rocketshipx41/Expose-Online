@@ -55,6 +55,7 @@ class Auth extends CI_Controller
                 }
 
                 $data['use_recaptcha'] = $this->config->item('use_recaptcha', 'tank_auth');
+                $data['use_recaptcha'] = FALSE;
                 if ( $this->tank_auth->is_max_login_attempts_exceeded($login) ) {
                     if ( $data['use_recaptcha'] )
                         $this->form_validation->set_rules('recaptcha_response_field', 'Confirmation Code', 'trim|xss_clean|required|callback__check_recaptcha');

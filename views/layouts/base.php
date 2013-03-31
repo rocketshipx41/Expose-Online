@@ -97,7 +97,9 @@
                                 </div>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
+                                <div class="container">
                                 <?php echo $template['body']; ?>
+                                </div>
                             </div> <!-- span main column -->
                             <?php if ( $show_columns == 3 ) : ?>
                             <div class="span_3" id="right-column">

@@ -49,6 +49,9 @@
                     </div> <!-- row -->
                 <?php endforeach; ?>
                     <div class="row">
+                        <?php echo anchor('articles/index/reviews', lang('more_reviews')); ?>
+                    </div>
+                    <div class="row">
                         <h2><?php echo lang('home_latest_features'); ?></h2>
                     </div>
                 <?php foreach ($feature_list as $item) : ?>
@@ -65,26 +68,12 @@
                         </div>
                     </div> <!-- row -->
                 <?php endforeach; ?>
+                    <div class="row">
+                        <?php echo anchor('articles/index/features', lang('more_features')); ?>
+                    </div>
                 </div>
                 <div class="span_4">
-                    <div class="row">
-                        <fb:like send="true" width="208" show_faces="true" />
-                    </div>
-<!--                    <div class="row">
-                        <img src="http://localhost/assets/img/ads/fake-ad-200x300.png" 
-                            alt="ad" class="column-ad" />
-                    </div>  -->
-                    <div class="row">
-                        <h3><?php echo lang('latest_recommendations'); ?></h3>
-                    </div>
-                    <?php foreach ($recommendation_list as $item) : ?>
-                    <div class="row">
-                        <div class="span_12">
-                            <p><strong><?php echo anchor('articles/display/' . $item['slug'], $item['title']); ?></strong></p>
-                            <?php echo $item['body']; ?>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
+                    <?php echo $template['partials']['right_column']; ?>
                 </div>
             </div> <!-- row -->
         </div> <!-- container -->

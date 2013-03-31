@@ -23,6 +23,7 @@
     <dd><?php echo $release_info['year_released']; ?></dd>
     
 </dl>
+<p><?php echo lang('article_artist') . ': ' . artist_display($artist_list); ?></p>
     <?php if ($can_edit) : ?>
         <?php echo anchor('releases/edit/'. $release_info['id'], 
                 lang('edit'), 'class="btn"'); ?>

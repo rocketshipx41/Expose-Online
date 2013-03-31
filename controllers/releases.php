@@ -36,6 +36,7 @@ class Releases extends MY_Controller {
         
         // display
         $this->page_data['release_info'] = $release_info;
+        $this->page_data['artist_list'] = $release_artist_list;
         $this->page_data['trace'] .= $this->Release_model->trace;
         $this->page_data['trace'] .= $this->Label_model->trace;
         $this->page_data['trace'] .= $this->Masterdata_model->trace;

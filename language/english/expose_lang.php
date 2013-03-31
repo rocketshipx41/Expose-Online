@@ -49,6 +49,8 @@ $lang['more_events'] = 'More events';
 $lang['add_event'] = 'Add an event';
 $lang['more_recommendations'] = 'More recommendations';
 $lang['add_recommendation'] = 'Add a recommendation';
+$lang['more_reviews'] = 'More reviews';
+$lang['more_features'] = 'More features';
 
 // home page
 $lang['home_welcome_message'] = 'Welcome to ';
