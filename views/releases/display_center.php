@@ -23,6 +23,21 @@
     <dd><?php echo $release_info['year_released']; ?></dd>
     
 </dl>
+    <dt><?php echo lang('artist_display_article_list'); ?></dt>
+<?php if (count($article_list)) : ?>
+    <dd>
+        <ul>
+        <?php foreach ($article_list as $item) :?>
+            <li>
+                <?php echo $item['category'] . ': ' . anchor('articles/display/' 
+                        . $item['slug'], $item['title']); ?>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+    </dd>
+<?php else : ?>
+    <dd><em><?php echo lang('artist_field_none'); ?></em></dd>
+<?php endif; ?>
 <p><?php echo lang('article_artist') . ': ' . artist_display($artist_list); ?></p>
     <?php if ($can_edit) : ?>
         <?php echo anchor('releases/edit/'. $release_info['id'], 

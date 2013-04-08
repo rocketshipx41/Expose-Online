@@ -4,17 +4,17 @@
  * and open the template in the editor.
  */
 $this->load->helper('form');
-$search_choices = array('artist' => 'Artist', 'release' => 'Release', 'article' => 'Article');
+$search_choices = array('artists' => 'Artist', 'releases' => 'Release', 'articles' => 'Article');
 ?>
             <div class="row">
                 <fb:like send="true" width="208" show_faces="true" />
             </div>
             <div class="row">
-                <?php echo form_open('artists/search', array('id' => 'artist-search')); ?>
+                <?php echo form_open('artists/search', array('id' => 'omni-search')); ?>
                     <label><?php echo lang('artist_search'); ?></label>
                     <?php echo form_input(array('name' => 'search-value', 'id' => 'search-value')); ?>
                     <?php echo form_dropdown('search-type', $search_choices, 'artist',
-                            'id="search-type"'); ?>
+                            'id="search-type" onchange="changeSearch();"'); ?>
                     <?php echo form_submit('artist-submit', 'Submit', 'class="btn"'); ?>
                 <?php echo form_close(); ?>
             </div>

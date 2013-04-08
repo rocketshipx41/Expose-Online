@@ -58,7 +58,7 @@ class Release_model extends CI_Model
 	$this->trace .= 'get_release_artists(' . $release_id . ')<br/>';
         $result = array();
         $this->db->select('ra.release_id, ra.artist_id, ra.is_guest, '
-                    . 'a.display')
+                    . 'a.display, a.slug')
                 ->from('release_artist ra')
                 ->join('artists a', 'a.id = ra.artist_id', 'left')
                 ->where('ra.release_id', $release_id)
@@ -67,8 +67,28 @@ class Release_model extends CI_Model
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
         if ( $query->num_rows() ) {
             foreach ($query->result() as $row) {
-                $result[$row->artist_id] = $row->display;
+		$result[$row->artist_id] = array(
+                    'display' => $row->display,
+                    'slug' => $row->slug
+                );
             }
+        }
+        return $result;
+    }
+    
+    function get_article_list($id = 0)
+    {
+	$this->trace .= 'get_article_list<br/>';
+        $result = array();
+        if ($id > 0) {
+            $this->db->select('a.title, a.slug, a.category_id, c.item_name category, ar.article_id')
+                    ->from('article_release ar')
+                    ->join('articles a', 'a.id = ar.article_id')
+                    ->join('categories c', 'c.id = a.category_id')
+                    ->where('ar.release_id', $id);
+            $query = $this->db->get();
+            $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+            $result = $query->result_array();
         }
         return $result;
     }

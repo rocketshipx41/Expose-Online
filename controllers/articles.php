@@ -62,8 +62,10 @@ class Articles extends MY_Controller {
         
         // init
         $this->page_data['show_columns'] = 3;
+        $this->load->model('Release_model');
         
         // process
+        $this->page_data['roundtable'] = FALSE;
 	$article_info = $this->Article_model->get_full($article_slug);
 	$this->page_data['credit_list'] = $this->Article_model->get_credits($article_info['id']);
 	$this->page_data['topic_list'] = $this->Article_model->get_topics($article_info['id']);
@@ -82,7 +84,7 @@ class Articles extends MY_Controller {
         }
         if ( $article_info['category_id'] == 4 ) {
             $this->page_data['show_columns'] = 2;
-            $this->page_data['trace'] .= 'feature article, only 2column layout<br/>';
+            $this->page_data['trace'] .= 'feature article, only 2 column layout<br/>';
         }
         if ( $article_info['category_id'] == 8 ) {
             $this->page_data['show_columns'] = 2;
@@ -91,7 +93,39 @@ class Articles extends MY_Controller {
         }
         $this->page_data['meta'] = $this->Article_model->get_meta($article_info['id']);
 	$this->page_data['artist_list'] = $this->Article_model->get_artists($article_info['id']);
-	$this->page_data['release_list'] = $this->Article_model->get_releases($article_info['id']);
+	$release_list = $this->Article_model->get_releases($article_info['id']);
+        $related_list = array();
+        if ( ( $article_info['category_id'] == 1 ) && count($release_list) ) {
+            $this->page_data['trace'] .= 'review of a release(s), look for others<br/>';
+            foreach ($release_list as $item) {
+                $temp = $this->Release_model->get_article_list($item['release_id']);
+                foreach ( $temp as $art ) { // don't include link to self
+                    if ( $art['slug'] != $article_slug ) {
+                        $related_list[$art['article_id']] = $art;
+                        $this->page_data['roundtable'] = TRUE;
+                    }
+                }
+            }
+        }
+        if ($this->page_data['roundtable']) {
+            foreach ($related_list as $id => &$art) {
+                $temp = $this->Article_model->get_full($art['slug']);
+                $art['body']= $temp['body'];
+                $art['credit_list'] = $this->Article_model->get_credits($id);
+                $art['published_on'] = $temp['published_on'];
+            }
+            $related_list[$article_info['id']] = array(
+                'body' => $article_info['body'],
+                'credit_list' => $this->page_data['credit_list'],
+                'published_on' => $article_info['published_on']
+            );
+            $center_template = 'roundtable_center';
+        }
+        else {
+            $center_template = 'display_center';
+        }
+	$this->page_data['release_list'] = $release_list;
+        $this->page_data['related_list'] = $related_list;
         $this->page_data['link_list'] = $this->Article_model->get_link_list($article_info['id']);
         $this->page_data['image_file'] = '';
 	$this->page_data['page_name'] = $article_info['category_name'];
@@ -107,7 +141,7 @@ class Articles extends MY_Controller {
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'],
 			$article_info['article_title'])
-                ->build('articles/display_center', $this->page_data);
+                ->build('articles/' . $center_template, $this->page_data);
     }
     
     public function add($category_id = 0, $release_id = 0)

@@ -60,6 +60,26 @@ class Article_model extends CI_Model
         return $result;
     }
     
+    function get_random($category = '8', $max = 1)
+    {
+	$this->trace .= 'get_random<br/>';
+        $result = array();
+        $this->db->select('a.id, a.slug, a.title, intro, a.category_id, '
+                    . 'a.image_file, a.body, a.updated_on, a.published_on')
+                ->from('articles a')
+		->join('categories c', 'c.id = a.category_id', 'left')
+                ->where('a.id >= (SELECT FLOOR( MAX(id) * RAND()) FROM articles ) ')
+                ->where('status', 'live')
+                ->limit($max);
+        if ( $category ) {
+            $this->db->where('c.slug', $category);
+        }
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        $result = $query->result_array();
+        return $result;
+    }
+    
     function get_issue_articles($issue_no)
     {
 	$this->trace .= 'get_issue_articles<br/>';
@@ -351,7 +371,13 @@ class Article_model extends CI_Model
         }
 	if ($user_input['article_id'] == 0) {
             $this->trace .= 'new article, insert' . "<br/>\n";
-            $data['slug'] = create_unique_slug($user_input['title'], 'articles');
+            $slug_src = $user_input['title'];
+            if (count($user_input['author'])) {
+                foreach ($user_input['author'] as $user => $item){
+                    $slug_src .= '-' . $user;
+                }
+            }
+            $data['slug'] = create_unique_slug($slug_src, 'articles');
             $result['slug'] = $data['slug'];
 	    $this->db->insert('articles', $data);
             $this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
@@ -545,6 +571,24 @@ class Article_model extends CI_Model
             unset($item['body']);
         }
         return $result;
+    }
+    
+    function get_release_reviews($release_id)
+    {
+	$this->trace .= 'get_release_reviews<br/>';
+        $result = array();
+        $this->db->select('ar.article_id')
+                ->from('article_release ar')
+                ->where('a.status', 'live')
+                ->where('a.category_id', 1)
+                ->where('ar.release_id', $release_id)
+                ->order_by('updated_on', 'desc');
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        $result = $query->result_array();
+        foreach ($result as &$item) {
+            
+        }
+        
     }
     
 }

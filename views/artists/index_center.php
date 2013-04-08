@@ -9,7 +9,7 @@ $this->load->helper('form');
     <?php for ($i = 0; $i < strlen($nav_chars); $i++) : ?>
     <?php echo anchor('artists/index/' . substr($nav_chars, $i, 1), 
             substr($nav_chars, $i, 1), 
-            'class="btn" title="Skip to ' . substr($nav_chars, $i, 1) .'"'); ?>
+            'class="btn small" title="Skip to ' . substr($nav_chars, $i, 1) .'"'); ?>
     <?php endfor; ?>
     <?php echo form_open('artists/search', array('id' => 'artist-search')); ?>
 	<label><?php echo lang('artist_search'); ?></label>

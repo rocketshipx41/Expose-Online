@@ -70,6 +70,21 @@ $year_list =  '';
     <?php echo auto_link($row); ?><br>
 <?php endforeach; ?>
 </p>
+    <dt><?php echo lang('artist_display_article_list'); ?></dt>
+<?php if (count($related_list)) : ?>
+    <dd>
+        <ul>
+        <?php foreach ($related_list as $item) :?>
+            <li>
+                <?php echo $item['category'] . ': ' . anchor('articles/display/' 
+                        . $item['slug'], $item['title']); ?>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+    </dd>
+<?php else : ?>
+    <dd><em><?php echo lang('artist_field_none'); ?></em></dd>
+<?php endif; ?>
 <?php if ($can_edit) : ?>
 <?php echo anchor('articles/edit/'. $article_info['id'], lang('edit'), 'class="btn"'); ?>
 <?php endif; ?>

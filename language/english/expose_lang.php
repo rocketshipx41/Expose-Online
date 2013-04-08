@@ -139,3 +139,8 @@ $lang['features_page_name'] = 'Features';
 
 // news page
 $lang['news_page_name'] = 'News';
+
+// utils page
+$lang['user_fullname'] = 'Full name';
+$lang['user_sortname'] = 'Sort name';
+$lang['user_initials'] = 'Initials';

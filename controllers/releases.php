@@ -33,6 +33,7 @@ class Releases extends MY_Controller {
         $this->page_data['trace'].= 'release info: ' . print_r($release_info, TRUE)
                 . '<br/>';
         $release_artist_list = $this->Release_model->get_release_artists($release_id);
+        $this->page_data['article_list'] = $this->Release_model->get_article_list($release_id);
         
         // display
         $this->page_data['release_info'] = $release_info;
