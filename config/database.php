@@ -130,7 +130,7 @@ $db['development']['stricton'] = FALSE;
 // prod
 $db['production']['hostname'] = 'sql5c38a.carrierzone.com';
 $db['production']['username'] = 'exposeorg4325340';
-$db['production']['password'] = 'dUqtKZvvy6sYwBWv';
+$db['production']['password'] = '3xp0@dm1n!';
 $db['production']['database'] = 'expose_exposeorg4325340';
 $db['production']['dbdriver'] = 'mysql';
 $db['production']['dbprefix'] = '';

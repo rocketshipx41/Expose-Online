@@ -252,6 +252,9 @@ class Articles extends MY_Controller {
             if ($update_params['issue_no'])  {
                 $update_params['published_on'] = $issue_date_list[$update_params['issue_no']];
             }
+            if ($this->input->post('image_file'))  {
+                $update_params['image_file'] = $this->input->post('image_file');
+            }
             $ok = TRUE;
             if ( $this->input->post('title') ) {
                 $update_params['title'] = $this->input->post('title');

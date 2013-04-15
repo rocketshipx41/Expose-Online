@@ -54,8 +54,12 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                         . '&nbsp;' . release_line($item); ?>
                 </td>
             <?php if ($can_edit) : ?>
-                <td><?php echo anchor('releases/edit/'. $item['release_id']
-                        .'/' . $artist_info['slug'], lang('edit'), 'class="btn"'); ?></td>
+                <td>
+                    <?php echo anchor('releases/edit/'. $item['release_id']
+                        .'/' . $artist_info['slug'], lang('edit'), 'class="btn"'); ?><br/>
+                    <?php echo anchor('articles/add/1/'. $item['release_id'], 
+                            lang('artist_review_release'), 'class="btn"'); ?>
+                </td>
             <?php endif; ?>
             </tr>
         <?php endforeach; ?>

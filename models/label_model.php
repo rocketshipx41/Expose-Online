@@ -62,6 +62,20 @@ class Label_model extends CI_Model
 	}
         return $result;
     }
+    
+    function update($id = 0, $data = array())
+    {
+        $this->trace .= '>> update label<br/>';
+        if ( $id ) {
+            $this->db->where('id', $id);
+            $this->db->update('labels', $data);
+        }
+        else {
+            $this->db->insert('labels', $data);
+        }
+        $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+        return $this->db->insert_id();
+    }
 }
 
 /* End of file label_model.php */

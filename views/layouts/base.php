@@ -17,7 +17,7 @@
 	<link rel="stylesheet" type="text/css" href="/assets/css/style-caper-base.css" media="screen, projection, print" />
 	<link href="/assets/css/expose.css" type="text/css" rel="stylesheet" />
 	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
         <script type="text/javascript" src="/assets/js/jquery.form.js"></script>
         <script type="text/javascript" src="/assets/js/jquery.isdirty.js"></script>
 	<script src="/assets/js/chosen/chosen.jquery.js"></script>

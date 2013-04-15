@@ -44,9 +44,11 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     <?php else : ?>
     &nbsp;&raquo; <?php echo anchor('articles/display/' . $item['slug'], 'Read more'); ?><br/>
     <?php endif; ?>
+    <?php if ($item['category_id'] != 5) : ?>
     <em>(<?php echo lang('article_posted') . ' ' 
             . credit_display($item['credits'], 1) . ' '
             . substr($item['published_on'], 0, 10); ?>)</em>
+    <?php endif; ?>
     </div> <!-- column span -->
 </div> <!-- row -->
 <?php endforeach; ?>

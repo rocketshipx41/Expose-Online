@@ -369,6 +369,9 @@ class Article_model extends CI_Model
         if ( $user_input['published_on'] ) {
             $data['published_on'] = $user_input['published_on'];
         }
+        if ( $user_input['image_file'] ) {
+            $data['image_file'] = $user_input['image_file'];
+        }
 	if ($user_input['article_id'] == 0) {
             $this->trace .= 'new article, insert' . "<br/>\n";
             $slug_src = $user_input['title'];

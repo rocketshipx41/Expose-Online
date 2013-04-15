@@ -33,7 +33,7 @@ $year_list =  '';
 <?php elseif ($article_info['category_id'] == 4) : ?>
 <div class="feature-top-photo">
     <img src="<?php echo image_url('features/' . $article_info['image_file']);?>" 
-         alt="feature photo" width="680" />
+         alt="feature photo" width="640" />
     <h2 class="feature-title"><span><?php echo $article_info['article_title']; ?></span></h2>
 </div>
 <?php endif; ?>
@@ -43,7 +43,9 @@ $year_list =  '';
     <fb:like send="true" width="500" show_faces="true" />
 </div>
 <?php endif; ?>
+<?php if ($article_info['category_id'] != 5) : ?>
 <p><em><?php echo lang('article_written_by') . ' ' . credit_display($credit_list, 1); ?> </em></p>
+<?php endif; ?>
 <?php if ($meta['has_photographer']) : ?>
 <p><em><?php echo lang('article_photo_by') . ' ' . credit_display($credit_list, 2); ?></em></p>
 <?php endif; ?>

@@ -146,6 +146,7 @@ class Releases extends MY_Controller {
             $artist_select_list[$key] = $item['display'];
         }
 	$this->page_data['artist_select_list'] = $artist_select_list;
+        $this->page_data['country_list'] = $this->Masterdata_model->get_country_list(TRUE);
         
         // display
         $this->page_data['release_info'] = $release_info;
@@ -204,6 +205,7 @@ class Releases extends MY_Controller {
         }
 	$this->page_data['artist_select_list'] = $artist_select_list;
         $this->page_data['artist_slug'] = $artist_slug;
+        $this->page_data['country_list'] = $this->Masterdata_model->get_country_list(TRUE);
         
         // display
         $this->page_data['release_info'] = $release_info;
@@ -278,6 +280,30 @@ class Releases extends MY_Controller {
     {
         $result = $this->Release_model->fix_slugs();
         echo $result;
+    }
+    
+    function addlabel()
+    {
+        $update_data = array();
+        $result = array();
+        if ( $this->input->post('label-name') ) {
+            $update_data['display'] = $this->input->post('label-name');
+        }
+        if ( $this->input->post('label-sort') ) {
+            $update_data['name'] = $this->input->post('label-sort');
+        }
+        if ( $this->input->post('label-country') ) {
+            $update_data['country_id'] = $this->input->post('label-country');
+        }
+        if ( $this->input->post('label-url') ) {
+            $update_data['url'] = $this->input->post('label-url');
+        }
+        if ( count($update_data) ) {
+            $this->load->model('Label_model');
+            $result['id'] = $this->Label_model->update(0, $update_data);
+            $result['display'] = $update_data['display'];
+        }
+        echo json_encode($result);
     }
     
 }

@@ -102,6 +102,7 @@ $lang['artist_search_none'] = 'No artists matched your search.';
 $lang['artist_field_image'] = 'Artist image';
 $lang['artist_add'] = 'Add new artist';
 $lang['artist_new'] = 'New artist';
+$lang['artist_review_release'] = 'Review';
 
 // edit page
 $lang['artist_field_display_name'] = 'Display name';
@@ -124,6 +125,12 @@ $lang['release_related_artists'] = 'Related artist(s)';
 $lang['release_go_to'] = 'Post and go to';
 $lang['add_release'] = 'Add release';
 $lang['release_review'] = 'Review this release';
+$lang['release_add_label'] = 'New label';
+$lang['release_label_popup_name'] = 'New label name';
+$lang['release_label_popup_sort'] = 'Name for sorting';
+$lang['release_label_popup_country'] = 'New label country';
+$lang['release_label_popup_url'] = 'New label website';
+$lang['release_label_popup_cancel'] = 'Cancel';
 
 // search form
 $lang['search_go'] = 'Go';

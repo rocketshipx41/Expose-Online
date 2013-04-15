@@ -9,7 +9,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  * 
  */
 
-$config['site_name'] = 'Exposé Online';
+$config['site_name'] = 'Exposé Online (BETA)';
 $config['site_slogan'] = 'Exploring the boundaries of rock';
 $config['copyright'] = '&copy; 1995 - 2012 Exposé Magazine';
 $config['license'] = 'Creative Commons License';

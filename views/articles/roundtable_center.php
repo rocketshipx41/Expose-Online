@@ -51,4 +51,3 @@ $year_list =  '';
     <?php echo auto_link($row); ?><br>
 <?php endforeach; ?>
 </p>
-    <dt><?php echo lang('artist_display_article_list'); ?></dt>
