@@ -31,11 +31,10 @@ class Artist_model extends CI_Model
         }
         $this->db->select('a.id, a.name, a.display, a.country_id, a.slug, '
                     . 'a.image_file, c.name country, '
-                    . 'count(release_id) as release_count, '
-                    . 'count(article_id) as article_count')
+                    . '(select count(article_id) from article_artist aa where aa.artist_id = a.id) as article_count, '
+                    . '(select count(release_id) from release_artist ra where ra.artist_id = a.id) as release_count')
                 ->from('artists a')
                 ->join('countries c', 'c.id = a.country_id', 'left')
-                ->join('release_artist ra', 'ra.artist_id = aa.artist_id', 'left')
                 ->group_by('a.id')
                 ->order_by('name');
         if ($max_count > 0) {
@@ -67,7 +66,7 @@ class Artist_model extends CI_Model
                         'slug' => $row->slug
                     );
                 }
-                $result[$row->id]['release_count'] = $this->get_release_count($row->id);
+                //$result[$row->id]['release_count'] = $this->get_release_count($row->id);
 	    }
 	}
         return $result;
@@ -115,7 +114,6 @@ class Artist_model extends CI_Model
                 ->group_by('a.id')
                 ->having('article_count > 0')
                 ->join('countries c', 'c.id = a.country_id', 'left')
-
                 ->order_by('a.name, a.country_id');
         if ($max_count > 0) {
             $this->db->limit($max_count);
