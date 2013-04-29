@@ -21,9 +21,6 @@
 	    <label class="stacked"><?php echo lang('user_sortname'); ?></label>
 	    <?php echo form_input(array('name' => 'sortname', 'id' => 'sortname',
 		'value' => '', 'size' => '60', 'placeholder' => 'Full name for sorting')); ?>
-	    <label class="stacked"><?php echo lang('user_initials'); ?></label>
-	    <?php echo form_input(array('name' => 'initials', 'id' => 'initials',
-		'value' => '', 'size' => '6', 'placeholder' => 'Unique initials')); ?>
 	    <br/><br/><?php echo form_submit(array('name' => 'submit', 'id' => 'submit',
 		    'value' => lang('user_submit'), 'class' => 'btn primary')); ?>
 	    <?php echo form_close(); ?>

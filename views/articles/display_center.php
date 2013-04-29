@@ -72,21 +72,13 @@ $year_list =  '';
     <?php echo auto_link($row); ?><br>
 <?php endforeach; ?>
 </p>
-    <dt><?php echo lang('artist_display_article_list'); ?></dt>
-<?php if (count($related_list)) : ?>
-    <dd>
-        <ul>
-        <?php foreach ($related_list as $item) :?>
-            <li>
-                <?php echo $item['category'] . ': ' . anchor('articles/display/' 
-                        . $item['slug'], $item['title']); ?>
-            </li>
-        <?php endforeach; ?>
-        </ul>
-    </dd>
-<?php else : ?>
-    <dd><em><?php echo lang('artist_field_none'); ?></em></dd>
-<?php endif; ?>
 <?php if ($can_edit) : ?>
-<?php echo anchor('articles/edit/'. $article_info['id'], lang('edit'), 'class="btn"'); ?>
+    <?php echo anchor('articles/edit/'. $article_info['id'], lang('edit'), 'class="btn"'); ?>
+    <?php if ($article_info['category_id'] == 1) : ?>
+    <?php echo form_open('articles/addrelease/'. $article_info['id'], array('id' => 'addrelease-form')); ?>
+    <?php echo form_hidden('article-id', $article_info['id']); ?>
+    <?php echo form_input(array('name' => 'release-id', 'id' => 'release-id')); ?>
+    <?php echo form_submit('addrelease-submit', 'Add release ID', 'class="btn"'); ?>
+    <?php echo form_close(); ?>
+    <?php endif; ?>
 <?php endif; ?>

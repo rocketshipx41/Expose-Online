@@ -220,6 +220,9 @@ class Articles extends MY_Controller {
     public function edit($article_id = 0)
     {
         // authorize
+	if ( ! $this->page_data['can_contribute']) {
+	    redirect('articles/index');
+	}
         if ( $this->input->post('article-id') ) {
             $article_id = $this->input->post('article-id');
         }
@@ -629,6 +632,9 @@ class Articles extends MY_Controller {
     public function drafts()
     {
         // authorize
+	if ( ! $this->page_data['can_contribute']) {
+	    redirect('articles/index');
+	}
         
         // init
         $this->page_data['offset'] = 0;
@@ -645,6 +651,42 @@ class Articles extends MY_Controller {
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'], 'Index')
                 ->build('articles/index_center', $this->page_data);
+    }
+    
+    public function addrelease($article_id)
+    {
+        // authorize
+	if ( ! $this->page_data['can_contribute']) {
+	    redirect('articles/index');
+	}
+        $release_id = $this->input->post('release-id');
+        $this->Article_model->add_release($article_id, $release_id);
+        redirect('articles/index');
+    }
+    
+    public function search()
+    {
+        // authorize
+        if ( $this->input->post('search-value') ) {
+            $search_value = $this->input->post('search-value');
+        }
+        else {
+            redirect('');
+        }
+        
+        // process
+        $this->page_data['main_list'] = $this->Article_model->search($search_value);
+       
+        $this->page_data['topic_slug'] = '';
+        $this->page_data['category_slug'] = '';
+        $this->page_data['offset'] = 0;
+        $this->page_data['trace'] .= $this->Article_model->trace;
+        $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
+        $this->page_data['show_columns'] = 3;
+        $this->template
+                ->title($this->page_data['site_name'], $this->page_data['page_name'])
+                ->build('articles/index_center', $this->page_data);
+       
     }
     
 }

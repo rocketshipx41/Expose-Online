@@ -30,9 +30,13 @@ class Artist_model extends CI_Model
             );
         }
         $this->db->select('a.id, a.name, a.display, a.country_id, a.slug, '
-                    . 'a.image_file, c.name country')
+                    . 'a.image_file, c.name country, '
+                    . 'count(release_id) as release_count, '
+                    . 'count(article_id) as article_count')
                 ->from('artists a')
                 ->join('countries c', 'c.id = a.country_id', 'left')
+                ->join('release_artist ra', 'ra.artist_id = aa.artist_id', 'left')
+                ->group_by('a.id')
                 ->order_by('name');
         if ($max_count > 0) {
             $this->db->limit($max_count);
@@ -48,7 +52,8 @@ class Artist_model extends CI_Model
                     $result[$row->id] = array(
                         'display' => $row->name,
                         'country_id' => $row->country_id,
-                        'counry' => $row->country,
+                        'country' => $row->country,
+                        'release_count' => $row->release_count,
                         'image_file' => 'artists/' . $row->image_file,
                         'slug' => $row->slug
                     );
@@ -62,9 +67,17 @@ class Artist_model extends CI_Model
                         'slug' => $row->slug
                     );
                 }
+                $result[$row->id]['release_count'] = $this->get_release_count($row->id);
 	    }
 	}
         return $result;
+    }
+    
+    private function get_release_count($artist_id)
+    {
+        $this->db->select('count(release_id)')
+                ->from('release_artist')
+                ->where('artist_id', $artist_id);
     }
     
     public function get_backlink($base = '', $count_back = 0)
@@ -93,14 +106,16 @@ class Artist_model extends CI_Model
     
     function article_artist_list($max_count = 0, $starter = '')
     {
-	$this->trace .= 'get_list<br/>';
+	$this->trace .= 'article_artist_list<br/>';
         $result = array();
-        $this->db->select('aa.artist_id, a.display, a.country_id, '
-                    . 'c.name country, a.slug, a.image_file')
-                ->distinct()
-                ->from('article_artist aa')
-                ->join('artists a', 'a.id = aa.artist_id', 'left')
+        $this->db->select('a.id, a.name, a.display, c.name country, a.slug, a.image_file, a.country_id, '
+                    . '(select count(article_id) from article_artist aa where aa.artist_id = a.id) as article_count, '
+                    . '(select count(release_id) from release_artist ra where ra.artist_id = a.id) as release_count')
+                ->from('artists a')
+                ->group_by('a.id')
+                ->having('article_count > 0')
                 ->join('countries c', 'c.id = a.country_id', 'left')
+
                 ->order_by('a.name, a.country_id');
         if ($max_count > 0) {
             $this->db->limit($max_count);
@@ -112,10 +127,12 @@ class Artist_model extends CI_Model
         $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
 	foreach ($query->result() as $row) {
 	    if ($row->display) {
-                $result[$row->artist_id] = array(
+                $result[$row->id] = array(
                     'display' => $row->display,
                     'country_id' => $row->country_id,
                     'country' => $row->country,
+                    'article_count' => $row->article_count,
+                    'release_count' => $row->release_count,
                     'image_file' => 'artists/' . $row->image_file,
                     'slug' => $row->slug
                 );
@@ -217,7 +234,8 @@ class Artist_model extends CI_Model
                     ->from('article_artist aa')
                     ->join('articles a', 'a.id = aa.article_id')
                     ->join('categories c', 'c.id = a.category_id')
-                    ->where('aa.artist_id', $id);
+                    ->where('aa.artist_id', $id)
+                    ->where('status', 'live');
             $query = $this->db->get();
             $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
             $result = $query->result_array();

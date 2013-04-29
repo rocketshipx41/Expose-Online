@@ -26,6 +26,31 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 <?php endif; ?>
 <!--<p><?php echo $page_intro; ?></p>-->
 
+<?php if ($offset != 0) : ?>
+<span>
+&laquo; 
+    <?php if ($category_slug) : ?>
+<?php echo anchor('articles/index/' . $category_slug . '/' . ($offset - 10),
+        lang('article_index_newer')); ?>
+    <?php elseif ($topic_slug) : ?>
+<?php echo anchor('articles/topic/' . $topic_slug . '/' . ($offset - 10),
+        lang('article_index_newer')); ?>
+    <?php endif; ?>
+</span> 
+        
+<?php endif; ?>
+<?php if ($category_slug) : ?>
+<span class="pull-right">
+<?php echo anchor('articles/index/' . $category_slug . '/' . ($offset + 10),
+        lang('article_index_older')); ?> 
+&raquo;
+</span>
+<?php elseif ($topic_slug) : ?>
+<?php echo anchor('articles/topic/' . $topic_slug . '/' . ($offset + 10),
+        lang('article_index_newer')); ?>
+
+<?php endif; ?>
+
 <?php foreach ($main_list as $item) : ?>
 <div class="row">
     <div class="span_12">
@@ -54,6 +79,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 <?php endforeach; ?>
 
 <?php if ($offset != 0) : ?>
+<span>
 &laquo; 
     <?php if ($category_slug) : ?>
 <?php echo anchor('articles/index/' . $category_slug . '/' . ($offset - 10),
@@ -62,14 +88,17 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 <?php echo anchor('articles/topic/' . $topic_slug . '/' . ($offset - 10),
         lang('article_index_newer')); ?>
     <?php endif; ?>
-&nbsp;|&nbsp; 
+</span> 
         
 <?php endif; ?>
 <?php if ($category_slug) : ?>
+<span class="pull-right">
 <?php echo anchor('articles/index/' . $category_slug . '/' . ($offset + 10),
         lang('article_index_older')); ?> 
+&raquo;
+</span>
 <?php elseif ($topic_slug) : ?>
 <?php echo anchor('articles/topic/' . $topic_slug . '/' . ($offset + 10),
         lang('article_index_newer')); ?>
+
 <?php endif; ?>
-&raquo;

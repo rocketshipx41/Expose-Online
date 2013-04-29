@@ -27,6 +27,7 @@ class Article_model extends CI_Model
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left')
                 ->order_by('published_on', 'desc')
+                ->order_by('updated_on', 'desc')
                 ->where('status', 'live');
         if ($category != '') {
             $this->db->where('c.slug', $category);
@@ -88,7 +89,7 @@ class Article_model extends CI_Model
                     . 'a.image_file, a.body, a.updated_on, a.published_on')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left')
-                ->order_by('created_on', 'desc')
+                ->order_by('updated_on', 'desc')
                 ->where('status', 'live')
                 ->where('issue_no', $issue_no);
         $query = $this->db->get();
@@ -113,7 +114,7 @@ class Article_model extends CI_Model
 	$this->trace .= 'draft_list<br/>';
         $result = array();
         $this->db->select('a.id, a.slug, a.title, intro, a.category_id, '
-                    . 'a.image_file, a.body, a.updated_on')
+                    . 'a.image_file, a.body, a.updated_on, , a.updated_on published_on')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left')
                 ->order_by('updated_on', 'asc')
@@ -129,6 +130,7 @@ class Article_model extends CI_Model
                     $item['intro'] = smart_trim($item['body'], 200);
                 }
             }
+            $item['credits'] = $this->get_credits($item['id']);
             unset($item['body']);
         }
         return $result;
@@ -592,6 +594,46 @@ class Article_model extends CI_Model
             
         }
         
+    }
+    
+    function add_release($article_id, $release_id)
+    {
+        $this->trace .= 'add_release<br/>';
+        if ( $article_id && $release_id ) {
+            $data = array(
+                'article_id' => $article_id,
+                'release_id' => $release_id
+            );
+            $this->db->insert('article_release', $data);
+        }
+    }
+    
+    function search($search_value)
+    {
+	$this->trace .= 'search<br/>';
+        $result = array();
+        $this->db->select('a.id, a.slug, a.title, intro, a.category_id, '
+                    . 'a.image_file, a.body, a.updated_on, a.published_on')
+                ->from('articles a')
+		->join('categories c', 'c.id = a.category_id', 'left')
+                ->order_by('updated_on', 'desc')
+                ->where('status', 'live')
+                ->like('a.title', $search_value);
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        $result = $query->result_array();
+        foreach ($result as &$item) {
+            if ( ($item['category_id'] == 1) && ( ! $item['image_file']) ) {
+                $this->trace .= 'no image assigned to review<br/>';
+                $item['image_file'] = $this->get_main_image($item['id'], $item['category_id']);
+                if ( ! $item['intro'] ) {
+                    $item['intro'] = smart_trim($item['body'], 200);
+                }
+            }
+            $item['credits'] = $this->get_credits($item['id']);
+            unset($item['body']);
+        }
+        return $result;
     }
     
 }

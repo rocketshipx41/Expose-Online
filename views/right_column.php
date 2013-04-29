@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 $this->load->helper('form');
-$search_choices = array('artists' => 'Artist', 'releases' => 'Release', 'articles' => 'Article');
+$search_choices = array('artists' => 'Artist', 'articles' => 'Title');
 ?>
             <div class="row">
                 <fb:like send="true" width="208" show_faces="true" />

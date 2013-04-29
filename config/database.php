@@ -95,9 +95,9 @@ $db['default']['stricton'] = FALSE;
 // dev
 
 $db['development']['hostname'] = 'localhost';
-$db['development']['username'] = 'expoweb';
-$db['development']['password'] = 'dUqtKZvvy6sYwBWv';
-$db['development']['database'] = 'expose';
+$db['development']['username'] = 'exposeorg4325340';
+$db['development']['password'] = '3xp0@dm1n!';
+$db['development']['database'] = 'expose_exposeorg4325340';
 $db['development']['dbdriver'] = 'mysql';
 $db['development']['dbprefix'] = '';
 $db['development']['pconnect'] = TRUE;

@@ -34,10 +34,18 @@ $this->load->helper('form');
 <?php if (count($artist_list)) : ?>
 <?php foreach ($artist_list as $item) : ?>
 <div class="row">
+    <div class="span_5 nomargin">
     <img src="<?php echo image_url($item['image_file']);?>" class="index-art"
                  height="150" width="150" alt="<?php echo lang('article_cover_art_alt'); ?>">
-    <h3><?php echo anchor('artists/display/' . $item['slug'], $item['display']); ?></h3>
-    <p><?php echo lang('artist_field_country') . ': ' . $item['country']; ?></p>
+    </div>
+    <div class="span_7 nomargin">
+    <h3 class="tight"><?php echo anchor('artists/display/' . $item['slug'], $item['display']); ?></h3>
+    <span class="smallspan"><ul>
+        <li><?php echo lang('artist_field_country') . ': ' . $item['country']; ?></li>
+        <li><?php echo lang('artist_field_releases') . ': ' . $item['release_count']; ?></li>
+        <li><?php echo lang('artist_field_articles') . ': ' . $item['article_count']; ?></li>
+    </ul></span>
+    </div>
 </div>
 <?php endforeach; ?>
 <div class="row">

@@ -29,16 +29,26 @@ class User_model extends CI_Model
     {
 	$this->trace = 'get_user_by_email<br/>';
 	$query = $this->db->query("SELECT * FROM users u, user_profiles up WHERE u.email='$email' and u.id = up.user_id");
+	$this->db->select("u.*, up.*");
+	$this->db->from("users AS u");
+	$this->db->join("user_profiles AS up", "u.id=up.user_id");
+	$this->db->where('u.email', $email);
+	$query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
-	return $query->result();
+	return $query->row();
     }
 
     function get_user_by_username($username)
     {
 	$this->trace = 'get_user_by_username<br/>';
 	$query = $this->db->query("SELECT * FROM users u, user_profiles up WHERE u.username='$username' and u.id = up.user_id");
+	$this->db->select("u.*, up.*");
+	$this->db->from("users AS u");
+	$this->db->join("user_profiles AS up", "u.id=up.user_id");
+	$this->db->where('u.username', $username);
+	$query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
-	return $query->result();
+	return $query->row();
     }
 
     // a generic update method for user profile
@@ -47,6 +57,23 @@ class User_model extends CI_Model
 	$this->trace = 'update_user_profile<br/>';
 	$this->db->where('user_id', $user_id);
 	$this->db->update('user_profiles', $data); 
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+    }
+
+    // a generic update method for user profile
+    function update_user_group($user_id, $old_group_id, $new_group_id)
+    {
+	$this->trace = 'update_user_group<br/>';
+        if ( $old_group_id == 0 ) {
+            $this->db->insert('users_groups', array(
+                'group_id' => $new_group_id,
+                'user_id' => $user_id)
+            );
+        }
+        else {
+            $this->db->where('user_id', $user_id);
+            $this->db->update('users_groups', array('group_id' => $new_group_id)); 
+        }
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
     }
 

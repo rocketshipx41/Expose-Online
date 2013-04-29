@@ -103,6 +103,8 @@ $lang['artist_field_image'] = 'Artist image';
 $lang['artist_add'] = 'Add new artist';
 $lang['artist_new'] = 'New artist';
 $lang['artist_review_release'] = 'Review';
+$lang['artist_field_releases'] = 'Releases';
+$lang['artist_field_articles'] = 'Articles';
 
 // edit page
 $lang['artist_field_display_name'] = 'Display name';

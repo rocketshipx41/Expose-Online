@@ -77,10 +77,14 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
-
-$autoload['libraries'] = array('asset', 'template', 'tank_auth', 'session', 
-    'database', 'tweet', 'facebook', 'lightopenid', 'image_lib');
-
+if (ENVIRONMENT != 'development') {
+    $autoload['libraries'] = array('asset', 'template', 'tank_auth', 'session', 
+        'database', 'facebook', 'lightopenid', 'image_lib');
+}
+else {
+    $autoload['libraries'] = array('asset', 'template', 'tank_auth', 'session', 
+        'database', 'image_lib');    
+}
 
 /*
 | -------------------------------------------------------------------
