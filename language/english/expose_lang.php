@@ -77,6 +77,7 @@ $lang['article_posted'] = 'Posted by';
 $lang['article_publish_now'] = 'Publish now';
 $lang['article_publish_date'] = 'Publication date';
 $lang['article_published'] = 'Published';
+$lang['article_front_page'] = 'Post on front page carousel';
 $lang['article_release_year_topic']= 'releases';
 $lang['article_image_file']  = 'Image file (680x450)';
 $lang['article_release_year_list'] = 'Reviews of releases for ';

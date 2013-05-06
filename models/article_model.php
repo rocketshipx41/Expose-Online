@@ -172,7 +172,8 @@ class Article_model extends CI_Model
 	$this->trace .= 'get_full<br/>';
         $this->db->select('a.id, a.title article_title, a.intro, a.body, a.status, '
 		    . 'a.category_id, a.slug, c.item_name, c.title category_name, '
-                    . 'a.issue_no, c.slug category_slug, a.image_file, a.published_on')
+                    . 'a.issue_no, c.slug category_slug, a.image_file, a.published_on, '
+                    . 'a.front_page')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left');
         if ( $slug != '' ) {
@@ -192,7 +193,7 @@ class Article_model extends CI_Model
 	$this->trace .= 'get_dummy<br/>';
 	return array('id'=> 0, 'article_title' => '', 'intro'=> '', 'body' => '',
 		'category_id' => 0, 'item_name' => '', 'category_name' => '',
-		'slug' => '', 'issue_no' => 0, 'status' => 'draft', 
+		'slug' => '', 'issue_no' => 0, 'status' => 'draft', 'front_page' => 0,
                 'published_on'  => '', 'image_file' => ''
 	    );
     }
@@ -383,6 +384,7 @@ class Article_model extends CI_Model
             'status' => $user_input['status'],
             'issue_no' => $user_input['issue_no'],
 	    'user_id' => $user_input['user_id'],
+            'front_page' => $user_input['front_page'],
             'updated_on' => date('Y-m-d H:i:s')
 	);
         if ( $user_input['published_on'] ) {

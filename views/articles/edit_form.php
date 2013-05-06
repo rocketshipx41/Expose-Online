@@ -123,6 +123,11 @@ $this->load->helper('form');
                 <p><?php echo form_checkbox('make-live', 'publish', ($article_info['status'] =='live')) . ' ' . lang('article_publish_now'); ?></p>
             </div>
         </div>
+        <div class="row">
+            <div class="span_9">
+                <p><?php echo form_checkbox('front-page', 'frontpage', ($article_info['front_page'] =='1')) . ' ' . lang('article_front_page'); ?></p>
+            </div>
+        </div>
         <?php endif; ?>
         <div class="row">
             <div class="span_9">

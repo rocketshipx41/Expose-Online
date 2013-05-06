@@ -298,6 +298,12 @@ class Articles extends MY_Controller {
             else {
                 $update_params['status'] = 'draft';
             }
+            if ( $this->input->post('front-page') ) {
+                $update_params['front_page'] = '1';
+            }
+            else {
+                $update_params['front_page'] = '0';
+            }
             if ($this->input->post('author')) {
                 $this->page_data['trace'] .= 'process author list<br/>';
                 $credits = array();
@@ -665,6 +671,7 @@ class Articles extends MY_Controller {
         
         // process
         $this->page_data['main_list'] = $this->Article_model->draft_list();
+        $this->page_data['item_count'] = count($this->page_data['main_list']);
        
         // display
         $this->page_data['trace'] .= $this->Article_model->trace;
