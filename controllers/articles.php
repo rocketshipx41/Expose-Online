@@ -41,6 +41,7 @@ class Articles extends MY_Controller {
             $this->page_data['recommendation_list'] = array();
             $this->page_data['scale_video'] = 'm';
         }
+        $this->page_data['item_count'] = $this->Article_model->get_count($category_slug);
         $this->page_data['category_slug'] = $category_slug;
         $this->page_data['menu_active'] = $category_slug;
         $this->page_data['topic_slug'] = '';
@@ -303,7 +304,7 @@ class Articles extends MY_Controller {
                 $temp = $this->input->post('original-author');
                 if ( ( $temp ) && (count($temp))) {
                     foreach ($temp as $item) {
-                        $credits[$item] = array('action' => 'delete');
+                        $credits[$item] = array('action' => 'delete', 'role' => 1);
                     }
                 }
                 foreach ($this->input->post('author') as $item){
@@ -313,7 +314,7 @@ class Articles extends MY_Controller {
                     }
                     else {
                         $this->page_data['trace'] .= $item . ': added to list<br/>';
-                        $credits[$item] = array('action' => 'insert');
+                        $credits[$item] = array('action' => 'insert', 'role' => 1);
                     }
                 }
                 $update_params['author'] = $credits;
@@ -321,6 +322,27 @@ class Articles extends MY_Controller {
             else {
                 $ok = FALSE;
                 $missing[]= 'author';
+            }
+            if ($this->input->post('photographer')) {
+                $this->page_data['trace'] .= 'process photographer list<br/>';
+                $credits = array();
+                $temp = $this->input->post('original-photographer');
+                if ( ( $temp ) && (count($temp))) {
+                    foreach ($temp as $item) {
+                        $credits[$item] = array('action' => 'delete', 'role' => 2);
+                    }
+                }
+                foreach ($this->input->post('photographer') as $item){
+                    if (array_key_exists($item, $credits)){
+                        $this->page_data['trace'] .= $item . ': item already in list<br/>';
+                        unset($credits[$item]);
+                    }
+                    else {
+                        $this->page_data['trace'] .= $item . ': added to list<br/>';
+                        $credits[$item] = array('action' => 'insert', 'role' => 2);
+                    }
+                }
+                $update_params['photographer'] = $credits;
             }
             if ($this->input->post('topic')) {
                 $this->page_data['trace'] .= 'process topic list<br/>';

@@ -20,11 +20,19 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     <?php endif; ?>
         <strong><?php echo lang('issue_blurb'); ?> : </strong>
             <?php echo $issue_info['blurb']; ?><br/>
-        <em><?php echo lang('issue_available');?></em>
+        <strong><?php echo lang('article_item_count'); ?> : </strong>
+            <?php echo count($main_list); ?>
+        <!-- <em><?php echo lang('issue_available');?></em> -->
+    </div> <!-- column span -->
+</div> <!-- row -->
+<?php else: ?>
+<div class="row">
+    <div class="span_12">
+        <strong><?php echo lang('article_item_count'); ?> : </strong>
+            <?php echo $item_count; ?>
     </div> <!-- column span -->
 </div> <!-- row -->
 <?php endif; ?>
-<!--<p><?php echo $page_intro; ?></p>-->
 
 <?php if ($offset != 0) : ?>
 <span>

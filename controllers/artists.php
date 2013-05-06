@@ -41,6 +41,7 @@ class Artists extends MY_Controller {
             $this->page_data['artist_list'] = 
                     $this->Artist_model->article_artist_list($this->config->item('artist_index_items_per_page'),
                             $starter);
+            $this->page_data['item_count'] = $this->Artist_model->get_count();
             $last_artist = end($this->page_data['artist_list']);
         }
         $this->page_data['backlink'] = $this->Artist_model->get_backlink($starter,

@@ -18,6 +18,12 @@ $this->load->helper('form');
     <?php echo form_close(); ?>
 </div> <!-- row -->
 <div class="row">
+    <div class="span_12">
+        <strong><?php echo lang('article_item_count'); ?> : </strong>
+            <?php echo $item_count; ?>
+    </div> <!-- column span -->
+</div> <!-- row -->
+<div class="row">
 <?php if ($starter != '') : ?>
     <span>
         &laquo; 

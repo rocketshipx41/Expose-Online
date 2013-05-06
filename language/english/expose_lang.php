@@ -87,6 +87,7 @@ $lang['issue_description']= 'Date';
 $lang['issue_pages'] = 'Pages';
 $lang['issue_blurb'] = 'Summary';
 $lang['issue_available']= 'Available online from this issue...';
+$lang['article_item_count'] = 'Items found';
 
 // artists general
 $lang['artist_index_prev'] = 'Previous';

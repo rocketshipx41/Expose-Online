@@ -79,6 +79,18 @@ class Artist_model extends CI_Model
                 ->where('artist_id', $artist_id);
     }
     
+    public function get_count()
+    {
+        $this->trace .= 'get_count()<br/>';
+        $this->db->select('count(*) acount')
+                ->from('artists');
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        $query_result = $query->row();
+        $result = $query_result->acount;
+        return $result;
+    }
+    
     public function get_backlink($base = '', $count_back = 0)
     {
 	$this->trace .= 'get_backlink(' . $base . ', ' . $count_back . ')<br/>';
@@ -143,8 +155,9 @@ class Artist_model extends CI_Model
     {
 	$this->trace .= 'search<br/>';
         $result = array();
-        $this->db->select('a.id, a.display, a.country_id, '
-                    . 'c.name country, a.slug, a.image_file')
+        $this->db->select('a.id, a.display, a.country_id, c.name country, a.slug, a.image_file, '
+                    . '(select count(article_id) from article_artist aa where aa.artist_id = a.id) as article_count, '
+                    . '(select count(release_id) from release_artist ra where ra.artist_id = a.id) as release_count')
                 ->from('artists a')
                 ->join('countries c', 'c.id = a.country_id', 'left')
                 ->like('a.name', $search_value)
@@ -164,6 +177,8 @@ class Artist_model extends CI_Model
                         'display' => $row->display,
                         'country_id' => $row->country_id,
                         'country' => $row->country,
+                        'article_count' => $row->article_count,
+                        'release_count' => $row->release_count,
                         'image_file' => 'artists/' . $row->image_file,
                         'slug' => $row->slug
                     );

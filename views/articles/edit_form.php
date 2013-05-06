@@ -41,6 +41,17 @@ $this->load->helper('form');
         </div>
         <div class="row">
             <div class="span_9">
+                <label class="stacked"><?php echo lang('article_photo_by'); ?></label>
+                <?php echo form_multiselect('photographer[]', $staff_list, array_keys($credit_list[2]),
+                        'class="chzn-select span_9" id="photographer"'); ?>
+                <?php if ($article_info['id']) : ?>
+                <?php echo form_multiselect('original-photographer[]', $staff_list, array_keys($credit_list[2]),
+                        'id="original-photographer" style="display:none;"'); ?>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span_9">
                 <label class="article-intro stacked"><?php echo lang('article_edit_intro'); ?></label>
                 <?php echo form_textarea(array('name' => 'intro', 'id' => 'intro',
                         'value' => $article_info['intro'], 'class' => 'span_9 article-intro', 

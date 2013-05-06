@@ -61,6 +61,23 @@ class Article_model extends CI_Model
         return $result;
     }
     
+    function get_count($category = '')
+    {
+        $this->trace .= 'get_count()<br/>';
+        $this->db->select('count(*) acount')
+                ->from('articles a')
+		->join('categories c', 'c.id = a.category_id', 'left')
+                ->where('status', 'live');
+        if ($category != '') {
+            $this->db->where('c.slug', $category);
+        }
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        $query_result = $query->row();
+        $result = $query_result->acount;
+        return $result;
+    }
+    
     function get_random($category = '8', $max = 1)
     {
 	$this->trace .= 'get_random<br/>';
@@ -183,7 +200,7 @@ class Article_model extends CI_Model
     function get_credits($id)
     {
 	$this->trace .= 'get_credits<br/>';
-	$result = array();
+	$result = array('1' => array(), '2' => array());
 	$this->db->select('aur.user_id, aur.role_id, u.username, up.display_name')
 		->from('article_user_role aur')
 		->join('users u', 'u.id = aur.user_id', 'left')
@@ -406,7 +423,7 @@ class Article_model extends CI_Model
                     $data = array(
                         'article_id' => $article_id,
                         'user_id' => $user,
-                        'role_id' => 1
+                        'role_id' => $item['role']
                     );
                     $this->db->insert('article_user_role', $data);
                     $this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
@@ -415,7 +432,7 @@ class Article_model extends CI_Model
                 elseif ($item['action'] == 'delete') {
                     $this->db->where('article_id', $article_id)
                             ->where('user_id', $user)
-                            ->where('role_id', '1');
+                            ->where('role_id', $item['role']);
                     $this->db->delete('article_user_role');
                     $this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
                     $this->trace .= 'delete author ' . "<br/>\n";
@@ -424,6 +441,31 @@ class Article_model extends CI_Model
         }
         else {
             $this->trace .= 'no changes in author list ' . "<br/>\n";
+        }
+        if (count($user_input['photographer'])) {
+            foreach ($user_input['photographer'] as $user => $item){
+                if ($item['action'] == 'insert') {
+                    $data = array(
+                        'article_id' => $article_id,
+                        'user_id' => $user,
+                        'role_id' => $item['role']
+                    );
+                    $this->db->insert('article_user_role', $data);
+                    $this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+                    $this->trace .= 'add new photographer ' . "<br/>\n";
+                }
+                elseif ($item['action'] == 'delete') {
+                    $this->db->where('article_id', $article_id)
+                            ->where('user_id', $user)
+                            ->where('role_id', $item['role']);
+                    $this->db->delete('article_user_role');
+                    $this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+                    $this->trace .= 'delete photographer ' . "<br/>\n";
+                }
+            }
+        }
+        else {
+            $this->trace .= 'no changes in photographer list ' . "<br/>\n";
         }
         // artists
         if (count($user_input['artist'])) {
