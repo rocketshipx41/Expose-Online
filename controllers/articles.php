@@ -1,8 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * 2013-05-05 add photog update
  */
 
 class Articles extends MY_Controller {
