@@ -22,7 +22,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 <?php endif; ?>
     <dt><?php echo lang('artist_field_url'); ?></dt>
 <?php if ($artist_info['url']): ?>
-    <dd><?php echo auto_link('http://' . $artist_info['url'], 'url'); ?></dd>
+    <dd><?php echo auto_link('http://' . $artist_info['url'], 'url', TRUE); ?></dd>
 <?php else : ?>
     <dd><em><?php echo lang('artist_field_none'); ?></em></dd>
 <?php endif; ?>
@@ -47,10 +47,14 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         <table>
         <?php foreach ($release_list as $item) : ?>
             <tr>
-                <td><img src="<?php echo image_url('releases/'. $item['image_file']);?>" class="artist-release-art"
-                 height="90" width="90" alt="<?php echo lang('article_cover_art_alt'); ?>"></td>
                 <td>
-                <?php echo anchor('releases/display/'. $item['release_id'], $item['display_artist'] . ' &mdash; ' . $item['display_title'])
+                    <img src="<?php echo image_url('releases/'. $item['image_file']);?>" 
+                         class="artist-release-art" height="90" width="90" 
+                         alt="<?php echo lang('article_cover_art_alt'); ?>">
+                </td>
+                <td>
+                <?php echo anchor('releases/display/'. $item['release_id'], 
+                        $item['display_artist'] . ' &mdash; ' . $item['display_title'])
                         . '&nbsp;' . release_line($item); ?>
                 </td>
             <?php if ($can_edit) : ?>

@@ -69,7 +69,7 @@ $year_list =  '';
 <p><?php echo lang('article_artist') . ': ' . artist_display($artist_list); ?></p>
 <p><?php echo lang('article_links'); ?><br>
 <?php foreach ($link_list as $row): ?>
-    <?php echo auto_link($row); ?><br>
+    <?php echo auto_link('http://' . $row, 'url', TRUE); ?><br>
 <?php endforeach; ?>
 </p>
 <?php if ($can_edit) : ?>
