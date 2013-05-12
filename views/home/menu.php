@@ -46,6 +46,9 @@
                         <li>
                             <a href="<?php echo site_url('articles/add'); ?>"><?php echo lang('menu_contribute'); ?></a>
                         </li>
+                        <li>
+                            <a href="<?php echo site_url('labels/edit/0'); ?>"><?php echo lang('menu_new_label'); ?></a>
+                        </li>
                         <?php endif;?>
                         <?php if ($can_edit) : ?>
                         <li>
