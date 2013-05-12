@@ -82,13 +82,27 @@ class Label_model extends CI_Model
     function get_full($id)
     {
         $this->trace .= 'get_full<br/>';
+        $result = array(
+            'id' => $id,
+            'name' => '',
+            'display' => '',
+            'country_id' => '',
+            'url' => '',
+            'address' => '',
+            'phone' => '',
+            'email' => '',
+            'info' => ''
+        );
         $this->db->select('l.id, l.name, l.display, l.country_id, l.url, l.address, '
                     . 'l.phone, l.email, l.info')
                 ->from('labels l')
                 ->where('l.id', $id);
         $query = $this->db->get();
         $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
-        $result = $query->row_array();
+        $query_result = $query->row_array();
+        if ( count($query_result) ) {
+            $result = $query_result;
+        }
         return $result;
     }
 }
