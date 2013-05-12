@@ -89,8 +89,11 @@ function artist_display($artist_list)
 
 function release_line($release)
 {
-    $result = '(' . $release['label_name'] . ' ' .$release['catalog_no']
-            .', ';
+    $result = '(';
+    if ($release['label_name']) {
+        $result .= anchor('labels/display/' . $release['label_id'], $release['label_name']) . ' ';
+    }
+    $result .= $release['catalog_no'] . ', ';
     if (($release['year_recorded'] > 0) 
             && ($release['year_recorded'] != $release['year_released'])) {
         $result .= $release['year_recorded'] . '/';

@@ -11,7 +11,7 @@
                  height="400" width="400" alt="<?php echo lang('article_cover_art_alt'); ?>">
 <dl>
     <dt><?php echo lang('release_edit_label'); ?></dt>
-    <dd><?php echo $release_info['label_name']; ?></dd>
+    <dd><?php echo anchor('labels/display/' . $release_info['label_id'], $release_info['label_name']); ?></dd>
     <dt><?php echo lang('release_edit_catalog_no'); ?></dt>
     <dd><?php echo $release_info['catalog_no']; ?></dd>
     <?php if (($release_info['year_recorded'] > 0) 

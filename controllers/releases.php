@@ -126,6 +126,10 @@ class Releases extends MY_Controller {
                 $next_page = 'releases/display/' . $update_result['release_id'];
                 redirect($next_page);
             }
+            elseif ( $this->input->post('go-to') == 'label' ) {
+                $next_page = 'labels/display/' . $update_result['label_id'];
+                redirect($next_page);
+            }
             else {
                 $next_page = 'releases/add';
             }
@@ -226,6 +230,11 @@ class Releases extends MY_Controller {
     
     function assign($start = '')
     {
+        // authorize
+	if ( ! $this->page_data['can_contribute']) {
+	    redirect('articles/index');
+	}
+        
         // init
         $max_count = 40;
         $artist_select_list = array();
@@ -304,6 +313,7 @@ class Releases extends MY_Controller {
             $result['display'] = $update_data['display'];
         }
         echo json_encode($result);
+        exit;
     }
     
 }

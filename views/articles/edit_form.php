@@ -39,7 +39,7 @@ $this->load->helper('form');
                 <?php endif; ?>
             </div>
         </div>
-        <div class="row">
+        <div class="row photo-line">
             <div class="span_9">
                 <label class="stacked"><?php echo lang('article_photo_by'); ?></label>
                 <?php echo form_multiselect('photographer[]', $staff_list, array_keys($credit_list[2]),
@@ -123,7 +123,7 @@ $this->load->helper('form');
                 <p><?php echo form_checkbox('make-live', 'publish', ($article_info['status'] =='live')) . ' ' . lang('article_publish_now'); ?></p>
             </div>
         </div>
-        <div class="row">
+        <div class="row front-page-line">
             <div class="span_9">
                 <p><?php echo form_checkbox('front-page', 'frontpage', ($article_info['front_page'] =='1')) . ' ' . lang('article_front_page'); ?></p>
             </div>

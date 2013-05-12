@@ -222,6 +222,23 @@ class Release_model extends CI_Model
         return $result;
     }
     
+    public function get_list_by_label($label_id)
+    {
+        $this->trace .= 'get_list_by_label<br/>';
+        $this->db->select('r.display_title, r.display_artist, r.media, r.year_recorded, '
+                    . 'r.year_released, r.id release_id, r.image_file, r.label_id, '
+                    . 'l.display label_name, r.catalog_no, r.media_count')
+                ->from('releases r')
+                ->join('labels l', 'l.id = r.label_id', 'left')
+                ->where('label_id', $label_id)
+                ->order_by('year_released');
+        $result = array();
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        $result = $query->result_array();
+        return $result;
+    }
+    
 }
 
 /* End of file release_model.php */

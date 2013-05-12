@@ -66,15 +66,30 @@ class Label_model extends CI_Model
     function update($id = 0, $data = array())
     {
         $this->trace .= '>> update label<br/>';
+        $result = array('status' => 'ok', 'id' => $id);
         if ( $id ) {
             $this->db->where('id', $id);
             $this->db->update('labels', $data);
         }
         else {
             $this->db->insert('labels', $data);
+            $result['id'] = $this->db->insert_id();
         }
         $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
-        return $this->db->insert_id();
+        return $result;
+    }
+    
+    function get_full($id)
+    {
+        $this->trace .= 'get_full<br/>';
+        $this->db->select('l.id, l.name, l.display, l.country_id, l.url, l.address, '
+                    . 'l.phone, l.email, l.info')
+                ->from('labels l')
+                ->where('l.id', $id);
+        $query = $this->db->get();
+        $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+        $result = $query->row_array();
+        return $result;
     }
 }
 

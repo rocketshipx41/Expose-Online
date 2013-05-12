@@ -86,15 +86,17 @@ class Article_model extends CI_Model
                     . 'a.image_file, a.body, a.updated_on, a.published_on')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left')
-                ->where('a.id >= (SELECT FLOOR( MAX(id) * RAND()) FROM articles ) ')
-                ->where('status', 'live')
-                ->limit($max);
+               // ->where('a.id >= (SELECT FLOOR( MAX(id) * RAND()) FROM articles ) ')
+                ->where('status', 'live');
         if ( $category ) {
             $this->db->where('c.slug', $category);
         }
         $query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
-        $result = $query->result_array();
+        $query_result = $query->result_array();
+        $an_item = array_rand($query_result, $max);
+        $result[] = $query_result[$an_item];
+        //echo print_r($result); exit;
         return $result;
     }
     

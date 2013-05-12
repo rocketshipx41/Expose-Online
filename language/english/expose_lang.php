@@ -136,6 +136,23 @@ $lang['release_label_popup_country'] = 'New label country';
 $lang['release_label_popup_url'] = 'New label website';
 $lang['release_label_popup_cancel'] = 'Cancel';
 
+// labels pages
+$lang['label_item_count'] = 'Item count';
+$lang['label_search_none'] = 'None found.';
+$lang['label_add'] = 'Add new label';
+$lang['label_name'] = 'Name';
+$lang['label_country'] = 'Country';
+$lang['label_url'] = 'URL';
+$lang['label_releases'] = 'Releases on file';
+$lang['label_field_display_name'] = 'Display name';
+$lang['label_field_sort_name'] = 'Sort name';
+$lang['label_field_country'] = 'Country';
+$lang['label_field_url'] = 'URL';
+$lang['label_field_email'] = 'Email';
+$lang['label_field_address'] = 'Address';
+$lang['label_field_phone'] = 'Phone';
+$lang['label_field_info'] = 'Profile';
+
 // search form
 $lang['search_go'] = 'Go';
 

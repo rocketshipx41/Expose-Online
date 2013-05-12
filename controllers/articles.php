@@ -161,7 +161,8 @@ class Articles extends MY_Controller {
 	$this->page_data['page_name'] = $this->lang->line('article_new');
 	$this->page_data['action'] = 'insert';
 	$this->page_data['credit_list'] = array(
-	    '1' => array($this->page_data['user_id'] => $this->page_data['user_name'])
+	    '1' => array($this->page_data['user_id'] => $this->page_data['user_name']),
+            '2' => array()
 	);
 	$this->page_data['topic_list'] = array();
 	$this->page_data['staff_list'] = $this->User_model->get_user_list(array(1, 3, 4));

@@ -144,10 +144,10 @@ class Artists extends MY_Controller {
                 $ok = FALSE;
             }
             if ($this->input->post('info') ) {
-              $update_params['info'] = $this->input->post('info');
+                $update_params['info'] = $this->input->post('info');
             }
             else {
-                $ok = FALSE;
+                $update_params['info'] = '';
             }
             if ($this->input->post('artist-id') ) {
               $artist_id = $this->input->post('artist-id');
@@ -214,6 +214,7 @@ class Artists extends MY_Controller {
         $this->page_data['backlink'] = $this->Artist_model->get_backlink($starter,
                 $this->config->item('artist_index_items_per_page'));
         $this->page_data['starter'] = $starter;
+        $this->page_data['item_count'] = count($this->page_data['artist_list']);
         
         // display
         $this->page_data['trace'] .= $this->Artist_model->trace;

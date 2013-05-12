@@ -42,8 +42,7 @@ $this->load->helper('form');
             <label for="label-id"><?php echo lang('release_edit_label'); ?></label>
             <?php echo form_dropdown('label-id', $label_list, $release_info['label_id'],
                     'id="label-id"'); ?>
-            <?php echo form_button('add-label', lang('release_add_label'), 
-                        'class="btn" id="add-label"'); ?>
+            <?php // echo form_button('add-label', lang('release_add_label'), 'class="btn" id="add-label"'); ?>
         </p>
         <p>
             <label for="catalog-no"><?php echo lang('release_edit_catalog_no'); ?></label>
@@ -90,7 +89,7 @@ $this->load->helper('form');
         <p>
             <label for="go-to"><?php echo lang('release_go_to'); ?></label>
             <?php echo form_dropdown('go-to', array('artist' => 'Artist page', 
-                    'release' => 'Release page'), 'artist', 'id="go-to"'); ?>
+                    'release' => 'Release page', 'label' => 'Label page'), 'artist', 'id="go-to"'); ?>
         </p>
         <p>
             <?php echo form_submit('release-submit', 'Submit', 'class="btn primary"'); ?>
@@ -125,7 +124,7 @@ $this->load->helper('form');
                             'placeholder' => 'The label official website')); ?>
                 </p>
                 <p>
-                    <?php echo form_button('label-submit', 'Submit', 'class="btn"'); ?>
+                    <?php echo form_button('label-submit', 'Submit', 'class="btn" id="label-submit"'); ?>
                     <?php echo form_button('popupCancelButton', lang('release_label_popup_cancel'), 
                         'class="btn" id="popupCancelButton"'); ?>
                 </p>
@@ -147,7 +146,7 @@ $this->load->helper('form');
             type : 'POST',
             url : url,
             data : $('#label-form').serialize(),
-            dataType : json,
+            dataType : 'json',
             success : function(data){
                 var newOption = '<option value="' + data.id + '">'
                     + data.display + '</option>';
@@ -155,7 +154,8 @@ $this->load->helper('form');
                 $('#label-id').val(data.id);
             }
         });
-        return false;
+        //return false;
+        var kendoWindow = $("#labelPopup").data("kendoWindow").close();
     });
     
     $("#popupCancelButton").click(function(){
