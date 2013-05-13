@@ -48,6 +48,8 @@ class Articles extends MY_Controller {
         $this->page_data['trace'] .= $this->Article_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
         $this->page_data['show_columns'] = 3;
+        $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
+        $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->build('articles/index_center', $this->page_data);
@@ -131,6 +133,8 @@ class Articles extends MY_Controller {
 	$this->page_data['page_name'] = $article_info['category_name'];
 	$this->page_data['article_info'] = $article_info;
         $this->page_data['menu_active'] = $article_info['category_slug'];
+        $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
+        $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         
         // display
 	$this->page_data['trace'] .= $this->Article_model->trace;
@@ -155,6 +159,7 @@ class Articles extends MY_Controller {
         $this->load->model('Artist_model');
         $this->load->model('Masterdata_model');
         $this->load->model('Release_model');
+        $this->page_data['show_ads'] = FALSE;
 	
         // process
 	$article_info = $this->Article_model->get_dummy();
@@ -240,6 +245,7 @@ class Articles extends MY_Controller {
         $this->load->model('Release_model');
         $this->load->model('Masterdata_model');
         $issue_date_list = $this->Masterdata_model->get_issue_date_list();
+        $this->page_data['show_ads'] = FALSE;
         
         // deal with incoming post
         if ( $this->input->post('article-submit') ) {
@@ -604,6 +610,8 @@ class Articles extends MY_Controller {
         $this->page_data['main_list'] = $this->Article_model->get_topic_articles($topic_slug, 
                 5, $offset);
         
+        $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
+        $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         $this->page_data['topic_slug'] = $topic_slug;
         $this->page_data['category_slug'] = '';
         $this->page_data['offset'] = $offset;
@@ -627,6 +635,8 @@ class Articles extends MY_Controller {
         $this->page_data['main_list'] = $this->Article_model->get_issue_articles($issue_no);
         $this->page_data['issue_info']= $this->Masterdata_model->get_issue_info($issue_no);
         
+        $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
+        $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         $this->page_data['topic_slug'] = '';
         $this->page_data['category_slug'] = '';
         $this->page_data['offset'] = 0;
@@ -645,6 +655,8 @@ class Articles extends MY_Controller {
             redirect('');
         }
         $this->page_data['main_list'] = $this->Article_model->get_release_year_articles($year);
+        $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
+        $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         $this->page_data['trace'] .= $this->Article_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
         $this->page_data['topic_slug'] = '';
@@ -706,6 +718,8 @@ class Articles extends MY_Controller {
         // process
         $this->page_data['main_list'] = $this->Article_model->search($search_value);
        
+        $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
+        $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         $this->page_data['topic_slug'] = '';
         $this->page_data['category_slug'] = '';
         $this->page_data['offset'] = 0;

@@ -48,6 +48,8 @@ class Artists extends MY_Controller {
                 $this->config->item('artist_index_items_per_page'));
         $this->page_data['starter'] = $starter;
         $this->page_data['last_slug'] = $last_artist['slug'];
+        $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
+        $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         
         // display
         $this->page_data['trace'] .= $this->Artist_model->trace;
@@ -72,6 +74,8 @@ class Artists extends MY_Controller {
         $this->page_data['article_list'] = $this->Artist_model->get_article_list($artist_info['id']);
         $this->page_data['release_list'] = $this->Artist_model->get_release_list($artist_info['id']);
         $this->page_data['artist_info'] = $artist_info;
+        $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
+        $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         
         // display
         $this->page_data['trace'] .= $this->Artist_model->trace;
@@ -94,6 +98,7 @@ class Artists extends MY_Controller {
         // init
 	$this->load->model('Masterdata_model');
         $action = 'update';
+        $this->page_data['show_ads'] = FALSE;
         
         // handle incoming post
         if ( $this->input->post('artist-submit') ) {
@@ -215,6 +220,8 @@ class Artists extends MY_Controller {
                 $this->config->item('artist_index_items_per_page'));
         $this->page_data['starter'] = $starter;
         $this->page_data['item_count'] = count($this->page_data['artist_list']);
+        $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
+        $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         
         // display
         $this->page_data['trace'] .= $this->Artist_model->trace;
@@ -234,6 +241,7 @@ class Artists extends MY_Controller {
         
         // init
 	$this->load->model('Masterdata_model');
+        $this->page_data['show_ads'] = FALSE;
         
         // process
         $this->page_data['country_list'] = $this->Masterdata_model->get_country_list(TRUE);

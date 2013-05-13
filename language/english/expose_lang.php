@@ -154,6 +154,20 @@ $lang['label_field_address'] = 'Address';
 $lang['label_field_phone'] = 'Phone';
 $lang['label_field_info'] = 'Profile';
 
+// ads
+$lang['ad_list_count'] = 'Item count';
+$lang['ad_add_new'] = 'Add new ad';
+$lang['ad_field_title'] = 'Title';
+$lang['ad_field_alt'] = 'Alt';
+$lang['ad_field_url'] = 'URL';
+$lang['ad_field_position'] = 'Position';
+$lang['ad_field_email'] = 'Contact email';
+$lang['ad_field_start_date'] = 'Start date';
+$lang['ad_field_start_date'] = 'End date';
+$lang['ad_field_image'] = 'Image file';
+$lang['ad_field_status'] = 'Status';
+$lang['ad_field_paid'] = 'Paid';
+
 // search form
 $lang['search_go'] = 'Go';
 

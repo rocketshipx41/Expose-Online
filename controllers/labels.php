@@ -25,6 +25,8 @@ class Labels extends MY_Controller {
         
         // process
         $this->page_data['label_list'] = $this->Label_model->get_list(FALSE);
+        $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
+        $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         
         // display
         $this->page_data['trace'] .= $this->Label_model->trace;
@@ -49,6 +51,8 @@ class Labels extends MY_Controller {
         $label_info = $this->Label_model->get_full($id);
         $this->page_data['label_info'] = $label_info;
         $this->page_data['release_list'] = $this->Release_model->get_list_by_label($id);
+        $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
+        $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         
         // display
         $this->page_data['trace'] .= $this->Label_model->trace;
@@ -81,6 +85,7 @@ class Labels extends MY_Controller {
         $this->page_data['page_name'] = 'Labels';
         $this->page_data['label_list'] = array();
         $this->load->model('Masterdata_model');
+        $this->page_data['show_ads'] = FALSE;
         
         // handle incoming post
         if ( $this->input->post('label-submit') ) {

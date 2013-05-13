@@ -62,6 +62,8 @@ class Welcome extends MY_Controller
                     5, 0, FALSE);
         $this->page_data['review_list'] = $this->Article_model->most_recent('reviews', 
                     5, 0, FALSE);
+        $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
+        $this->page_data['side_ad'] = $this->Ad_model->serve('side');
 
         // display
         $this->page_data['show_columns'] = 2;
@@ -186,6 +188,8 @@ class Welcome extends MY_Controller
 	$this->page_data['page_name'] = lang('menu_about');
         $this->page_data['show_columns'] = 3;
         $this->page_data['menu_active'] = 'about';
+        $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
+        $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->build('home/about', $this->page_data);
@@ -193,6 +197,7 @@ class Welcome extends MY_Controller
     
     public function changepwd()
     {
+        $this->page_data['show_ads'] = FALSE;
         if ( ! $this->tank_auth->is_logged_in() ) {								// not logged in or not activated
             redirect('/auth/login/');
         }

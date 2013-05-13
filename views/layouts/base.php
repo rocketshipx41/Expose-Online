@@ -66,10 +66,16 @@
                 <p><?php echo $system_status_message; ?></p>
         </div>
 <?php endif; ?>
-<!--        <div id="banner-ad">
-                <img src="<?php echo image_url('ads/LuckyBanner1.png');?>" alt="ad"
+<?php if ( $show_ads ) : ?>
+        <div id="banner-ad">
+            <a href="http://<?php echo $banner_ad['url']; ?>" target="_blank">
+                <img src="<?php echo image_url('ads/' . $banner_ad['image_file']);?>" 
+                     alt="<?php echo $banner_ad['alt']; ?>"
+                     title="<?php echo $banner_ad['title']; ?>"
                     style="display: block;margin-left: auto;margin-right: auto" />
-        </div> -->
+            </a>
+        </div>
+<?php endif; ?>
         <header class="app-header clearfix">
             <div class="row">
                 <div class="span_12">

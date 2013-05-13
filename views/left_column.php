@@ -49,3 +49,13 @@
     <?php endif; ?>
 </div>
 <?php endif; ?>
+<?php if ( $show_ads && ( $show_columns == 2 ) ) : ?>
+        <div class="row">
+            <a href="http://<?php echo $side_ad['url']; ?>" target="_blank">
+                <img src="<?php echo image_url('ads/' . $side_ad['image_file']);?>" 
+                     alt="<?php echo $side_ad['alt']; ?>"
+                     title="<?php echo $side_ad['title']; ?>"
+                    style="display: block;margin-left: auto;margin-right: auto" />
+            </a>
+        </div>
+<?php endif; ?>

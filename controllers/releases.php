@@ -34,6 +34,8 @@ class Releases extends MY_Controller {
                 . '<br/>';
         $release_artist_list = $this->Release_model->get_release_artists($release_id);
         $this->page_data['article_list'] = $this->Release_model->get_article_list($release_id);
+        $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
+        $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         
         // display
         $this->page_data['release_info'] = $release_info;
@@ -65,6 +67,7 @@ class Releases extends MY_Controller {
         $action = 'update';
         $this->load->model('Label_model');
         $this->load->model('Masterdata_model');
+        $this->page_data['show_ads'] = FALSE;
         
         // incoming post
         if ( $this->input->post('release-submit') ) {

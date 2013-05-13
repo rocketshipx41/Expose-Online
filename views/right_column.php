@@ -18,10 +18,6 @@ $search_choices = array('artists' => 'Artist', 'articles' => 'Title');
                     <?php echo form_submit('artist-submit', 'Submit', 'class="btn"'); ?>
                 <?php echo form_close(); ?>
             </div>
-<!--        <div class="row">
-            <img src="http://localhost/assets/img/ads/fake-ad-200x300.png" 
-                alt="ad" class="column-ad" />
-        </div> -->
 <?php if ( count($recommendation_list) ) : ?>
         <div class="row">
             <h3><?php echo lang('latest_recommendations'); ?></h3>
@@ -39,5 +35,15 @@ $search_choices = array('artists' => 'Artist', 'articles' => 'Title');
             <?php if ($can_edit) : ?>
             &mdash; <?php echo anchor('articles/add/8', lang('add_recommendation')); ?>
             <?php endif; ?>
+        </div>
+<?php endif; ?>
+<?php if ( $show_ads ) : ?>
+        <div class="row">
+            <a href="http://<?php echo $side_ad['url']; ?>" target="_blank">
+                <img src="<?php echo image_url('ads/' . $side_ad['image_file']);?>" 
+                     alt="<?php echo $side_ad['alt']; ?>"
+                     title="<?php echo $side_ad['title']; ?>"
+                    style="display: block;margin-left: auto;margin-right: auto" />
+            </a>
         </div>
 <?php endif; ?>
