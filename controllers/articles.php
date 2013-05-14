@@ -45,11 +45,12 @@ class Articles extends MY_Controller {
         $this->page_data['menu_active'] = $category_slug;
         $this->page_data['topic_slug'] = '';
         $this->page_data['offset'] = $offset;
-        $this->page_data['trace'] .= $this->Article_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
         $this->page_data['show_columns'] = 3;
         $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
         $this->page_data['side_ad'] = $this->Ad_model->serve('side');
+        $this->page_data['trace'] .= $this->Article_model->trace;
+        $this->page_data['trace'] .= $this->Ad_model->trace;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->build('articles/index_center', $this->page_data);
@@ -138,6 +139,7 @@ class Articles extends MY_Controller {
         
         // display
 	$this->page_data['trace'] .= $this->Article_model->trace;
+        $this->page_data['trace'] .= $this->Ad_model->trace;
 	$this->page_data['trace'] .= 'credit list: ' 
 		. print_r($this->page_data['credit_list'], TRUE) . '<br/>';
 	$this->page_data['trace'] .= 'topic list: ' 
@@ -642,6 +644,7 @@ class Articles extends MY_Controller {
         $this->page_data['offset'] = 0;
         $this->page_data['trace'] .= $this->Masterdata_model->trace;
         $this->page_data['trace'] .= $this->Article_model->trace;
+        $this->page_data['trace'] .= $this->Ad_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
         $this->page_data['show_columns'] = 3;
         $this->template

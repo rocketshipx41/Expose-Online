@@ -129,7 +129,8 @@ class Ads extends MY_Controller {
                 'url' => '',
                 'contact_email' => '',
                 'start_date' => 0,
-                'end_date' => 0
+                'end_date' => 0,
+                'paid' => 0
             );
         }
         

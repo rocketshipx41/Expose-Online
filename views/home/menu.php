@@ -58,10 +58,10 @@
                             <a href="<?php echo site_url('ads/index'); ?>"><?php echo lang('menu_ads'); ?></a>
                         </li>
                         <?php endif;?>
+                        <li>
+                            <a href="<?php echo site_url('welcome/logout'); ?>">Log out</a>
+                        </li>
                     </ul>
-                </li>
-                <li>
-                    <a href="<?php echo site_url('welcome/logout'); ?>">Log out</a>
                 </li>
                 <?php else :// not logged in ?>
                 <li>

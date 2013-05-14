@@ -73,13 +73,14 @@ class Ad_model extends CI_Model
                 ->from('ads')
                 ->where('position', $position)
                 ->where('status', 'live')
-                ->order_by('show_count', 'asc')
+                ->order_by('updated', 'asc')
                 ->limit(1);
         $query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
         $result = $query->row_array();
         $this->db->where('id', $result['id']);
-        $this->db->update('ads', array('show_count' => $result['show_count'] + 1));
+        $this->db->update('ads', array('show_count' => $result['show_count'] + 1,
+                'updated' => date('Y-m-d H:i:s')));
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
         return $result;
      }
