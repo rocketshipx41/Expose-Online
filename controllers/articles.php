@@ -87,6 +87,7 @@ class Articles extends MY_Controller {
         }
         if ( $article_info['category_id'] == 4 ) {
             $this->page_data['show_columns'] = 2;
+            $this->page_data['left_column_ad'] = TRUE;
             $this->page_data['trace'] .= 'feature article, only 2 column layout<br/>';
         }
         if ( $article_info['category_id'] == 8 ) {

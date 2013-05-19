@@ -62,6 +62,7 @@ class MY_Controller extends CI_Controller
         $this->page_data['recommendation_list'] = $this->Article_model->get_random('recommendations', 
                     1);
         $this->page_data['show_ads'] = TRUE; // set to false in controller if not wanted
+        $this->page_data['left_column_ad'] = FALSE; // set to true is column ad on left
         $this->page_data['scale_video'] = 's';
         $this->template->set_partial('left_column', 'left_column');
         $this->template->set_partial('right_column', 'right_column');
