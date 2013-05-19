@@ -19,8 +19,11 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 <?php if (count($label_list)) : ?>
     <div class="span_12">
         <ul>
-<?php foreach ($label_list as $id => $display) : ?>
-            <li><?php echo anchor('labels/display/' . $id, $display); ?></li>
+<?php foreach ($label_list as $id => $item) : ?>
+            <li>
+                <?php echo anchor('labels/display/' . $id, $item['display']); ?>
+                (<?php echo $item['release_count'] . ' ' . lang('artist_field_releases'); ?>)
+            </li>
 <?php endforeach; ?>
         </ul>
     </div>

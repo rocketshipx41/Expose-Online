@@ -99,6 +99,15 @@ class Artists extends MY_Controller {
 	$this->load->model('Masterdata_model');
         $action = 'update';
         $this->page_data['show_ads'] = FALSE;
+        $upload_config = array(
+            'upload_path' => './assets/img/artists/',
+            'allowed_types' => 'jpg|png',
+            'max_size' => '500',
+            'max_width' => '1024',
+            'max_height' => '768'
+            
+        );
+        $this->load->library('upload', $upload_config);
         
         // handle incoming post
         if ( $this->input->post('artist-submit') ) {
@@ -142,6 +151,12 @@ class Artists extends MY_Controller {
             else {
                 $ok = FALSE;
             }
+/*            if ( ! $this->upload->do_upload('filebrowse')) {
+                echo $this->upload->display_errors('<p>', '</p>'); exit;
+            }
+            else {
+                $data = $this->upload->data();
+            }*/
             if ($this->input->post('artist-image') ) {
               $update_params['image_file'] = $this->input->post('artist-image');
             }

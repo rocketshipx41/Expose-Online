@@ -319,5 +319,31 @@ class Releases extends MY_Controller {
         exit;
     }
     
+    function search()
+    {
+        // authorize
+        if ( $this->input->post('search-value') ) {
+            $search_value = $this->input->post('search-value');
+        }
+        else {
+            redirect('');
+        }
+        
+        // process
+        $this->page_data['release_list'] = $this->Release_model->search($search_value);
+       
+        $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
+        $this->page_data['side_ad'] = $this->Ad_model->serve('side');
+        $this->page_data['topic_slug'] = '';
+        $this->page_data['category_slug'] = '';
+        $this->page_data['offset'] = 0;
+        $this->page_data['trace'] .= $this->Release_model->trace;
+        $this->page_data['trace'] .= print_r($this->page_data['release_list'], TRUE) . '<br/>';
+        $this->page_data['show_columns'] = 3;
+        $this->template
+                ->title($this->page_data['site_name'], $this->page_data['page_name'])
+                ->build('releases/index_center', $this->page_data);
+    }
+    
 }
 

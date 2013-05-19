@@ -39,6 +39,7 @@ $this->load->helper('form');
             <?php echo form_input(array('name' => 'artist-image', 'id' => 'artist-image',
                     'value' => $artist_info['image_file'], 'class' => 'span_5', 
                     'placeholder' => 'An image')); ?>
+            <!-- <input name="filebrowse" id="filebrowse" type="file" />-->
         </p>
         <p>
             <label for="info"><?php echo lang('artist_field_info'); ?></label>
@@ -49,3 +50,10 @@ $this->load->helper('form');
 	<?php echo form_submit('artist-submit', 'Submit', 'class="btn"'); ?>
         <?php echo form_close(); ?>
     </div>
+    <script>
+        $(document).ready(function() {
+            $("#filebrowse").kendoUpload({
+                multiple : false
+            });
+        });
+    </script>

@@ -25,19 +25,14 @@ class Label_model extends CI_Model
         if ( $add_select ) {
             $result[0] = lang('dropdown_select');
         }
-        $this->db->select('l.id, l.name, l.display, l.country_id')
+        $this->db->select('l.id, l.name, l.display, l.country_id, '
+                    . '(select count(id) from releases r where r.label_id = l.id) as release_count')
                 ->from('labels l')
                 ->order_by('name');
         $query = $this->db->get();
         $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
-	foreach ($query->result() as $row) {
-	    if ($row->display) {
-                $display_line = $row->display;
-                if ( $row->country_id ) {
-                    $display_line.= ' (' . $row->country_id . ')';
-                }
-		$result[$row->id] = $display_line;
-	    }
+	foreach ($query->result_array() as $row) {
+            $result[$row['id']] = $row;
 	}
         return $result;
     }
@@ -105,6 +100,24 @@ class Label_model extends CI_Model
         }
         return $result;
     }
+    
+    function search($search_value, $max_count = 0, $starter = '')
+    {
+	$this->trace .= 'search<br/>';
+        $result = array();
+        $this->db->select('l.id, l.name, l.display, l.country_id, '
+                    . '(select count(id) from releases r where r.label_id = l.id) as release_count')
+                ->from('labels l')
+                ->like('name', $search_value)
+                ->order_by('name');
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+	foreach ($query->result_array() as $row) {
+            $result[$row['id']] = $row;
+	}
+        return $result;
+    }
+    
 }
 
 /* End of file label_model.php */

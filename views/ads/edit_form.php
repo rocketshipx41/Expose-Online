@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /*
- * template for artist edit page
+ * template for ads edit page
  */
 $this->load->helper('form');
 $position_list = array('top' => 'Top banner', 'side' => 'Side column');

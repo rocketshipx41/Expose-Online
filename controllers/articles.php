@@ -732,7 +732,6 @@ class Articles extends MY_Controller {
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->build('articles/index_center', $this->page_data);
-       
     }
     
 }
