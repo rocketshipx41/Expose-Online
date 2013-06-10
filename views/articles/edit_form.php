@@ -88,20 +88,20 @@ $this->load->helper('form');
                 <?php endif; ?>
             </div>
         </div>
-        <?php if ($can_edit) : ?>
-        <div class="row image-line">
-            <div class="span_9">
-                <label class="stacked"><?php echo lang('article_image_file'); ?></label>
-                <?php echo form_input('image_file', $article_info['image_file'], 
-                        'class="span_9" id = "image_file"'); ?>        
-            </div>
-        </div>
         <div class="row">
             <div class="span_9">
                 <label class="stacked"><?php echo lang('article_related_links'); ?></label>
                 <?php echo form_input('links', implode('; ', $link_list), 
                         'class="span_9" id="links"'); ?>        
         	<?php echo form_hidden('original-links', implode('; ', $link_list)); ?>
+            </div>
+        </div>
+        <?php if ($can_edit) : ?>
+        <div class="row image-line">
+            <div class="span_9">
+                <label class="stacked"><?php echo lang('article_image_file'); ?></label>
+                <?php echo form_input('image_file', $article_info['image_file'], 
+                        'class="span_9" id = "image_file"'); ?>        
             </div>
         </div>
         <div class="row">

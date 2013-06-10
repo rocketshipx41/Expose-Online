@@ -72,6 +72,30 @@ class Artist_model extends CI_Model
         return $result;
     }
     
+    function get_select_list($max_count = 0, $starter = '', $add_select = FALSE)
+    {
+	$this->trace .= 'get_list<br/>';
+        $result = array();
+        if ( $add_select ) {
+            $result['0'] = 'Select...';
+        }
+        $this->db->select('a.id, a.name, a.country_id')
+                ->from('artists a')
+                ->order_by('a.name');
+        if ($max_count > 0) {
+            $this->db->limit($max_count);
+        }
+        if ($starter) {
+            $this->db->where('name >=', $starter);
+        }
+        $query = $this->db->get();
+        $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+	foreach ($query->result() as $row) {
+            $result[$row->id] = $row->name . ' (' . $row->country_id . ')';
+        }
+        return $result;
+    }
+    
     private function get_release_count($artist_id)
     {
         $this->db->select('count(release_id)')

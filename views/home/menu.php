@@ -57,6 +57,9 @@
                         <li>
                             <a href="<?php echo site_url('ads/index'); ?>"><?php echo lang('menu_ads'); ?></a>
                         </li>
+                        <li>
+                            <a href="<?php echo site_url('releases/assign'); ?>"><?php echo lang('menu_assign'); ?></a>
+                        </li>
                         <?php endif;?>
                         <li>
                             <a href="<?php echo site_url('welcome/logout'); ?>">Log out</a>

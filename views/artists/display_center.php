@@ -57,7 +57,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                         $item['display_artist'] . ' &mdash; ' . $item['display_title'])
                         . '&nbsp;' . release_line($item); ?>
                 </td>
-            <?php if ($can_edit) : ?>
+            <?php if ($can_edit || $can_contribute) : ?>
                 <td>
                     <?php echo anchor('releases/edit/'. $item['release_id']
                         .'/' . $artist_info['slug'], lang('edit'), 'class="btn"'); ?><br/>

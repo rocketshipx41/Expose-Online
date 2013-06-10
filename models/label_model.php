@@ -37,6 +37,25 @@ class Label_model extends CI_Model
         return $result;
     }
     
+    function get_select_list($add_select = FALSE)
+    {
+	$this->trace .= 'get_list()<br/>';
+        $result = array();
+        if ( $add_select ) {
+            $result[0] = lang('dropdown_select');
+        }
+        $this->db->select('l.id, l.name, l.display, l.country_id, '
+                    . '(select count(id) from releases r where r.label_id = l.id) as release_count')
+                ->from('labels l')
+                ->order_by('name');
+        $query = $this->db->get();
+        $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+	foreach ($query->result_array() as $row) {
+            $result[$row['id']] = $row['display'];
+	}
+        return $result;
+    }
+    
     function update_slugs()
     {
 	$this->trace .= 'update_slugs()<br/>';

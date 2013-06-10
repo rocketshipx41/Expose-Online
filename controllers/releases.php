@@ -145,13 +145,9 @@ class Releases extends MY_Controller {
         $release_artist_list = $this->Release_model->get_release_artists($release_id);
         
         // lists for dropdowns
-        $label_list = $this->Label_model->get_list(TRUE);
+        $label_list = $this->Label_model->get_select_list(TRUE);
         $release_type_list = $this->Masterdata_model->get_release_type_list(TRUE);
-	$artist_list = $this->Artist_model->get_list(0, 0);
-        $artist_select_list = array();
-        foreach ($artist_list as $key => $item) {
-            $artist_select_list[$key] = $item['display'];
-        }
+	$artist_select_list = $this->Artist_model->get_select_list(0, 0);
 	$this->page_data['artist_select_list'] = $artist_select_list;
         $this->page_data['country_list'] = $this->Masterdata_model->get_country_list(TRUE);
         
@@ -197,19 +193,9 @@ class Releases extends MY_Controller {
         $release_artist_list = array($artist_id => $artist_id);
         
         // lists for dropdowns
-        $label_list = $this->Label_model->get_list(TRUE);
+        $label_list = $this->Label_model->get_select_list(TRUE);
         $release_type_list = $this->Masterdata_model->get_release_type_list(TRUE);
-	$artist_list = $this->Artist_model->get_list(0, 0);
-        $artist_select_list = array();
-        foreach ($artist_list as $key => $item) {
-            if ( $key == '0' ) {
-                $artist_select_list[$key] = $item['display'];
-            }
-            else {
-                $artist_select_list[$key] = $item['display'] . ' (' 
-                        . $item['country_id'] . ')';
-            }
-        }
+	$artist_select_list = $this->Artist_model->get_select_list(0, 0);
 	$this->page_data['artist_select_list'] = $artist_select_list;
         $this->page_data['artist_slug'] = $artist_slug;
         $this->page_data['country_list'] = $this->Masterdata_model->get_country_list(TRUE);
@@ -239,7 +225,7 @@ class Releases extends MY_Controller {
 	}
         
         // init
-        $max_count = 40;
+        $max_count = 20;
         $artist_select_list = array();
         $this->page_data['page_name'] = 'Assign artists to releases';
         $this->load->model('Masterdata_model');
@@ -264,21 +250,12 @@ class Releases extends MY_Controller {
         
         // process
         $this->page_data['release_list'] = $this->Release_model->get_unassigned($start, $max_count);
-	$artist_list = $this->Artist_model->get_list(0, 0, TRUE, TRUE);
-        $artist_select_list = array();
-        foreach ($artist_list as $key => $item) {
-            if ( $key == '0' ) {
-                $artist_select_list[$key] = $item['display'];
-            }
-            else {
-                $artist_select_list[$key] = $item['display'] . ' (' 
-                        . $item['country_id'] . ')';
-            }
-        }
+	$artist_select_list = $this->Artist_model->get_select_list(0, 0, TRUE, TRUE);
         
         // display
         $this->page_data['artist_select_list'] = $artist_select_list;
         $this->page_data['change_count'] = $change_count;
+        $this->page_data['show_ads'] = FALSE;
         $this->page_data['trace'] .= $this->Release_model->trace;
         $this->page_data['trace'] .= $this->Masterdata_model->trace;
         // echo $this->page_data['trace']; exit;
