@@ -59,11 +59,6 @@ class Util extends MY_Controller
     
     function snort()
     {
-        $data = array();
-        $data[] = array('id' => 44, 'initials' => 'bn', 'display_name' => 'Bob Netherton', 'sort_name' => 'Netherton Bob');
-        $data[] = array('id' => 43, 'initials' => 'mt', 'display_name' => 'Mike Taylor', 'sort_name' => 'Taylor, Mike');
-        $data[] = array('id' => 43, 'initials' => 'mt', 'display_name' => 'Mike Taylor', 'sort_name' => 'Taylor, Mike');
-        $this->db->update_batch('user_profiles', $data, 'id'); 
     }
     
 }

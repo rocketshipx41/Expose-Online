@@ -96,7 +96,6 @@ class Artists extends MY_Controller {
         //check for id?
         
         // init
-	$this->load->model('Masterdata_model');
         $action = 'update';
         $this->page_data['show_ads'] = FALSE;
         $upload_config = array(
@@ -255,7 +254,6 @@ class Artists extends MY_Controller {
 	}
         
         // init
-	$this->load->model('Masterdata_model');
         $this->page_data['show_ads'] = FALSE;
         
         // process

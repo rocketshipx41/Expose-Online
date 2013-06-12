@@ -30,7 +30,7 @@ class MY_Controller extends CI_Controller
 	
 	// incoming flash message?
 	$this->page_data['load_message'] = $this->session->flashdata('message');
-	
+	$this->page_data['hits'] = $this->Masterdata_model->get_hit_count();
 	// user status
 	if ($this->tank_auth->is_logged_in()) { // logged in
 	    $this->page_data['is_logged_in'] = TRUE;
@@ -66,6 +66,7 @@ class MY_Controller extends CI_Controller
         $this->page_data['scale_video'] = 's';
         $this->template->set_partial('left_column', 'left_column');
         $this->template->set_partial('right_column', 'right_column');
+        $this->page_data['hits'] = $this->Masterdata_model->update_hit_count($this->page_data['hits']);
     }
     
 	/**

@@ -95,6 +95,30 @@ class Masterdata_model extends CI_Model
         $result = $query->row_array();
         return $result;
     }
+    
+    public function get_hit_count()
+    {
+	$this->trace .= 'get_hit_count<br/>';
+        $result = 0;
+        $this->db->select('hits')
+                ->from('hits');
+        $query = $this->db->get();
+        $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+        if ( $query->num_rows() > 0 ) {
+            $row = $query->row();
+            $result = $row->hits;
+        }
+        return $result;
+    }
+    
+    public function update_hit_count($prev_count)
+    {
+	$this->trace .= 'get_hit_count(' . $prev_count . ')<br/>';
+        $result = $prev_count + 1;
+        $this->db->update('hits', array('hits' => $result));
+        $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+        return $result;
+    }
    
 }
 

@@ -84,7 +84,6 @@ class Labels extends MY_Controller {
         // init
         $this->page_data['page_name'] = 'Labels';
         $this->page_data['label_list'] = array();
-        $this->load->model('Masterdata_model');
         $this->page_data['show_ads'] = FALSE;
         
         // handle incoming post

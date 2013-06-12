@@ -215,7 +215,7 @@ class Welcome extends MY_Controller
                         $this->form_validation->set_value('old_password'),
                         $this->form_validation->set_value('new_password'))) {	// success
                     $this->_show_message($this->lang->line('auth_message_password_changed'));
-
+                    redirect('');
                 }
                 else {														// fail
                     $errors = $this->tank_auth->get_error_message();

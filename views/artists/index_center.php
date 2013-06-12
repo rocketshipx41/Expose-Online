@@ -23,6 +23,7 @@ $this->load->helper('form');
             <?php echo $item_count; ?>
     </div> <!-- column span -->
 </div> <!-- row -->
+<?php if (($starter != '') || (count($artist_list))) : ?>
 <div class="row">
 <?php if ($starter != '') : ?>
     <span>
@@ -36,7 +37,8 @@ $this->load->helper('form');
                 lang('artist_index_next')); ?> 
         &raquo;
     </span>
-</div>
+</div> <!-- row -->
+<?php endif; ?>
 <?php if (count($artist_list)) : ?>
 <?php foreach ($artist_list as $item) : ?>
 <div class="row">
@@ -52,8 +54,14 @@ $this->load->helper('form');
         <li><?php echo lang('artist_field_articles') . ': ' . $item['article_count']; ?></li>
     </ul></span>
     </div>
-</div>
+</div> <!-- row -->
 <?php endforeach; ?>
+<?php else : ?>
+<div class="row">
+    <p><?php echo lang('artist_search_none'); ?></p>
+</div> <!-- row -->
+<?php endif; ?>
+<?php if (($starter != '') || (count($artist_list))) : ?>
 <div class="row">
 <?php if ($starter != '') : ?>
     <span>
@@ -67,10 +75,8 @@ $this->load->helper('form');
                 lang('artist_index_next')); ?> 
         &raquo;
     </span>
-<?php else : ?>
-<p><?php echo lang('artist_search_none'); ?></p>
+</div> <!-- row -->
 <?php endif; ?>
-</div>
 <?php if ($can_edit) : ?>
 <div class="row">
     <?php echo anchor('artists/add', lang('artist_add'), 'class="btn"'); ?>

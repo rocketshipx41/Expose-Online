@@ -51,6 +51,7 @@ class Articles extends MY_Controller {
         $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         $this->page_data['trace'] .= $this->Article_model->trace;
         $this->page_data['trace'] .= $this->Ad_model->trace;
+        $this->page_data['trace'] .= $this->Masterdata_model->trace;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'])
                 ->build('articles/index_center', $this->page_data);
@@ -141,6 +142,7 @@ class Articles extends MY_Controller {
         // display
 	$this->page_data['trace'] .= $this->Article_model->trace;
         $this->page_data['trace'] .= $this->Ad_model->trace;
+        $this->page_data['trace'] .= $this->Masterdata_model->trace;
 	$this->page_data['trace'] .= 'credit list: ' 
 		. print_r($this->page_data['credit_list'], TRUE) . '<br/>';
 	$this->page_data['trace'] .= 'topic list: ' 
@@ -160,7 +162,6 @@ class Articles extends MY_Controller {
         
         // init
         $this->load->model('Artist_model');
-        $this->load->model('Masterdata_model');
         $this->load->model('Release_model');
         $this->page_data['show_ads'] = FALSE;
 	
@@ -216,6 +217,7 @@ class Articles extends MY_Controller {
 	$this->page_data['trace'] .= $this->Article_model->trace;
 	$this->page_data['trace'] .= $this->Artist_model->trace;
 	$this->page_data['trace'] .= $this->Release_model->trace;
+        $this->page_data['trace'] .= $this->Masterdata_model->trace;
 	$this->page_data['trace'] .= 'credit list: ' 
 		. print_r($this->page_data['credit_list'], TRUE);
         $this->page_data['show_columns'] = 2;
@@ -246,7 +248,6 @@ class Articles extends MY_Controller {
         // init
         $this->load->model('Artist_model');
         $this->load->model('Release_model');
-        $this->load->model('Masterdata_model');
         $issue_date_list = $this->Masterdata_model->get_issue_date_list();
         $this->page_data['show_ads'] = FALSE;
         
@@ -481,6 +482,7 @@ class Articles extends MY_Controller {
         $this->page_data['trace'] .= 'artist list: ' . print_r($this->page_data['artist_list'],
                 TRUE) . '<br/>';
         $this->page_data['trace'] .= $this->Article_model->trace;
+        $this->page_data['trace'] .= $this->Masterdata_model->trace;
         $this->page_data['show_columns'] = 2;
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'],
@@ -619,6 +621,7 @@ class Articles extends MY_Controller {
         $this->page_data['category_slug'] = '';
         $this->page_data['offset'] = $offset;
         $this->page_data['trace'] .= $this->Article_model->trace;
+        $this->page_data['trace'] .= $this->Masterdata_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
         $this->page_data['show_columns'] = 3;
         $this->page_data['page_name'] = lang('article_topic_list') 
@@ -633,7 +636,6 @@ class Articles extends MY_Controller {
         if ( $issue_no == 0 ) {
             redirect('');
         }
-        $this->load->model('Masterdata_model');
         $this->page_data['page_name'] = lang('issue_no'). ' ' . $issue_no;
         $this->page_data['main_list'] = $this->Article_model->get_issue_articles($issue_no);
         $this->page_data['issue_info']= $this->Masterdata_model->get_issue_info($issue_no);
@@ -646,6 +648,7 @@ class Articles extends MY_Controller {
         $this->page_data['trace'] .= $this->Masterdata_model->trace;
         $this->page_data['trace'] .= $this->Article_model->trace;
         $this->page_data['trace'] .= $this->Ad_model->trace;
+        $this->page_data['trace'] .= $this->Masterdata_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
         $this->page_data['show_columns'] = 3;
         $this->template
@@ -728,6 +731,7 @@ class Articles extends MY_Controller {
         $this->page_data['category_slug'] = '';
         $this->page_data['offset'] = 0;
         $this->page_data['trace'] .= $this->Article_model->trace;
+        $this->page_data['trace'] .= $this->Masterdata_model->trace;
         $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
         $this->page_data['show_columns'] = 3;
         $this->template

@@ -7,6 +7,11 @@
 $image_file = '';
 $year_list =  '';
 ?>
+<div class="row">
+    <div class="span_12">
+        <h2><?php echo $template['title']; ?></h2>
+    </div>
+</div>
 
 <?php if (($article_info['category_id'] != 1)&& ($article_info['category_id'] != 4)) : ?>
 <h2><?php echo $article_info['article_title']; ?></h2>

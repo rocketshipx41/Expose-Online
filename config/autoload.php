@@ -140,7 +140,7 @@ $autoload['language'] = array('expose', 'tank_auth');
 |
 */
 
-$autoload['model'] = array('User_model', 'Article_model', 'Ad_model');
+$autoload['model'] = array('User_model', 'Article_model', 'Ad_model', 'Masterdata_model');
 
 
 /* End of file autoload.php */

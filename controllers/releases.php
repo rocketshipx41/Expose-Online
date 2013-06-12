@@ -26,7 +26,6 @@ class Releases extends MY_Controller {
     {
         // init
         $this->load->model('Label_model');
-        $this->load->model('Masterdata_model');
         
         // get info
         $release_info = $this->Release_model->get_release_info($release_id);
@@ -66,7 +65,6 @@ class Releases extends MY_Controller {
         }
         $action = 'update';
         $this->load->model('Label_model');
-        $this->load->model('Masterdata_model');
         $this->page_data['show_ads'] = FALSE;
         
         // incoming post
@@ -179,7 +177,6 @@ class Releases extends MY_Controller {
         // init
         $action = 'update';
         $this->load->model('Label_model');
-        $this->load->model('Masterdata_model');
         
         // get info
         if ($artist_id != 0 ) {
@@ -228,7 +225,6 @@ class Releases extends MY_Controller {
         $max_count = 20;
         $artist_select_list = array();
         $this->page_data['page_name'] = 'Assign artists to releases';
-        $this->load->model('Masterdata_model');
         $change_count = 0;
         
         // post
