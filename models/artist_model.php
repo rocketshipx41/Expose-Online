@@ -74,7 +74,7 @@ class Artist_model extends CI_Model
     
     function get_select_list($max_count = 0, $starter = '', $add_select = FALSE)
     {
-	$this->trace .= 'get_list<br/>';
+	$this->trace .= 'get_select_list<br/>';
         $result = array();
         if ( $add_select ) {
             $result['0'] = 'Select...';

@@ -131,7 +131,8 @@ $this->load->helper('form');
         <?php endif; ?>
         <div class="row">
             <div class="span_9">
-	<?php echo form_submit('article-submit', 'Submit', 'class="btn primary"'); ?>
+                <?php echo form_submit('article-submit', 'Submit', 'class="btn primary"'); ?>
+                <?php echo form_submit('article-save', 'Save draft', 'class="btn"'); ?>
             </div>
         </div>
         <?php echo form_close(); ?>

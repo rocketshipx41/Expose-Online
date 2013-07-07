@@ -9,7 +9,9 @@
     <head>
 	<meta charset="utf-8">
 	<title><?php echo $template['title']; ?></title>
-        <meta name="robots" content="noindex,nofollow" />
+        <?php if ($_SERVER["SERVER_NAME"] == 'localhost') : ?>
+<!--        <meta name="robots" content="noindex,nofollow" /> -->
+        <?php endif; ?>
         <link rel="shortcut icon" href="/assets/img/site/favicon.ico" />
 	<link href="/assets/js/chosen/chosen.css" type="text/css" rel="stylesheet" />
         <link href="/assets/css/kendo.common.min.css" rel="stylesheet" />

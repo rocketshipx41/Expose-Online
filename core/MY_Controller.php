@@ -55,10 +55,10 @@ class MY_Controller extends CI_Controller
 	    $this->page_data['can_contribute'] = FALSE;
 	    $this->page_data['can_edit'] = FALSE;
 	}
-        $this->page_data['news_list'] = $this->Article_model->most_recent('news', 
-                    5, 0);
-        $this->page_data['event_list'] = $this->Article_model->most_recent('events', 
-                    5, 0, FALSE);
+        $this->page_data['news_list'] = $this->cache->model('Article_model', 'most_recent', 
+                array('news', 5, 0), 360);
+        $this->page_data['event_list'] = $this->cache->model('Article_model', 'most_recent', 
+                array('events', 5, 0, FALSE), 360);
         $this->page_data['recommendation_list'] = $this->Article_model->get_random('recommendations', 
                     1);
         $this->page_data['show_ads'] = TRUE; // set to false in controller if not wanted

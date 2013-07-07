@@ -79,11 +79,11 @@ $autoload['packages'] = array();
 */
 if (ENVIRONMENT != 'development') {
     $autoload['libraries'] = array('asset', 'template', 'tank_auth', 'session', 
-        'database', 'facebook', 'lightopenid', 'image_lib');
+        'database', 'facebook', 'lightopenid', 'image_lib', 'cache');
 }
 else {
     $autoload['libraries'] = array('asset', 'template', 'tank_auth', 'session', 
-        'database', 'image_lib');    
+        'database', 'image_lib', 'cache');    
 }
 
 /*

@@ -57,21 +57,29 @@ class Articles extends MY_Controller {
                 ->build('articles/index_center', $this->page_data);
     }
     
-    public function display($article_slug = '')
+    public function display($article_slug = '', $article_id = 0)
     {
         // authorize
-	if ($article_slug == '') {
+	if ( ($article_slug == '') && ($article_id == 0) ) {
 	    redirect('articles/index');
 	}
         
         // init
         $this->page_data['show_columns'] = 3;
+        $this->page_data['is_author'] = FALSE;
         $this->load->model('Release_model');
         
         // process
         $this->page_data['roundtable'] = FALSE;
-	$article_info = $this->Article_model->get_full($article_slug);
+	$article_info = $this->Article_model->get_full($article_slug, $article_id);
 	$this->page_data['credit_list'] = $this->Article_model->get_credits($article_info['id']);
+        if ( $this->page_data['can_contribute'] ) {
+            foreach ($this->page_data['credit_list'][1] as $id => $author) {
+                if ($id == $this->page_data['user_id']) {
+                    $this->page_data['is_author'] = TRUE;
+                }
+            }
+        }
 	$this->page_data['topic_list'] = $this->Article_model->get_topics($article_info['id']);
         if (( count($this->page_data['topic_list'])) && ($article_info['category_id'] == 1)) {
             $remove_intro = TRUE;
@@ -174,17 +182,11 @@ class Articles extends MY_Controller {
             '2' => array()
 	);
 	$this->page_data['topic_list'] = array();
-	$this->page_data['staff_list'] = $this->User_model->get_user_list(array(1, 3, 4));
-	$this->page_data['category_list'] = $this->Article_model->get_category_list();
         // get lists for dropdowns
-	$this->page_data['staff_list'] = $this->User_model->get_user_list(array(1, 3, 4));
-	$this->page_data['category_list'] = $this->Article_model->get_category_list();
-	$artist_list = $this->Artist_model->get_list(0, 0);
-        $artist_select_list = array();
-        foreach ($artist_list as $key => $item) {
-            $artist_select_list[$key] = $item['display'];
-        }
-	$this->page_data['artist_select_list'] = $artist_select_list;
+	$this->page_data['staff_list'] = $this->cache->model('User_model', 'get_user_list', array(array(1, 3, 4)), 99999);
+	$this->page_data['category_list'] = $this->cache->model('Article_model', 'get_category_list', array(), 99999);
+	$this->page_data['artist_select_list'] = $this->cache->model('Artist_model', 'get_select_list', array(0, 0), 99999);
+        $this->page_data['issue_list'] = $this->cache->model('Masterdata_model', 'get_issue_list', array(TRUE), 99999);
 	$topic_list = $this->Article_model->get_topic_list();
         $topic_select_list = array();
         foreach ($topic_list as $key => $item) {
@@ -193,7 +195,6 @@ class Articles extends MY_Controller {
 	$this->page_data['topic_select_list'] = $topic_select_list;
         $artist_list = array();
         $topic_list = array();
-        $this->page_data['issue_list'] = $this->Masterdata_model->get_issue_list(TRUE);
         if ( $category_id ) {
             $article_info['category_id'] = $category_id;
         }
@@ -252,7 +253,7 @@ class Articles extends MY_Controller {
         $this->page_data['show_ads'] = FALSE;
         
         // deal with incoming post
-        if ( $this->input->post('article-submit') ) {
+        if ( $this->input->post('article-submit') || $this->input->post('article-save') ) {
             $this->page_data['trace'] .= 'process incoming post<br/>';
             $missing = array();
             $update_params = array(
@@ -304,6 +305,12 @@ class Articles extends MY_Controller {
                 if ( ! $update_params['published_on'] ) {
                     $update_params['published_on'] = date('Y-m-d');
                 }
+            }
+            elseif ( $this->input->post('article-save') ) {
+                $update_params['status'] = 'draft';
+            }
+            elseif ( $this->input->post('article-submit') ) {
+                $update_params['status'] = 'submitted';
             }
             else {
                 $update_params['status'] = 'draft';
@@ -418,6 +425,15 @@ class Articles extends MY_Controller {
                 if ( $update_result['status'] == 'ok' ) {
                     $article_slug = $update_result['slug'];
                     $article_id = $update_result['id'];
+                    // if news or event, clear cache
+                    if ( $update_params['category_id'] == 2 ) {
+                        $this->cache->model('Article_model', 'most_recent', 
+                                array('news', 5, 0), -1);
+                    }
+                    elseif ( $update_params['category_id'] == 7 ) {
+                        $this->cache->model('Article_model', 'most_recent', 
+                                array('events', 5, 0, FALSE), -1);
+                    }
                     redirect('/articles/display/' . $article_slug);
                 }
             }
@@ -456,16 +472,10 @@ class Articles extends MY_Controller {
         $this->page_data['link_list'] = $this->Article_model->get_link_list($article_info['id']);
         
         // get lists for dropdowns
-	$this->page_data['staff_list'] = $this->User_model->get_user_list(array(1, 3, 4));
-	$this->page_data['category_list'] = $this->Article_model->get_category_list();
-        $this->page_data['issue_list'] = $this->Masterdata_model->get_issue_list(TRUE);
-	$artist_list = $this->Artist_model->get_list(0, 0);
-        $artist_select_list = array();
-        foreach ($artist_list as $key => $item) {
-            $artist_select_list[$key] = $item['display'] . ' (' 
-                    . $item['country_id'] . ')';
-        }
-	$this->page_data['artist_select_list'] = $artist_select_list;
+	$this->page_data['staff_list'] = $this->cache->model('User_model', 'get_user_list', array(array(1, 3, 4)), 99999);
+	$this->page_data['category_list'] = $this->cache->model('Article_model', 'get_category_list', array(), 99999);
+	$this->page_data['artist_select_list'] = $this->cache->model('Artist_model', 'get_select_list', array(0, 0), 99999);
+        $this->page_data['issue_list'] = $this->cache->model('Masterdata_model', 'get_issue_list', array(TRUE), 99999);
 	$topic_list = $this->Article_model->get_topic_list();
         $topic_select_list = array();
         foreach ($topic_list as $key => $item) {
@@ -682,14 +692,51 @@ class Articles extends MY_Controller {
 	if ( ! $this->page_data['can_contribute']) {
 	    redirect('articles/index');
 	}
+        $user_id = $this->page_data['user_id'];
+	if ( $this->page_data['can_edit']) {
+	    $user_id = 0;
+	}
         
         // init
         $this->page_data['offset'] = 0;
         $this->page_data['category_slug'] = '';
         $this->page_data['topic_slug'] = '';
+        $this->page_data['show_ads'] = FALSE;
         
         // process
-        $this->page_data['main_list'] = $this->Article_model->draft_list();
+        if ( $this->page_data['can_edit']) {
+            $this->page_data['main_list'] = $this->Article_model->draft_list();
+        }
+        else {
+            $this->page_data['main_list'] = $this->Article_model->my_draft_list($user_id);
+        }
+        $this->page_data['item_count'] = count($this->page_data['main_list']);
+       
+        // display
+        $this->page_data['trace'] .= $this->Article_model->trace;
+        $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
+        $this->page_data['show_columns'] = 3;
+        $this->template
+                ->title($this->page_data['site_name'], $this->page_data['page_name'], 'Index')
+                ->build('articles/index_center', $this->page_data);
+    }
+    
+    public function submissions()
+    {
+        // authorize
+	if ( ! $this->page_data['can_edit']) {
+	    redirect('articles/index');
+	}
+        $user_id = $this->page_data['user_id'];
+        
+        // init
+        $this->page_data['offset'] = 0;
+        $this->page_data['category_slug'] = '';
+        $this->page_data['topic_slug'] = '';
+        $this->page_data['show_ads'] = FALSE;
+        
+        // process
+        $this->page_data['main_list'] = $this->Article_model->submission_list();
         $this->page_data['item_count'] = count($this->page_data['main_list']);
        
         // display
@@ -709,7 +756,7 @@ class Articles extends MY_Controller {
 	}
         $release_id = $this->input->post('release-id');
         $this->Article_model->add_release($article_id, $release_id);
-        redirect('articles/index');
+        $this->display('', $article_id);
     }
     
     public function search()

@@ -49,10 +49,18 @@
                         <li>
                             <a href="<?php echo site_url('labels/edit/0'); ?>"><?php echo lang('menu_new_label'); ?></a>
                         </li>
+                            <?php if ( ! $can_edit) : ?>
+                        <li>
+                            <a href="<?php echo site_url('articles/drafts'); ?>"><?php echo lang('menu_my_drafts'); ?></a>
+                        </li>
+                            <?php endif;?>
                         <?php endif;?>
                         <?php if ($can_edit) : ?>
                         <li>
-                            <a href="<?php echo site_url('articles/drafts'); ?>"><?php echo lang('menu_edit'); ?></a>
+                            <a href="<?php echo site_url('articles/drafts'); ?>"><?php echo lang('menu_drafts'); ?></a>
+                        </li>
+                        <li>
+                            <a href="<?php echo site_url('articles/submissions'); ?>"><?php echo lang('menu_edit'); ?></a>
                         </li>
                         <li>
                             <a href="<?php echo site_url('ads/index'); ?>"><?php echo lang('menu_ads'); ?></a>

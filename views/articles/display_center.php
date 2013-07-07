@@ -7,13 +7,7 @@
 $image_file = '';
 $year_list =  '';
 ?>
-<div class="row">
-    <div class="span_12">
-        <h2><?php echo $template['title']; ?></h2>
-    </div>
-</div>
-
-<?php if (($article_info['category_id'] != 1)&& ($article_info['category_id'] != 4)) : ?>
+<?php if (($article_info['category_id'] != 1) && ($article_info['category_id'] != 4)) : ?>
 <h2><?php echo $article_info['article_title']; ?></h2>
 <?php endif; ?>
 <?php if ($article_info['category_id'] == 1) : ?>
@@ -77,8 +71,10 @@ $year_list =  '';
     <?php echo auto_link('http://' . $row, 'url', TRUE); ?><br>
 <?php endforeach; ?>
 </p>
-<?php if ($can_edit) : ?>
+<?php if ($can_edit || $is_author) : ?>
     <?php echo anchor('articles/edit/'. $article_info['id'], lang('edit'), 'class="btn"'); ?>
+<?php endif; ?>
+<?php if ($can_contribute) : ?>
     <?php if ($article_info['category_id'] == 1) : ?>
     <?php echo form_open('articles/addrelease/'. $article_info['id'], array('id' => 'addrelease-form')); ?>
     <?php echo form_hidden('article-id', $article_info['id']); ?>

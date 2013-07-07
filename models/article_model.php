@@ -128,16 +128,72 @@ class Article_model extends CI_Model
         return $result;
     }
     
-    function draft_list()
+    function draft_list($user_id = 0)
+    {
+	$this->trace .= 'draft_list<br/>';
+        $result = array();
+        $this->db->select('a.id, a.slug, a.title, intro, a.category_id, '
+                    . 'a.image_file, a.body, a.updated_on, a.updated_on published_on')
+                ->from('articles a')
+		->join('categories c', 'c.id = a.category_id', 'left')
+                ->order_by('updated_on', 'asc')
+                ->where('status', 'draft');
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        $result = $query->result_array();
+        foreach ($result as &$item) {
+            if ( ($item['category_id'] == 1) && ( ! $item['image_file']) ) {
+                $this->trace .= 'no image assigned to review<br/>';
+                $item['image_file'] = $this->get_main_image($item['id'], $item['category_id']);
+                if ( ! $item['intro'] ) {
+                    $item['intro'] = smart_trim($item['body'], 200);
+                }
+            }
+            $item['credits'] = $this->get_credits($item['id']);
+            unset($item['body']);
+        }
+        return $result;
+    }
+    
+    function my_draft_list($user_id = 0)
     {
 	$this->trace .= 'draft_list<br/>';
         $result = array();
         $this->db->select('a.id, a.slug, a.title, intro, a.category_id, '
                     . 'a.image_file, a.body, a.updated_on, , a.updated_on published_on')
+                ->from('article_user_role ar')
+                -join('articles a', 'a.id = ar.article_id', 'left')
+                ->order_by('a.updated_on', 'asc')
+                ->where('ar.user_id', $user_id)
+                ->where('ar.role_id', '1')
+                ->where('a.status', 'draft');
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        $result = $query->result_array();
+        foreach ($result as &$item) {
+            if ( ($item['category_id'] == 1) && ( ! $item['image_file']) ) {
+                $this->trace .= 'no image assigned to review<br/>';
+                $item['image_file'] = $this->get_main_image($item['id'], $item['category_id']);
+                if ( ! $item['intro'] ) {
+                    $item['intro'] = smart_trim($item['body'], 200);
+                }
+            }
+            $item['credits'] = $this->get_credits($item['id']);
+            unset($item['body']);
+        }
+        return $result;
+    }
+    
+    function submission_list()
+    {
+	$this->trace .= 'submission_list<br/>';
+        $result = array();
+        $this->db->select('a.id, a.slug, a.title, intro, a.category_id, '
+                    . 'a.image_file, a.body, a.updated_on, a.updated_on published_on')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left')
                 ->order_by('updated_on', 'asc')
-                ->where('status', 'draft');
+                ->where('status', 'submitted');
         $query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
         $result = $query->result_array();
