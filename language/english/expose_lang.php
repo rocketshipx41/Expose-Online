@@ -186,6 +186,15 @@ $lang['features_page_name'] = 'Features';
 // news page
 $lang['news_page_name'] = 'News';
 
+// people
+$lang['people_user_name'] = 'User name';
+$lang['people_email'] = 'Email';
+$lang['people_last_login'] = 'Last logged in';
+$lang['people_last_ip'] = 'Last IP';
+$lang['people_activated'] = 'Activated';
+$lang['people_contributions'] = 'Conbtributions';
+$lang['people_article_count'] = 'Items found';
+
 // utils page
 $lang['user_fullname'] = 'Full name';
 $lang['user_sortname'] = 'Sort name';

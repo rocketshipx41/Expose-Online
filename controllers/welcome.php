@@ -57,7 +57,8 @@ class Welcome extends MY_Controller
         // init
         
         // process
-        $this->page_data['carousel_list'] = $this->Article_model->get_front_page();
+        $this->page_data['carousel_list'] = $this->cache->model('Article_model', 'get_front_page',
+                array(), 1024);
         $this->page_data['feature_list'] = $this->Article_model->most_recent('features', 
                     5, 0, FALSE);
         $this->page_data['review_list'] = $this->Article_model->most_recent('reviews', 

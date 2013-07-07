@@ -50,6 +50,19 @@ class User_model extends CI_Model
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
 	return $query->row();
     }
+    
+    function get_user_info($user)
+    {
+	$this->trace = 'get_user_info<br/>';
+        $this->db->select('u.username, u.email, u.activated, u.banned, u.last_ip, '
+                    . 'u.last_login, u.id, up.display_name')
+                ->from("users AS u")
+                ->join("user_profiles AS up", "u.id = up.user_id")
+                ->where('u.id', $user);
+	$query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+	return $query->row_array();
+    }
 
     // a generic update method for user profile
     function update_user_profile($user_id, $data)
@@ -121,7 +134,25 @@ class User_model extends CI_Model
 	}
 	return $result;
     }
-
+    
+    function author_article_list($id = 0)
+    {
+	$this->trace .= 'author_article_list<br/>';
+        $result = array();
+        if ($id > 0) {
+            $this->db->select('a.title, a.slug, a.category_id, c.item_name category')
+                    ->from('article_user_role aa')
+                    ->join('articles a', 'a.id = aa.article_id')
+                    ->join('categories c', 'c.id = a.category_id')
+                    ->where('aa.user_id', $id)
+                    ->where('status', 'live');
+            $query = $this->db->get();
+            $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+            $result = $query->result_array();
+        }
+        return $result;
+    }
+    
 }
 
 /* End of file user_model.php */

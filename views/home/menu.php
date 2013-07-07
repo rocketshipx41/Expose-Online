@@ -37,7 +37,7 @@
                     <?php echo $user_name; ?>
                     <ul>
                         <li>
-                            <a href="user/<?php echo $user_name; ?>"><?php echo lang('menu_user_page'); ?></a>
+                            <a href="<?php echo site_url('people/display/' . $user_id); ?>"><?php echo lang('menu_user_page'); ?></a>
                         </li>
                         <li>
                             <a href="<?php echo site_url('welcome/changepwd'); ?>"><?php echo lang('menu_change_password'); ?></a>

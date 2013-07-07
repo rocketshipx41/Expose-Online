@@ -46,7 +46,8 @@ function credit_display($credit_list, $role_id)
 		$result .= ', ';
 	    }
 	    if (isset($item)) {
-		$result .= $item;
+		$result .= '<a href="' . site_url('people/display/' . $id) 
+                        . '">' . $item . '</a>';
 	    }
 	    else {
 		$result .= '(??)';
