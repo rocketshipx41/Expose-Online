@@ -65,7 +65,9 @@ function topic_display($topic_list)
 	    if ($result != '') {
 		$result .= ', ';
 	    }
-	    $result .= anchor('articles/topic/' . $item['topic_slug'], $item['title']);
+            if ( stripos($result, $item['title']) === FALSE ) {
+                $result .= trim(anchor('articles/topic/' . $item['topic_slug'], $item['title']));
+            }
 	}
 	
     }

@@ -27,12 +27,12 @@ $year_list =  '';
     <?php endforeach; ?>
 <?php endif; ?>
 <?php foreach ($related_list as $id => $article) : ?>
+    <p><em><?php echo lang('article_written_by') . ' ' . credit_display($article['credit_list'], 1)
+        . ', ' . substr($article['published_on'], 0, 10); ?>:</em></p>
     <?php if ($image_file) : ?>
         <?php echo $image_file; $image_file = ''; ?>
     <?php endif; ?>
     <?php echo $article['body']; ?>
-    <p><em><?php echo lang('article_written_by') . ' ' . credit_display($article['credit_list'], 1)
-        . ', ' . substr($article['published_on'], 0, 10); ?></em></p>
     <?php if ($can_edit) : ?>
     <p><?php echo anchor('articles/edit/'. $id, lang('edit'), 'class="btn"'); ?></p>
     <?php endif; ?>

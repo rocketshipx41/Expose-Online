@@ -34,6 +34,10 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             <li>
                 <?php echo $item['category'] . ': ' . anchor('articles/display/' 
                         . $item['slug'], $item['title']); ?>
+                <?php if ($item['category_id'] != 5) : ?>
+                <em>(<?php echo credit_display($item['credits'], 1) . ' '
+                        . substr($item['published_on'], 0, 10); ?>)</em>
+                <?php endif; ?>
             </li>
         <?php endforeach; ?>
         </ul>

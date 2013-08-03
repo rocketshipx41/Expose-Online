@@ -61,6 +61,39 @@ class Article_model extends CI_Model
         return $result;
     }
     
+    function get_artist_article_list($id = 0)
+    {
+	$this->trace .= 'get_article_list<br/>';
+        $result = array();
+        if ($id > 0) {
+            $this->db->select('a.title, a.slug, a.category_id, c.item_name category, '
+                        . 'a.published_on, a.image_file, a.id')
+                    ->from('article_artist aa')
+                    ->join('articles a', 'a.id = aa.article_id')
+                    ->join('categories c', 'c.id = a.category_id')
+                    ->where('aa.artist_id', $id)
+                    ->where('status', 'live')
+                    ->order_by('a.published_on', 'desc');
+            $query = $this->db->get();
+            $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
+            $result = $query->result_array();
+            foreach ($result as &$item) {
+                if ( ($item['category_id'] == 1) && ( ! $item['image_file']) ) {
+                    $this->trace .= 'no image assigned to review<br/>';
+                    $item['image_file'] = $this->get_main_image($item['id'], $item['category_id']);
+                }
+                elseif ( $item['category_id'] == 7 ) {
+                    $item['intro'] = $item['body'];
+                }
+                elseif ( $item['category_id'] == 8 ) {
+                    //$item['intro'] = $item['body'];
+                }
+                $item['credits'] = $this->get_credits($item['id']);
+            }
+        }
+        return $result;
+    }
+    
     function get_count($category = '')
     {
         $this->trace .= 'get_count()<br/>';
@@ -325,6 +358,7 @@ class Article_model extends CI_Model
     {
 	$this->trace .= 'get_topics<br/>';
 	$this->db->select('at.topic_id, t.title, t.slug topic_slug')
+                ->distinct()
 		->from('article_topic at')
 		->join('topics t', 't.id = at.topic_id', 'left')
 		->where('at.article_id', $id);
@@ -698,15 +732,26 @@ class Article_model extends CI_Model
         
     }
     
-    function add_release($article_id, $release_id)
+    function add_release($article_id, $release_list)
     {
         $this->trace .= 'add_release<br/>';
-        if ( $article_id && $release_id ) {
-            $data = array(
-                'article_id' => $article_id,
-                'release_id' => $release_id
-            );
-            $this->db->insert('article_release', $data);
+        if ( $article_id && count($release_list) ) {
+            $this->db->trans_start();
+            foreach ($release_list as $item) {
+                if ( $item > 0 ) { // positive - insert
+                    $data = array(
+                        'article_id' => $article_id,
+                        'release_id' => $item
+                    );
+                    $this->db->insert('article_release', $data);
+                }
+                else { // negative - delete
+                    $this->db->where('article_id', $article_id)
+                            ->where('release_id', substr($item, 1));
+                    $this->db->delete('article_release');
+                }
+            }
+            $this->db->trans_complete();
         }
     }
     

@@ -71,7 +71,7 @@ class Artists extends MY_Controller {
         
         // process
         $artist_info = $this->Artist_model->get_info($artist_slug);
-        $this->page_data['article_list'] = $this->Artist_model->get_article_list($artist_info['id']);
+        $this->page_data['article_list'] = $this->Article_model->get_artist_article_list($artist_info['id']);
         $this->page_data['release_list'] = $this->Artist_model->get_release_list($artist_info['id']);
         $this->page_data['artist_info'] = $artist_info;
         $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
@@ -174,6 +174,8 @@ class Artists extends MY_Controller {
             if ( $ok ) {
                 $update_result = $this->Artist_model->update_info($artist_id, $update_params);
                 if ( $update_result['status'] == 'ok' ) {
+                    // clear cached list
+                    $this->cache->model('Artist_model', 'get_select_list', array(0, 0), -1);
                     redirect('artists/display/' . $artist_slug);
                 }
             }

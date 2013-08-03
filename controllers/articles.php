@@ -754,8 +754,8 @@ class Articles extends MY_Controller {
 	if ( ! $this->page_data['can_contribute']) {
 	    redirect('articles/index');
 	}
-        $release_id = $this->input->post('release-id');
-        $this->Article_model->add_release($article_id, $release_id);
+        $release_list = explode(';', $this->input->post('release-id'));
+        $this->Article_model->add_release($article_id, $release_list);
         $this->display('', $article_id);
     }
     

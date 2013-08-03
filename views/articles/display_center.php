@@ -9,7 +9,7 @@ $year_list =  '';
 <?php if (($article_info['category_id'] != 1) && ($article_info['category_id'] != 4)) : ?>
 <h2><?php echo $article_info['article_title']; ?></h2>
 <?php endif; ?>
-<?php if ($article_info['category_id'] == 1) : ?>
+<?php if ($article_info['category_id'] == 1) : // review ?>
     <?php if (count($release_list)) : ?>
         <?php foreach ($release_list as $release) : ?>
 <p><strong><?php echo $release['display_artist'] . ' &mdash; ' . $release['display_title']; ?></strong><br/>
@@ -20,15 +20,15 @@ $year_list =  '';
                         . lang('article_cover_art_alt') . '" title="'
                         .  $release['display_title']. '"/>'; ?>
             <?php endif; ?>
-            <?php $year_list .= ', ' . anchor('articles/releases/' . $release['year_released'],
+            <?php if (stripos($year_list, $release['year_released']) === FALSE) $year_list .= ', ' . anchor('articles/releases/' . $release['year_released'],
                 $release['year_released'] . ' ' . lang('article_release_year_topic')); ?>
             <?php if ( $release['year_released'] != $release['year_recorded']) : ?>
-                <?php $year_list .= ', ' . anchor('articles/releases/' . $release['year_recorded'],
-                    $release['year_recorded'] . ' ' . lang('article_release_year_topic')); ?>
+                <?php if (stripos($year_list, $release['year_recorded']) === FALSE) $year_list .= ', ' . anchor('articles/releases/' . $release['year_recorded'],
+                    $release['year_recorded'] . ' ' . lang('article_record_year_topic')); ?>
             <?php endif; ?>
         <?php endforeach; ?>
     <?php endif; ?>
-<?php elseif ($article_info['category_id'] == 4) : ?>
+<?php elseif ($article_info['category_id'] == 4) : // feature ?>
 <div class="feature-top-photo">
     <img src="<?php echo image_url('features/' . $article_info['image_file']);?>" 
          alt="feature photo" width="640" />
@@ -41,8 +41,9 @@ $year_list =  '';
     <fb:like send="true" width="500" show_faces="true" />
 </div>
 <?php endif; ?>
-<?php if ($article_info['category_id'] != 5) : ?>
-<p><em><?php echo lang('article_written_by') . ' ' . credit_display($credit_list, 1); ?> </em></p>
+<?php if ($article_info['category_id'] != 5) : // not faq ?>
+<p><em><?php echo lang('article_written_by') . ' ' . credit_display($credit_list, 1); ?>,
+    <?php echo lang('article_published') . ' ' . substr($article_info['published_on'], 0, 10); ?></em></p>
 <?php endif; ?>
 <?php if ($meta['has_photographer']) : ?>
 <p><em><?php echo lang('article_photo_by') . ' ' . credit_display($credit_list, 2); ?></em></p>
@@ -54,7 +55,6 @@ $year_list =  '';
     <?php echo $image_file; ?>
 <?php endif; ?>
 <?php echo $article_info['body']; ?>
-<p><em>(<?php echo lang('article_published') . ' ' . substr($article_info['published_on'], 0, 10); ?>)</em></p>
 
 <p>
     <?php echo lang('article_topic') . ': ' . topic_display($topic_list, TRUE); ?>
@@ -74,8 +74,9 @@ $year_list =  '';
     <?php echo anchor('articles/edit/'. $article_info['id'], lang('edit'), 'class="btn"'); ?>
 <?php endif; ?>
 <?php if ($can_contribute) : ?>
-    <?php if ($article_info['category_id'] == 1) : ?>
+    <?php if ($article_info['category_id'] == 1) : // review ?>
     <?php echo form_open('articles/addrelease/'. $article_info['id'], array('id' => 'addrelease-form')); ?>
+    <p><?php echo lang('article_add_remove_releases'); ?></p>
     <?php echo form_hidden('article-id', $article_info['id']); ?>
     <?php echo form_input(array('name' => 'release-id', 'id' => 'release-id')); ?>
     <?php echo form_submit('addrelease-submit', 'Add release ID', 'class="btn"'); ?>

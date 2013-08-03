@@ -179,13 +179,21 @@ class Artist_model extends CI_Model
     {
 	$this->trace .= 'search<br/>';
         $result = array();
+        $search_array = explode(' ', $search_value);
         $this->db->select('a.id, a.display, a.country_id, c.name country, a.slug, a.image_file, '
                     . '(select count(article_id) from article_artist aa where aa.artist_id = a.id) as article_count, '
                     . '(select count(release_id) from release_artist ra where ra.artist_id = a.id) as release_count')
                 ->from('artists a')
                 ->join('countries c', 'c.id = a.country_id', 'left')
-                ->like('a.name', $search_value)
                 ->order_by('a.name');
+        if ( count($search_array) == 1 ) {
+            $this->db->like('a.name', $search_value);
+        }
+        elseif ( count($search_array) > 1 ) {
+            foreach ($search_array as $item) {
+                $this->db->like('a.name', $item);
+            }
+        }
         if ($max_count > 0) {
             $this->db->limit($max_count);
         }
@@ -267,12 +275,14 @@ class Artist_model extends CI_Model
 	$this->trace .= 'get_article_list<br/>';
         $result = array();
         if ($id > 0) {
-            $this->db->select('a.title, a.slug, a.category_id, c.item_name category')
+            $this->db->select('a.title, a.slug, a.category_id, c.item_name category, '
+                        . 'a.published_on')
                     ->from('article_artist aa')
                     ->join('articles a', 'a.id = aa.article_id')
                     ->join('categories c', 'c.id = a.category_id')
                     ->where('aa.artist_id', $id)
-                    ->where('status', 'live');
+                    ->where('status', 'live')
+                    ->order_by('a.published_on', 'desc');
             $query = $this->db->get();
             $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
             $result = $query->result_array();
@@ -292,7 +302,7 @@ class Artist_model extends CI_Model
                     ->join('releases r', 'r.id = ra.release_id')
                     ->join('labels l', 'l.id = r.label_id', 'left')
                     ->where('ra.artist_id', $id)
-                    ->order_by('year_released desc, title');
+                    ->order_by('year_recorded desc, title');
             $query = $this->db->get();
             $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
             $result = $query->result_array();

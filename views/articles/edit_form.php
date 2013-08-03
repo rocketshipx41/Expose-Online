@@ -137,3 +137,11 @@ $this->load->helper('form');
         </div>
         <?php echo form_close(); ?>
     </div>
+    <?php if ($article_info['category_id'] == 1) : // review ?>
+    <?php echo form_open('articles/addrelease/'. $article_info['id'], array('id' => 'addrelease-form')); ?>
+    <p><?php echo lang('article_add_remove_releases'); ?></p>
+    <?php echo form_hidden('article-id', $article_info['id']); ?>
+    <?php echo form_input(array('name' => 'release-id', 'id' => 'release-id')); ?>
+    <?php echo form_submit('addrelease-submit', 'Add release ID', 'class="btn"'); ?>
+    <?php echo form_close(); ?>
+    <?php endif; ?>

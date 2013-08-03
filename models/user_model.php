@@ -145,7 +145,8 @@ class User_model extends CI_Model
                     ->join('articles a', 'a.id = aa.article_id')
                     ->join('categories c', 'c.id = a.category_id')
                     ->where('aa.user_id', $id)
-                    ->where('status', 'live');
+                    ->where('status', 'live')
+                    ->order_by('published_on', 'desc');
             $query = $this->db->get();
             $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
             $result = $query->result_array();
