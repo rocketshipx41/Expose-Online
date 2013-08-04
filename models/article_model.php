@@ -111,7 +111,7 @@ class Article_model extends CI_Model
         return $result;
     }
     
-    function get_random($category = '8', $max = 1)
+    function get_random($category = '8', $max = 1, $date = 0)
     {
 	$this->trace .= 'get_random<br/>';
         $result = array();
@@ -119,16 +119,30 @@ class Article_model extends CI_Model
                     . 'a.image_file, a.body, a.updated_on, a.published_on')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left')
+               // ->limit($max)
                // ->where('a.id >= (SELECT FLOOR( MAX(id) * RAND()) FROM articles ) ')
                 ->where('status', 'live');
         if ( $category ) {
             $this->db->where('c.slug', $category);
         }
+        if ( $date ) {
+            $this->db->where('a.issue_no <', $date);
+        }
         $query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
         $query_result = $query->result_array();
-        $an_item = array_rand($query_result, $max);
-        $result[] = $query_result[$an_item];
+        $random_items = array_rand($query_result, $max);
+        if ( ENVIRONMENT == 'development' ) {
+            $this->trace .= 'random items: ' . print_r($random_items, TRUE) . '<br/>';
+        }
+        if ( $max == 1 ) {
+            $result[] = $query_result[$random_items];
+        }
+        else {
+            foreach ( $random_items as $item ) {
+                $result[] = $query_result[$item];
+            }
+        }
         //echo print_r($result); exit;
         return $result;
     }

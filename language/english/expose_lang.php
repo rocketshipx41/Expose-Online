@@ -82,8 +82,10 @@ $lang['article_publish_now'] = 'Publish now';
 $lang['article_publish_date'] = 'Publication date';
 $lang['article_published'] = 'Published';
 $lang['article_front_page'] = 'Post on front page carousel';
-$lang['article_release_year_topic']= 'releases';
-$lang['article_record_year_topic']= 'recordings';
+$lang['article_release_year_topic'] = 'releases';
+$lang['article_record_year_topic'] = 'recordings';
+$lang['article_random_review'] = 'Previously in Exposé...';
+$lang['random_review'] = 'Random review';
 $lang['article_image_file']  = 'Image file (680x450)';
 $lang['article_release_year_list'] = 'Reviews of releases for ';
 $lang['article_topic_list'] = 'Reviews of ';
@@ -94,7 +96,7 @@ $lang['issue_pages'] = 'Pages';
 $lang['issue_blurb'] = 'Summary';
 $lang['issue_available']= 'Available online from this issue...';
 $lang['article_item_count'] = 'Items found';
-$lang['article_add_remove_releases'] = 'Add/remove releases (separate with ;, - to remove)';
+$lang['article_add_remove_releases'] = 'Add/remove releases (separate with ; - to remove)';
 
 // artists general
 $lang['artist_index_prev'] = 'Previous';

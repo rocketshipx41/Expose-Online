@@ -148,17 +148,30 @@ class Articles extends MY_Controller {
         $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         
         // display
-	$this->page_data['trace'] .= $this->Article_model->trace;
-        $this->page_data['trace'] .= $this->Ad_model->trace;
-        $this->page_data['trace'] .= $this->Masterdata_model->trace;
-	$this->page_data['trace'] .= 'credit list: ' 
-		. print_r($this->page_data['credit_list'], TRUE) . '<br/>';
-	$this->page_data['trace'] .= 'topic list: ' 
-		. print_r($this->page_data['topic_list'], TRUE) . '<br/>';
+        if ( ENVIRONMENT == 'development' ) {
+            $this->page_data['trace'] .= $this->Article_model->trace;
+            $this->page_data['trace'] .= $this->Ad_model->trace;
+            $this->page_data['trace'] .= $this->Masterdata_model->trace;
+            $this->page_data['trace'] .= 'credit list: ' 
+                    . print_r($this->page_data['credit_list'], TRUE) . '<br/>';
+            $this->page_data['trace'] .= 'topic list: ' 
+                    . print_r($this->page_data['topic_list'], TRUE) . '<br/>';
+        }
         $this->template
                 ->title($this->page_data['site_name'], $this->page_data['page_name'],
 			$article_info['article_title'])
                 ->build('articles/' . $center_template, $this->page_data);
+    }
+    
+    public function random($category_slug = '')
+    {
+	if ($category_slug == '') {
+	    redirect('');
+	}
+        $random_article = $this->Article_model->get_random($category_slug, 
+                    1, 0);
+        //echo print_r($random_article); exit;
+        redirect('articles/display/' . $random_article[0]['slug']);
     }
     
     public function add($category_id = 0, $release_id = 0)

@@ -49,6 +49,26 @@
     <?php endif; ?>
 </div>
 <?php endif; ?>
+<?php if ( count($random_list) ) : ?>
+<div class="row">
+    <h3><?php echo lang('article_random_review'); ?></h3>
+</div>
+<?php foreach ($random_list as $item) : ?>
+<div class="row">
+    <div class="span_12">
+        <p>
+            <strong><?php echo $item['title']; ?></strong> 
+            <?php echo smart_trim($item['body'], 200); ?>&nbsp;
+            <em>(<?php echo substr($item['published_on'], 0, 4); ?>)</em> &raquo; 
+                <?php echo anchor('articles/display/' . $item['slug'], lang('read_more')); ?>
+        </p>
+    </div>
+</div>
+<?php endforeach; ?>
+<div class="row">
+    <?php echo anchor('articles/random/reviews', lang('random_review')); ?>
+</div>
+<?php endif; ?>
 <?php if ( $show_ads && $left_column_ad ) : ?>
         <div class="row">
             <a href="http://<?php echo $side_ad['url']; ?>" target="_blank">
