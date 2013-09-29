@@ -55,6 +55,11 @@ class Welcome extends MY_Controller
     public function index()
     {
         // init
+        $this->page_data['carousel_list'] = array();
+        $this->page_data['feature_list'] = array();
+        $this->page_data['review_list'] = array();
+        $this->page_data['banner_ad'] = array();
+        $this->page_data['side_ad'] = array();
         
         // process
         $this->page_data['carousel_list'] = $this->cache->model('Article_model', 'get_front_page',

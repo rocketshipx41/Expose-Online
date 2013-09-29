@@ -139,7 +139,9 @@
                         </p>
                      </div>
                     <div class="span_6">
-                             <p class="pull-right">Total page views: <?php echo $hits; ?></p>
+                        <p class="pull-right">Total page views: <?php echo $hits; ?>
+<!--                            <img src='http://expose.org/cgi-bin/counter/ESW/count/count.php?df=expose.org-index.php&ft=0&DD=1' 
+                                                                     alt='Counter' border='0'></p> -->
                      </div>
                 </div> <!-- row -->
 	    </div>

@@ -111,6 +111,44 @@ class Article_model extends CI_Model
         return $result;
     }
     
+    function get_array_items($id_list = array())
+    {
+	$this->trace .= 'get_array_items<br/>';
+        $result = array();
+        $this->db->select('a.id, a.slug, a.title, intro, a.category_id, '
+                    . 'a.image_file, a.body, a.updated_on, a.published_on')
+                ->from('articles a')
+		->join('categories c', 'c.id = a.category_id', 'left')
+                ->where('status', 'live')
+                ->where_in('a.id', $id_list);
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        $query_result = $query->result_array();
+        return $query_result;
+    }
+    
+    function get_random_index($category = '8', $last_issue = 0)
+    {
+	$this->trace .= 'get_random_index<br/>';
+        $result = array();
+        $this->db->select('a.id')
+                ->from('articles a')
+                ->where('status', 'live')
+                ->where('a.issue_no <>', 0);
+        if ( $category ) {
+            $this->db->where('c.slug', $category)
+                    ->join('categories c', 'c.id = a.category_id', 'left');
+        }
+        if ( $last_issue ) {
+            $this->db->where('a.issue_no <=', $last_issue);
+        }
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        $query_result = $query->result_array();
+        
+        return $query_result;
+    }
+    
     function get_random($category = '8', $max = 1, $date = 0)
     {
 	$this->trace .= 'get_random<br/>';
@@ -119,14 +157,14 @@ class Article_model extends CI_Model
                     . 'a.image_file, a.body, a.updated_on, a.published_on')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left')
-               // ->limit($max)
-               // ->where('a.id >= (SELECT FLOOR( MAX(id) * RAND()) FROM articles ) ')
-                ->where('status', 'live');
+                ->limit($max * 5)
+                ->where('status', 'live')
+                ->where('a.id >= (SELECT FLOOR( MAX(id) * RAND()) FROM `articles` )');
         if ( $category ) {
             $this->db->where('c.slug', $category);
         }
         if ( $date ) {
-            $this->db->where('a.issue_no <', $date);
+            $this->db->where('a.issue_no <=', $date);
         }
         $query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
@@ -475,7 +513,7 @@ class Article_model extends CI_Model
         return $result;
     }
     
-    function update($user_input)
+    function update($user_input, $reset_slug = FALSE)
     {
 	$this->trace .= 'update<br/>';
         $result = array('status' => 'ok');
@@ -496,7 +534,7 @@ class Article_model extends CI_Model
         if ( $user_input['published_on'] ) {
             $data['published_on'] = $user_input['published_on'];
         }
-        if ( $user_input['image_file'] ) {
+        if ( ( array_key_exists('image_file', $user_input) ) && ( $user_input['image_file'] ) ) {
             $data['image_file'] = $user_input['image_file'];
         }
 	if ($user_input['article_id'] == 0) {
@@ -517,12 +555,25 @@ class Article_model extends CI_Model
             $result['id'] = $article_id;
 	}
 	else {
-	    $this->db->where('id', $user_input['article_id']);
-            $result['slug'] = $user_input['slug'];
+            if ( $reset_slug ) {
+                $slug_src = $user_input['title'];
+                if (count($user_input['author'])) {
+                    foreach ($user_input['author'] as $user => $item){
+                        $slug_src .= '-' . $user;
+                    }
+                }
+                $data['slug'] = create_unique_slug($slug_src, 'articles');
+                $result['slug'] = $data['slug'];
+            }
+            else {
+                $result['slug'] = $user_input['slug'];
+            }
             $article_id = $user_input['article_id'];
             $result['id'] = $article_id;
+	    $this->db->where('id', $user_input['article_id']);
             $this->db->update('articles', $data);
             $this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+//            echo $this->trace; exit;
 	}
         // credits
         if (count($user_input['author'])) {

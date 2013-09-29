@@ -22,6 +22,7 @@ $search_choices = array(
                             'id="search-type" onchange="changeSearch();"'); ?>
                     <?php echo form_submit('artist-submit', 'Submit', 'class="btn"'); ?>
                 <?php echo form_close(); ?>
+<!--                <?php echo anchor('welcome/search', lang('advanced_search')); ?>-->
             </div>
 <?php if ( count($recommendation_list) ) : ?>
         <div class="row">

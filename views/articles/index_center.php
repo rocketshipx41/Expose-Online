@@ -72,7 +72,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                  height="190" width="190" alt="<?php echo lang('article_cover_art_alt'); ?>">
     <?php endif; ?>
     <?php echo $item['intro']; ?>
-    <?php if ( $item['category_id'] == 8 ): // recommendation ?>
+    <?php if ( ($item['category_id'] == 8) && (array_key_exists('body', $item)) ): // recommendation ?>
     <?php echo $item['body']; ?>
     <?php else : ?>
     &nbsp;&raquo; <?php echo anchor('articles/display/' . $item['slug'], 'Read more'); ?><br/>

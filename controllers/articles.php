@@ -28,6 +28,8 @@ class Articles extends MY_Controller {
 	}
 	else { // for others, only most recent
 	    $this->page_data['page_name'] = lang($category_slug . '_page_name');
+            $this->page_data['trace'] .= 'category is ' . $category_slug . ', page name is '
+                    . lang($category_slug . '_page_name') . '<br/>';
 	    $this->page_data['main_list'] = $this->Article_model->most_recent($category_slug, 
                     10, $offset);
 	}
@@ -45,7 +47,7 @@ class Articles extends MY_Controller {
         $this->page_data['menu_active'] = $category_slug;
         $this->page_data['topic_slug'] = '';
         $this->page_data['offset'] = $offset;
-        $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
+        // $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
         $this->page_data['show_columns'] = 3;
         $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
         $this->page_data['side_ad'] = $this->Ad_model->serve('side');
@@ -137,6 +139,10 @@ class Articles extends MY_Controller {
         else {
             $center_template = 'display_center';
         }
+        if ( ( $article_info['category_id'] == 1 ) && ( ! $this->page_data['roundtable'] ) ) {
+            // page likely short, truncate random list to 1
+            $this->page_data['random_list'] = array_slice($this->page_data['random_list'], 0, 1);
+        } 
 	$this->page_data['release_list'] = $release_list;
         $this->page_data['related_list'] = $related_list;
         $this->page_data['link_list'] = $this->Article_model->get_link_list($article_info['id']);
@@ -434,7 +440,8 @@ class Articles extends MY_Controller {
             }
             if ( $ok ) {
                 $this->page_data['trace'] .= 'ready to update<br/>';
-                $update_result = $this->Article_model->update($update_params);
+                $update_result = $this->Article_model->update($update_params,
+                        $this->input->post('reset-slug'));
                 if ( $update_result['status'] == 'ok' ) {
                     $article_slug = $update_result['slug'];
                     $article_id = $update_result['id'];

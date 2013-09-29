@@ -60,6 +60,7 @@ $lang['more_features'] = 'More features';
 $lang['home_welcome_message'] = 'Welcome to ';
 $lang['home_latest_reviews'] = 'Latest reviews';
 $lang['home_latest_features'] = 'Latest features';
+$lang['advanced_search'] = 'Advanced search';
 
 // articles general
 $lang['article_written_by'] = 'by';
@@ -97,6 +98,7 @@ $lang['issue_blurb'] = 'Summary';
 $lang['issue_available']= 'Available online from this issue...';
 $lang['article_item_count'] = 'Items found';
 $lang['article_add_remove_releases'] = 'Add/remove releases (separate with ; - to remove)';
+$lang['article_reset_slug'] = 'Reset slug';
 
 // artists general
 $lang['artist_index_prev'] = 'Previous';
@@ -189,6 +191,9 @@ $lang['features_page_name'] = 'Features';
 
 // news page
 $lang['news_page_name'] = 'News';
+
+// news page
+$lang['recommendations_page_name'] = 'Listen & discover';
 
 // people
 $lang['people_user_name'] = 'User name';

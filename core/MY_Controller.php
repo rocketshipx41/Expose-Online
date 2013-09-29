@@ -59,10 +59,11 @@ class MY_Controller extends CI_Controller
                 array('news', 5, 0), 360);
         $this->page_data['event_list'] = array();
 //        $this->page_data['event_list'] = $this->cache->model('Article_model', 'most_recent', array('events', 5, 0, FALSE), 360);
-        $this->page_data['recommendation_list'] = $this->Article_model->get_random('recommendations', 
-                    1, 0);
-        $this->page_data['random_list'] = $this->Article_model->get_random('reviews', 
-                    5, '39');
+        $this->page_data['recommendation_list'] = array();
+        $this->page_data['recommendation_list'] = $this->Article_model->get_random('recommendations', 1, 0);
+        $this->page_data['random_list'] = array();
+        $this->get_random_reviews();
+//        $this->page_data['random_list'] = $this->Article_model->get_random('reviews', 5, '39');
         $this->page_data['show_ads'] = TRUE; // set to false in controller if not wanted
         $this->page_data['left_column_ad'] = FALSE; // set to true is column ad on left
         $this->page_data['scale_video'] = 's';
@@ -71,45 +72,53 @@ class MY_Controller extends CI_Controller
         $this->page_data['hits'] = $this->Masterdata_model->update_hit_count($this->page_data['hits']);
     }
     
-	/**
-	 * add an alert to be displayed at the top of the page
-	 * type can be:
-	 * - error (red)
-	 * - success (green)
-	 * - info (blue)
-	 * - danger (??)
-	 * 
-	 * @param type $alert_type
-	 * @param type $message 
-	 */
-	function add_alert($alert_type, $message)
-	{
-		$alert_text = '';
-		if ( is_array($message)) {
-            //$alert_text = print_r($message, TRUE);
-			$alert_text = implode('<br/>', $message);
-		}
-		else {
-			$alert_text = $message;
-		}
-		$this->page_data['page_alerts'][] = array(
-			'message' => $alert_text,
-			'type' => $alert_type
-		);
-	}
-	
-	function set_flashdata_alert($alert_type, $message)
-	{
+    /**
+     * add an alert to be displayed at the top of the page
+     * type can be:
+     * - error (red)
+     * - success (green)
+     * - info (blue)
+     * - danger (??)
+     * 
+     * @param type $alert_type
+     * @param type $message 
+     */
+    function add_alert($alert_type, $message)
+    {
+        $alert_text = '';
+        if ( is_array($message)) {
+    //$alert_text = print_r($message, TRUE);
+                $alert_text = implode('<br/>', $message);
+        }
+        else {
+                $alert_text = $message;
+        }
+        $this->page_data['page_alerts'][] = array(
+                'message' => $alert_text,
+                'type' => $alert_type
+        );
+    }
+
+    function set_flashdata_alert($alert_type, $message)
+    {
         $full_message = $message;
         if ( $this->status_code ) {
             $full_message .= ' (' . $this->status_code . ')';
         }
-		$this->session->set_flashdata(array(
-			'page_alert_message' => $full_message,
-			'page_alert_type' => $alert_type			
-		));
-		
-	}
-    
+        $this->session->set_flashdata(array(
+                'page_alert_message' => $full_message,
+                'page_alert_type' => $alert_type			
+        ));
+    }
+
+    function get_random_reviews()
+    {
+        $random_index = $this->cache->model('Article_model', 'get_random_index', 
+                array('reviews', '39'));
+        $random_items = array_rand($random_index, 5);
+        $this->page_data['random_list'] = $this->Article_model->get_array_items($random_items);
+        
+    }
+
 }
 

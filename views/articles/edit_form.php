@@ -128,6 +128,13 @@ $this->load->helper('form');
                 <p><?php echo form_checkbox('front-page', 'frontpage', ($article_info['front_page'] =='1')) . ' ' . lang('article_front_page'); ?></p>
             </div>
         </div>
+        <?php if ($article_info['id']) : ?>
+        <div class="row">
+            <div class="span_9">
+                <p><?php echo form_checkbox('reset-slug', 'resetslug', FALSE) . ' ' . lang('article_reset_slug'); ?></p>
+            </div>
+        </div>
+        <?php endif; ?>
         <?php endif; ?>
         <div class="row">
             <div class="span_9">
