@@ -282,6 +282,7 @@ class Artist_model extends CI_Model
                     ->join('categories c', 'c.id = a.category_id')
                     ->where('aa.artist_id', $id)
                     ->where('status', 'live')
+                    ->where('a.published_on <= CURDATE()')
                     ->order_by('a.published_on', 'desc');
             $query = $this->db->get();
             $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";

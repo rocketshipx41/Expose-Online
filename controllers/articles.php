@@ -644,7 +644,7 @@ class Articles extends MY_Controller {
     {
         $this->page_data['main_list'] = $this->Article_model->get_topic_articles($topic_slug, 
                 5, $offset);
-        
+        $this->page_data['item_count'] = count($this->page_data['main_list']);
         $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
         $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         $this->page_data['topic_slug'] = $topic_slug;
@@ -668,8 +668,8 @@ class Articles extends MY_Controller {
         }
         $this->page_data['page_name'] = lang('issue_no'). ' ' . $issue_no;
         $this->page_data['main_list'] = $this->Article_model->get_issue_articles($issue_no);
-        $this->page_data['issue_info']= $this->Masterdata_model->get_issue_info($issue_no);
-        
+        $this->page_data['issue_info'] = $this->Masterdata_model->get_issue_info($issue_no);
+        $this->page_data['item_count'] = count($this->page_data['issue_info']);
         $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
         $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         $this->page_data['topic_slug'] = '';
@@ -692,6 +692,7 @@ class Articles extends MY_Controller {
             redirect('');
         }
         $this->page_data['main_list'] = $this->Article_model->get_release_year_articles($year);
+        $this->page_data['item_count'] = count($this->page_data['main_list']);
         $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
         $this->page_data['side_ad'] = $this->Ad_model->serve('side');
         $this->page_data['trace'] .= $this->Article_model->trace;
@@ -791,6 +792,7 @@ class Articles extends MY_Controller {
         
         // process
         $this->page_data['main_list'] = $this->Article_model->search($search_value);
+        $this->page_data['search_value'] = $search_value;
        
         $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
         $this->page_data['side_ad'] = $this->Ad_model->serve('side');

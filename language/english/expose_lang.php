@@ -110,13 +110,14 @@ $lang['artist_field_none'] = 'Not on file';
 $lang['artist_display_article_list'] = 'Related articles';
 $lang['artist_display_release_list'] = 'Releases on file';
 $lang['artist_search'] = 'Search';
-$lang['artist_search_none'] = 'No artists matched your search.';
+$lang['artist_search_none'] = 'No artists matched your search';
 $lang['artist_field_image'] = 'Artist image';
 $lang['artist_add'] = 'Add new artist';
 $lang['artist_new'] = 'New artist';
 $lang['artist_review_release'] = 'Review';
 $lang['artist_field_releases'] = 'Releases';
 $lang['artist_field_articles'] = 'Articles';
+$lang['artist_search_none'] = 'No articles matched your search';
 
 // edit page
 $lang['artist_field_display_name'] = 'Display name';
@@ -145,10 +146,11 @@ $lang['release_label_popup_sort'] = 'Name for sorting';
 $lang['release_label_popup_country'] = 'New label country';
 $lang['release_label_popup_url'] = 'New label website';
 $lang['release_label_popup_cancel'] = 'Cancel';
+$lang['release_search_none'] = 'No releases matched your search';
 
 // labels pages
 $lang['label_item_count'] = 'Item count';
-$lang['label_search_none'] = 'None found.';
+$lang['label_search_none'] = 'None found';
 $lang['label_add'] = 'Add new label';
 $lang['label_name'] = 'Name';
 $lang['label_country'] = 'Country';

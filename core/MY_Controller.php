@@ -113,10 +113,30 @@ class MY_Controller extends CI_Controller
 
     function get_random_reviews()
     {
+        $this->page_data['trace'] .= '>> get_random_reviews<br/>';
+        if ( ENVIRONMENT == 'development' ) {
+            $this->cache->delete_all();
+        }
         $random_index = $this->cache->model('Article_model', 'get_random_index', 
-                array('reviews', '39'));
+                array('reviews', '39'), 480);
         $random_items = array_rand($random_index, 5);
-        $this->page_data['random_list'] = $this->Article_model->get_array_items($random_items);
+        $random_reviews = array();
+        foreach ( $random_items as $id) {
+            $random_reviews[] = $random_index[$id]['id'];
+        }
+        if ( ENVIRONMENT == 'development' ) {
+            $this->page_data['trace'] .= 'random reviews: ' . print_r($random_reviews, TRUE) . '<br/>';
+            //$this->page_data['trace'] .= 'random items: ' . print_r($random_items, TRUE) . '<br/>';
+        }
+        $this->page_data['random_list'] = $this->Article_model->get_array_items($random_reviews);
+    }
+
+    function get_random_recommendations()
+    {
+        $random_index = $this->cache->model('Article_model', 'get_random_index', 
+                array('recommendations', '39'));
+        $random_items = array_rand($random_index, 1);
+        $this->page_data['recommendation_list'] = $this->Article_model->get_array_items($random_items);
         
     }
 

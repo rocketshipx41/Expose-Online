@@ -38,7 +38,7 @@ $year_list =  '';
 <p><?php echo $article_info['intro']; ?></p>
 <?php if ( $show_columns == 2 ) : ?>
 <div class="row">
-    <fb:like send="true" width="500" show_faces="true" />
+    <fb:like send="true" width="500" show_faces="true" colorscheme="light" />
 </div>
 <?php endif; ?>
 <?php if ($article_info['category_id'] != 5) : // not faq ?>

@@ -17,6 +17,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 </div> <!-- row -->
 <div class="row">
     <div class="span_12">
+<?php if (count($release_list)) : ?>
         <table>
         <?php foreach ($release_list as $item) : ?>
             <tr>
@@ -41,5 +42,8 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             </tr>
         <?php endforeach; ?>
         </table>
+<?php else : ?>
+    <p><?php echo lang('release_search_none') . ': "' . $search_value . '"'; ?></p>
+<?php endif; ?>
     </div>
 </div>

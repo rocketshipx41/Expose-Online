@@ -9,12 +9,12 @@
     <h3><?php echo lang('latest_news'); ?></h3>
 </div>
 <?php foreach ($news_list as $item) : ?>
-<div class="row">
+<div class="row clearfix">
     <div class="span_12">
         <p>
             <em><?php echo substr($item['published_on'], 0, 10); ?></em><br/>
             <strong><?php echo $item['title']; ?></strong> &ndash; 
-            <?php echo $item['intro']; ?>&nbsp;&raquo; 
+            <?php echo strip_tags($item['intro']); ?>&nbsp;&raquo; 
                 <?php echo anchor('articles/display/' . $item['slug'], lang('read_more')); ?>
         </p>
     </div>
@@ -58,7 +58,7 @@
     <div class="span_12">
         <p>
             <strong><?php echo $item['title']; ?></strong> 
-            <?php echo smart_trim($item['body'], 200); ?>&nbsp;
+            <?php echo smart_trim(strip_tags($item['body']), 200); ?>&nbsp;
             <em>(<?php echo substr($item['published_on'], 0, 4); ?>)</em> &raquo; 
                 <?php echo anchor('articles/display/' . $item['slug'], lang('read_more')); ?>
         </p>

@@ -29,7 +29,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 <div class="row">
     <div class="span_12">
         <strong><?php echo lang('article_item_count'); ?> : </strong>
-            <?php echo $item_count; ?>
+            <?php echo count($main_list); ?>
     </div> <!-- column span -->
 </div> <!-- row -->
 <?php endif; ?>
@@ -59,6 +59,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 <?php endif; ?>
 
+<?php if (count($main_list)) : ?>
 <?php foreach ($main_list as $item) : ?>
 <div class="row">
     <div class="span_12">
@@ -85,7 +86,9 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     </div> <!-- column span -->
 </div> <!-- row -->
 <?php endforeach; ?>
-
+<?php else : ?>
+    <p><?php echo lang('artist_search_none') . ': "' . $search_value . '"'; ?></p>
+<?php endif; ?>
 <?php if ($offset != 0) : ?>
 <span>
 &laquo; 

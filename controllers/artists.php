@@ -238,6 +238,7 @@ class Artists extends MY_Controller {
         $this->page_data['item_count'] = count($this->page_data['artist_list']);
         $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
         $this->page_data['side_ad'] = $this->Ad_model->serve('side');
+        $this->page_data['search_value'] = $search_value;
         
         // display
         $this->page_data['trace'] .= $this->Artist_model->trace;

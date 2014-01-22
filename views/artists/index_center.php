@@ -58,7 +58,7 @@ $this->load->helper('form');
 <?php endforeach; ?>
 <?php else : ?>
 <div class="row">
-    <p><?php echo lang('artist_search_none'); ?></p>
+    <p><?php echo lang('artist_search_none') . ': "' . $search_value . '"'; ?></p>
 </div> <!-- row -->
 <?php endif; ?>
 <?php if (($starter != '') || (count($artist_list))) : ?>

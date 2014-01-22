@@ -12,7 +12,7 @@ $search_choices = array(
 );
 ?>
             <div class="row">
-                <fb:like send="true" width="208" show_faces="true" />
+                <fb:like send="true" width="208" show_faces="true" colorscheme="light" />
             </div>
             <div class="row">
                 <?php echo form_open('artists/search', array('id' => 'omni-search')); ?>

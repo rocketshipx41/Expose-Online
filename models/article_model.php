@@ -28,7 +28,8 @@ class Article_model extends CI_Model
 		->join('categories c', 'c.id = a.category_id', 'left')
                 ->order_by('published_on', 'desc')
                 ->order_by('updated_on', 'desc')
-                ->where('status', 'live');
+                ->where('status', 'live')
+                ->where('a.published_on <= CURDATE()');
         if ($category != '') {
             $this->db->where('c.slug', $category);
         }
@@ -73,6 +74,7 @@ class Article_model extends CI_Model
                     ->join('categories c', 'c.id = a.category_id')
                     ->where('aa.artist_id', $id)
                     ->where('status', 'live')
+                    ->where('a.published_on <= CURDATE()')
                     ->order_by('a.published_on', 'desc');
             $query = $this->db->get();
             $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
@@ -100,7 +102,8 @@ class Article_model extends CI_Model
         $this->db->select('count(*) acount')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left')
-                ->where('status', 'live');
+                ->where('status', 'live')
+                ->where('a.published_on <= CURDATE()');
         if ($category != '') {
             $this->db->where('c.slug', $category);
         }
@@ -120,6 +123,7 @@ class Article_model extends CI_Model
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left')
                 ->where('status', 'live')
+                ->where('a.published_on <= CURDATE()')
                 ->where_in('a.id', $id_list);
         $query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
@@ -127,13 +131,14 @@ class Article_model extends CI_Model
         return $query_result;
     }
     
-    function get_random_index($category = '8', $last_issue = 0)
+    function get_random_index($category, $last_issue = 0)
     {
 	$this->trace .= 'get_random_index<br/>';
         $result = array();
         $this->db->select('a.id')
                 ->from('articles a')
                 ->where('status', 'live')
+                ->where('a.published_on <= CURDATE()')
                 ->where('a.issue_no <>', 0);
         if ( $category ) {
             $this->db->where('c.slug', $category)
@@ -149,7 +154,7 @@ class Article_model extends CI_Model
         return $query_result;
     }
     
-    function get_random($category = '8', $max = 1, $date = 0)
+    function get_random($category, $max = 1, $date = 0)
     {
 	$this->trace .= 'get_random<br/>';
         $result = array();
@@ -159,6 +164,7 @@ class Article_model extends CI_Model
 		->join('categories c', 'c.id = a.category_id', 'left')
                 ->limit($max * 5)
                 ->where('status', 'live')
+                ->where('a.published_on <= CURDATE()')
                 ->where('a.id >= (SELECT FLOOR( MAX(id) * RAND()) FROM `articles` )');
         if ( $category ) {
             $this->db->where('c.slug', $category);
@@ -195,6 +201,7 @@ class Article_model extends CI_Model
 		->join('categories c', 'c.id = a.category_id', 'left')
                 ->order_by('updated_on', 'desc')
                 ->where('status', 'live')
+                ->where('a.published_on <= CURDATE()')
                 ->where('issue_no', $issue_no);
         $query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
@@ -302,7 +309,8 @@ class Article_model extends CI_Model
         $this->db->select('a.id, a.title, a.intro, a.slug, a.image_file')
                 ->from('articles a')
                 ->where('a.front_page', '1')
-                ->where('status', 'live');
+                ->where('status', 'live')
+                ->where('a.published_on <= CURDATE()');
         $query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
         $result = $query->result_array();
@@ -725,6 +733,7 @@ class Article_model extends CI_Model
                 ->join('topics t', 't.id = at.topic_id', 'left')
                 ->where('a.status', 'live')
                 ->where('t.slug', $topic_slug)
+                ->where('a.published_on <= CURDATE()')
                 ->order_by('updated_on', 'desc');
         if (($max != 0) || ($offset != 0)) {
             $this->db->limit($max, $offset);
@@ -756,6 +765,7 @@ class Article_model extends CI_Model
                 ->join('articles a', 'a.id = ar.article_id', 'left')
                 ->join('releases r', 'r.id = ar.release_id', 'left')
                 ->where('a.status', 'live')
+                ->where('a.published_on <= CURDATE()')
                 ->where('r.year_recorded', $year)
                 ->or_where('r.year_released',  $year)
                 ->order_by('updated_on', 'desc');
@@ -786,6 +796,7 @@ class Article_model extends CI_Model
         $this->db->select('ar.article_id')
                 ->from('article_release ar')
                 ->where('a.status', 'live')
+                ->where('a.published_on <= CURDATE()')
                 ->where('a.category_id', 1)
                 ->where('ar.release_id', $release_id)
                 ->order_by('updated_on', 'desc');
@@ -830,6 +841,7 @@ class Article_model extends CI_Model
 		->join('categories c', 'c.id = a.category_id', 'left')
                 ->order_by('updated_on', 'desc')
                 ->where('status', 'live')
+                ->where('a.published_on <= CURDATE()')
                 ->like('a.title', $search_value);
         $query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";

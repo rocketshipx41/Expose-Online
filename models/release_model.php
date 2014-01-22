@@ -85,7 +85,9 @@ class Release_model extends CI_Model
                     ->from('article_release ar')
                     ->join('articles a', 'a.id = ar.article_id')
                     ->join('categories c', 'c.id = a.category_id')
-                    ->where('ar.release_id', $id);
+                    ->where('ar.release_id', $id)
+                    ->where('a.status', 'live')
+                    ->where('a.published_on <= CURDATE()');
             $query = $this->db->get();
             $this->trace .= 'sql: ' . $this->db->last_query()  . "<br/>\n";
             $result = $query->result_array();

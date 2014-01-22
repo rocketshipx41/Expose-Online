@@ -304,6 +304,7 @@ class Releases extends MY_Controller {
         
         // process
         $this->page_data['release_list'] = $this->Release_model->search($search_value);
+        $this->page_data['search_value'] = $search_value;
        
         $this->page_data['banner_ad'] = $this->Ad_model->serve('top');
         $this->page_data['side_ad'] = $this->Ad_model->serve('side');
