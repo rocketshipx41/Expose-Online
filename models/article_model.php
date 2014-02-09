@@ -133,19 +133,19 @@ class Article_model extends CI_Model
     
     function get_random_index($category, $last_issue = 0)
     {
-	$this->trace .= 'get_random_index<br/>';
+	$this->trace .= 'get_random_index(' . $category . ')<br/>';
         $result = array();
         $this->db->select('a.id')
                 ->from('articles a')
                 ->where('status', 'live')
-                ->where('a.published_on <= CURDATE()')
-                ->where('a.issue_no <>', 0);
+                ->where('a.published_on <= CURDATE()');
         if ( $category ) {
             $this->db->where('c.slug', $category)
                     ->join('categories c', 'c.id = a.category_id', 'left');
         }
         if ( $last_issue ) {
             $this->db->where('a.issue_no <=', $last_issue);
+            $this->db->where('a.issue_no >', 0);
         }
         $query = $this->db->get();
 	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";

@@ -8,6 +8,8 @@
 <html>
     <head>
 	<meta charset="utf-8">
+        <meta property="og:title" content="<?php echo $template['title']; ?>"/>
+        <meta property="og:site_name" content="<?php echo $site_name; ?>"/>
 	<title><?php echo $template['title']; ?></title>
         <?php if ($_SERVER["SERVER_NAME"] == 'localhost') : ?>
 <!--        <meta name="robots" content="noindex,nofollow" /> -->

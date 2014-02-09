@@ -29,7 +29,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 <div class="row">
     <div class="span_12">
         <strong><?php echo lang('article_item_count'); ?> : </strong>
-            <?php echo count($main_list); ?>
+            <?php echo $item_count; ?>
     </div> <!-- column span -->
 </div> <!-- row -->
 <?php endif; ?>

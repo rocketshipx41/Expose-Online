@@ -65,11 +65,13 @@ $year_list =  '';
     <?php echo $year_list; ?>
 </p>
 <p><?php echo lang('article_artist') . ': ' . artist_display($artist_list); ?></p>
+<?php if (count($link_list)) : ?>
 <p><?php echo lang('article_links'); ?><br>
 <?php foreach ($link_list as $row): ?>
     <?php echo auto_link('http://' . $row, 'url', TRUE); ?><br>
 <?php endforeach; ?>
 </p>
+<?php endif; ?>
 <?php if ($can_edit || $is_author) : ?>
     <?php echo anchor('articles/edit/'. $article_info['id'], lang('edit'), 'class="btn"'); ?>
 <?php endif; ?>

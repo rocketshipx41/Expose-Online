@@ -60,7 +60,8 @@ class MY_Controller extends CI_Controller
         $this->page_data['event_list'] = array();
 //        $this->page_data['event_list'] = $this->cache->model('Article_model', 'most_recent', array('events', 5, 0, FALSE), 360);
         $this->page_data['recommendation_list'] = array();
-        $this->page_data['recommendation_list'] = $this->Article_model->get_random('recommendations', 1, 0);
+//        $this->page_data['recommendation_list'] = $this->Article_model->get_random('recommendations', 1, 0);*/
+        $this->get_random_recommendations();
         $this->page_data['random_list'] = array();
         $this->get_random_reviews();
 //        $this->page_data['random_list'] = $this->Article_model->get_random('reviews', 5, '39');
@@ -133,11 +134,19 @@ class MY_Controller extends CI_Controller
 
     function get_random_recommendations()
     {
+        $this->page_data['trace'] .= '>> get_random_recommendations<br/>';
         $random_index = $this->cache->model('Article_model', 'get_random_index', 
-                array('recommendations', '39'));
-        $random_items = array_rand($random_index, 1);
-        $this->page_data['recommendation_list'] = $this->Article_model->get_array_items($random_items);
-        
+                array('recommendations'), 0);
+        $random_items = array_rand($random_index, 10);
+        $index = idate('s') % 10;
+        if ( ENVIRONMENT == 'development' ) {
+            $this->page_data['trace'] .= 'random indexes found: ' . count($random_index) . '<br/>';
+            $this->page_data['trace'] .= 'random items 10: ' . print_r($random_items, TRUE) . '<br/>';
+            $this->page_data['trace'] .= 'index is ' . $index . '<br/>';
+            $this->page_data['trace'] .= 'id of random item: ' . $random_index[$index]['id'] . '<br/>';
+        }
+        $random_reviews = array($random_index[$index]['id']);
+        $this->page_data['recommendation_list'] = $this->Article_model->get_array_items($random_reviews);
     }
 
 }
