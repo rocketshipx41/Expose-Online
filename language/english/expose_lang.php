@@ -55,6 +55,7 @@ $lang['more_recommendations'] = 'More recommendations';
 $lang['add_recommendation'] = 'Add a recommendation';
 $lang['more_reviews'] = 'More reviews';
 $lang['more_features'] = 'More features';
+$lang['issue_index'] = 'Index to print issues online';
 
 // home page
 $lang['home_welcome_message'] = 'Welcome to ';

@@ -65,6 +65,7 @@ class MY_Controller extends CI_Controller
         $this->page_data['random_list'] = array();
         $this->get_random_reviews();
 //        $this->page_data['random_list'] = $this->Article_model->get_random('reviews', 5, '39');
+        $this->page_data['issue_list'] = $this->Masterdata_model->get_issue_date_list();
         $this->page_data['show_ads'] = TRUE; // set to false in controller if not wanted
         $this->page_data['left_column_ad'] = FALSE; // set to true is column ad on left
         $this->page_data['scale_video'] = 's';

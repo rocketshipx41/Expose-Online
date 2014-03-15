@@ -12,7 +12,9 @@ $search_choices = array(
 );
 ?>
             <div class="row">
-                <fb:like send="true" width="208" show_faces="true" colorscheme="light" />
+                <div class="fb-like" data-href="http://expose.org/index.php" 
+                     data-width="208" data-layout="standard" data-action="like" 
+                     data-show-faces="true" data-share="true"></div>
             </div>
             <div class="row">
                 <?php echo form_open('artists/search', array('id' => 'omni-search')); ?>
@@ -53,3 +55,14 @@ $search_choices = array(
             </a>
         </div>
 <?php endif; ?>
+        <div class="row">
+            <h3><?php echo lang('issue_index'); ?></h3>
+        </div>
+        <div class="row">
+            <ul  style="font-size: small;">
+<?php foreach ($issue_list as $issue_no => $item) : ?>
+                <li><?php echo anchor('articles/issue/' . $issue_no, 'Issue #' . $issue_no); ?> 
+                    (<?php echo $item; ?>)</li>
+<?php endforeach; ?>            
+            </ul>
+        </div>
