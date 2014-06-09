@@ -114,6 +114,34 @@ class Article_model extends CI_Model
         return $result;
     }
     
+    function get_future_dated()
+    {
+ 	$this->trace .= 'get_future_dated<br/>';
+        $result = array();
+        $this->db->select('a.id, a.slug, a.title, intro, a.category_id, '
+                    . 'a.image_file, a.body, a.updated_on, a.published_on')
+                ->from('articles a')
+		->join('categories c', 'c.id = a.category_id', 'left')
+                ->order_by('updated_on', 'asc')
+                ->where('status', 'live')
+                ->where('a.published_on > CURDATE()');
+        $query = $this->db->get();
+	$this->trace .= 'sql: ' . $this->db->last_query() . "<br/>\n";
+        $result = $query->result_array();
+        foreach ($result as &$item) {
+            if ( ($item['category_id'] == 1) && ( ! $item['image_file']) ) {
+                $this->trace .= 'no image assigned to review<br/>';
+                $item['image_file'] = $this->get_main_image($item['id'], $item['category_id']);
+                if ( ! $item['intro'] ) {
+                    $item['intro'] = smart_trim($item['body'], 200);
+                }
+            }
+            $item['credits'] = $this->get_credits($item['id']);
+            unset($item['body']);
+        }
+        return $result;
+    }
+    
     function get_array_items($id_list = array())
     {
 	$this->trace .= 'get_array_items<br/>';
@@ -766,8 +794,7 @@ class Article_model extends CI_Model
                 ->join('releases r', 'r.id = ar.release_id', 'left')
                 ->where('a.status', 'live')
                 ->where('a.published_on <= CURDATE()')
-                ->where('r.year_recorded', $year)
-                ->or_where('r.year_released',  $year)
+                ->where("(r.year_recorded = '" . $year . "' or r.year_released = '" .  $year . "')")
                 ->order_by('updated_on', 'desc');
 /*        if (($max != 0) || ($offset != 0)) {
             $this->db->limit($max, $offset);

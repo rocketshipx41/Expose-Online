@@ -24,6 +24,7 @@ $lang['menu_ads'] = 'Manage advertisements';
 $lang['menu_change_password'] = 'Change password';
 $lang['menu_new_label'] = 'New record label';
 $lang['menu_assign'] = 'Unassigned releases';
+$lang['menu_future'] = 'Future dated articles';
 
 // login form
 $lang['login_instruction'] = 'Enter your user name and password to log in.';

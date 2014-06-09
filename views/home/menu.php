@@ -60,6 +60,9 @@
                             <a href="<?php echo site_url('articles/drafts'); ?>"><?php echo lang('menu_drafts'); ?></a>
                         </li>
                         <li>
+                            <a href="<?php echo site_url('articles/future'); ?>"><?php echo lang('menu_future'); ?></a>
+                        </li>
+                        <li>
                             <a href="<?php echo site_url('articles/submissions'); ?>"><?php echo lang('menu_edit'); ?></a>
                         </li>
                         <li>

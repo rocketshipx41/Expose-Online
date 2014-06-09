@@ -742,6 +742,36 @@ class Articles extends MY_Controller {
                 ->build('articles/index_center', $this->page_data);
     }
     
+    public function future()
+    {
+        // authorize
+	if ( ! $this->page_data['can_edit']) {
+	    redirect('articles/index');
+	}
+        $user_id = $this->page_data['user_id'];
+	if ( $this->page_data['can_edit']) {
+	    $user_id = 0;
+	}
+        
+        // init
+        $this->page_data['offset'] = 0;
+        $this->page_data['category_slug'] = '';
+        $this->page_data['topic_slug'] = '';
+        $this->page_data['show_ads'] = FALSE;
+        
+        // process
+        $this->page_data['main_list'] = $this->Article_model->get_future_dated();
+        $this->page_data['item_count'] = count($this->page_data['main_list']);
+       
+        // display
+        $this->page_data['trace'] .= $this->Article_model->trace;
+        $this->page_data['trace'] .= print_r($this->page_data['main_list'], TRUE) . '<br/>';
+        $this->page_data['show_columns'] = 3;
+        $this->template
+                ->title($this->page_data['site_name'], $this->page_data['page_name'], 'Index')
+                ->build('articles/index_center', $this->page_data);
+    }
+    
     public function submissions()
     {
         // authorize

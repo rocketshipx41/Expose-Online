@@ -136,11 +136,12 @@ class MY_Controller extends CI_Controller
     function get_random_recommendations()
     {
         $this->page_data['trace'] .= '>> get_random_recommendations<br/>';
-        $random_index = $this->cache->model('Article_model', 'get_random_index', 
-                array('recommendations'), 0);
+/*        $random_index = $this->cache->model('Article_model', 'get_random_index', 
+                array('recommendations'), 480);*/
+        $random_index = $this->Article_model->get_random_index('recommendations');
         $random_items = array_rand($random_index, 10);
         $index = idate('s') % 10;
-        if ( ENVIRONMENT == 'development' ) {
+        if ( (ENVIRONMENT == 'development') || ($this->page_data['user_name'] == 'jonldavis') ) {
             $this->page_data['trace'] .= 'random indexes found: ' . count($random_index) . '<br/>';
             $this->page_data['trace'] .= 'random items 10: ' . print_r($random_items, TRUE) . '<br/>';
             $this->page_data['trace'] .= 'index is ' . $index . '<br/>';

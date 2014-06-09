@@ -147,7 +147,7 @@
                      </div>
                 </div> <!-- row -->
 	    </div>
-	    <?php if (ENVIRONMENT == 'development') : ?>
+	    <?php if ( (ENVIRONMENT == 'development') || ($user_name == 'jonldavis') ) : ?>
 	    <div class="well">
                 <pre>
 		<?php echo $trace; ?>
