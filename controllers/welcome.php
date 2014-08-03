@@ -82,24 +82,6 @@ class Welcome extends MY_Controller
     
     public function login()
     {
-        if ( ENVIRONMENT == 'development' ) {
-            if ($this->tank_auth->login(
-                            'jonldavis',
-                            '3xpoj0n',
-                            TRUE,
-                            TRUE,
-                            FALSE)) {								// success
-                    redirect('');
-
-            } 
-            $this->load->model('tank_auth/Users');
-            $hasher = new PasswordHash(
-                            $this->config->item('phpass_hash_strength', 'tank_auth'),
-                            $this->config->item('phpass_hash_portable', 'tank_auth'));
-            $hashed_password = $hasher->HashPassword('3xpoj0n');
-            $this->Users->change_password(2, $hashed_password);
-            $this->page_data['trace'] .= 'change password<br/>';
-        }
 	if ($this->tank_auth->is_logged_in()) { // logged in
 	    redirect('');
 	}

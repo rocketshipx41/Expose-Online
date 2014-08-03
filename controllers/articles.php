@@ -745,7 +745,7 @@ class Articles extends MY_Controller {
     public function future()
     {
         // authorize
-	if ( ! $this->page_data['can_edit']) {
+	if ( ! $this->page_data['can_contribute']) {
 	    redirect('articles/index');
 	}
         $user_id = $this->page_data['user_id'];

@@ -122,7 +122,7 @@ class Article_model extends CI_Model
                     . 'a.image_file, a.body, a.updated_on, a.published_on')
                 ->from('articles a')
 		->join('categories c', 'c.id = a.category_id', 'left')
-                ->order_by('updated_on', 'asc')
+                ->order_by('published_on', 'asc')
                 ->where('status', 'live')
                 ->where('a.published_on > CURDATE()');
         $query = $this->db->get();
