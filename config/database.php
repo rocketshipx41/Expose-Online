@@ -96,7 +96,7 @@ $db['default']['stricton'] = FALSE;
 
 $db['development']['hostname'] = 'localhost';
 $db['development']['username'] = 'exposeorg4325340';
-$db['development']['password'] = '3xp0@dm1n!';
+$db['development']['password'] = 'password';
 $db['development']['database'] = 'expose_exposeorg4325340';
 $db['development']['dbdriver'] = 'mysql';
 $db['development']['dbprefix'] = '';
@@ -113,7 +113,7 @@ $db['development']['stricton'] = FALSE;
 /*
 $db['development']['hostname'] = 'sql5c38a.carrierzone.com';
 $db['development']['username'] = 'exposeorg4325340';
-$db['development']['password'] = 'dUqtKZvvy6sYwBWv';
+$db['development']['password'] = 'password';
 $db['development']['database'] = 'expose_exposeorg4325340';
 $db['development']['dbdriver'] = 'mysql';
 $db['development']['dbprefix'] = '';
@@ -130,7 +130,7 @@ $db['development']['stricton'] = FALSE;
 // prod
 $db['production']['hostname'] = 'sql5c38a.carrierzone.com';
 $db['production']['username'] = 'exposeorg4325340';
-$db['production']['password'] = '3xp0@dm1n!';
+$db['production']['password'] = 'password';
 $db['production']['database'] = 'expose_exposeorg4325340';
 $db['production']['dbdriver'] = 'mysql';
 $db['production']['dbprefix'] = '';
